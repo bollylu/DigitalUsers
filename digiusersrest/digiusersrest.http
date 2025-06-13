@@ -1,0 +1,6 @@
+@digiusersrest_HostAddress = http://localhost:1234
+
+GET {{digiusersrest_HostAddress}}/getall/
+Accept: application/json
+
+###
