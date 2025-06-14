@@ -4,20 +4,22 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Logging;
 
-var Logger = new Logger<Program>(new LoggerFactory());
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-List<string> ApiServerAdresses = new List<string>() {
-  "http://localhost:5678/api/",
-  "http://digiusers.seraing.priv/api/",
-  "https://digiusers.seraing.priv/api/"
-};
+builder.Services.AddLogging();
+
+
+
+ILogger Logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
+
+List<string> ApiServerAddresses = [
+  "http://localhost:1234","https://localhost:1235"];
 
 TApiServer? ApiServer = null;
-foreach (string ApiServerAddressItem in ApiServerAdresses) {
+foreach (string ApiServerAddressItem in ApiServerAddresses) {
   TApiServer TestApiServer = new TApiServer(ApiServerAddressItem);
   using (CancellationTokenSource Timeout = new CancellationTokenSource(5000)) {
-    if (await ApiServer.ProbeServerAsync(Timeout.Token)) {
+    if (await TestApiServer.ProbeServerAsync(Timeout.Token)) {
       ApiServer = TestApiServer;
       break;
     } else {
@@ -26,10 +28,10 @@ foreach (string ApiServerAddressItem in ApiServerAdresses) {
   }
 }
 if (ApiServer is null) {
-  Logger.LogFatal("Missing api server");
+  Logger.LogCritical("Missing api server");
   return;
 } else {
-  Logger.Log($"ApiServer={ApiServer}");
+  Logger.LogInformation($"ApiServer={ApiServer}");
 }
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
@@ -39,6 +41,5 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 #region --- Bus --------------------------------------------
 builder.Services.AddSingleton<IBusService<string>, TBusService<string>>();
 #endregion --- Bus --------------------------------------------
-
 
 await builder.Build().RunAsync();

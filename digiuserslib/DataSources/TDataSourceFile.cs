@@ -57,20 +57,20 @@ public class TDataSourceFile : ALoggable, IDataSource {
     throw new NotImplementedException();
   }
 
-  public bool Open() {
+  public ValueTask<bool> Open() {
     if (!File.Exists(DataFile)) {
-      return false;
+      return ValueTask.FromResult(false);
     }
-    return true;
+    return ValueTask.FromResult(true);
   }
 
-  public bool Close() {
-    return true;
+  public ValueTask<bool> Close() {
+    return ValueTask.FromResult(true);
   }
 
-  public bool Read() {
+  public async ValueTask<bool> Read() {
     try {
-      string DataFileContent = File.ReadAllText(DataFile);
+      string DataFileContent = await File.ReadAllTextAsync(DataFile);
       _People.Clear();
       _People.AddRange(JsonSerializer.Deserialize<List<TAgent>>(DataFileContent, _JsonOptions) ?? []);
       return true;
@@ -80,14 +80,9 @@ public class TDataSourceFile : ALoggable, IDataSource {
     }
   }
 
-  public bool Save() {
+  public async ValueTask<bool> Save() {
     try {
-      using (Stream SaveStream = File.OpenWrite(DataFile)) {
-        using (TextWriter SaveWriter = new StreamWriter(SaveStream)) {
-          SaveWriter.Write(JsonSerializer.Serialize(_People, _JsonOptions));
-          SaveWriter.Flush();
-        }
-      }
+      await File.WriteAllTextAsync(DataFile, JsonSerializer.Serialize(_People, _JsonOptions));
       return true;
     } catch (Exception ex) {
       Logger.LogErrorBox("Unable to save data", ex);

@@ -1,38 +1,32 @@
-﻿using System.Diagnostics;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
+﻿using System.Net;
 using System.Text;
 
 using BLTools;
 using BLTools.Diagnostic.Logging;
-using BLTools.Json;
-using BLTools.Text;
 
 namespace digiusersweb;
 
 public class TApiServer : ALoggable, IApiServer {
 
-  private readonly HttpClient _HttpClient;
+  private readonly HttpClient _HttpClient = new HttpClient() { };
   public HttpResponseMessage? LastResponse { get; private set; }
 
-  public Uri BaseAddress => _HttpClient?.BaseAddress ?? new Uri("http://localhost");
-
+  public Uri BaseAddress => _HttpClient?.BaseAddress ?? new Uri("http://localhost:1234");
   public int RequestId { get; private set; } = 0;
 
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TApiServer() {
-    Logger.LogDebugExBox("New TApiServer", "");
-    _HttpClient = new HttpClient();
+    Logger = new TConsoleLogger<TApiServer>();
+    Logger.SeverityLimit = ESeverity.DebugEx;
   }
 
   public TApiServer(Uri baseAddress) : this() {
-    Logger.LogDebugExBox("New TApiServer", baseAddress);
+    Logger.LogDebug($"New TApiServer {baseAddress}");
     _HttpClient.BaseAddress = baseAddress;
   }
 
   public TApiServer(string baseAddress) : this() {
-    Logger.LogDebugExBox("New TApiServer", baseAddress);
+    Logger.LogDebug($"New TApiServer {baseAddress}");
     _HttpClient.BaseAddress = new Uri(baseAddress);
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
@@ -195,7 +189,7 @@ public class TApiServer : ALoggable, IApiServer {
           }
       }
 
-      Logger.LogDebugExBox($"Request #{LocalRequestId} : {uriRequest} - Content is {additionalContent?.GetType().Name ?? "(null)"}", additionalContent);
+      Logger.LogDebugExBox($"Request #{LocalRequestId} : {uriRequest} - Content is {additionalContent?.GetType().Name ?? "(null)"}", additionalContent?.ToString() ?? "(null)");
 
       LastResponse = await _HttpClient.SendAsync(RequestMessage, cancellationToken).ConfigureAwait(false);
 
@@ -227,18 +221,22 @@ public class TApiServer : ALoggable, IApiServer {
   public async Task<bool> ProbeServerAsync(CancellationToken cancellationToken) {
 
     int LocalRequestId = ++RequestId;
+
     try {
-      Logger.LogDebugExBox($"Probing server #{LocalRequestId}", BaseAddress);
+      Logger.LogDebug($"Probing server #{LocalRequestId} : {BaseAddress}");
 
-      TGetRequestMessage RequestMessage = new TGetRequestMessage();
+      //TGetRequestMessage Request = new TGetRequestMessage("/probe");
+      //Logger.LogDebug($"Request #{LocalRequestId} : {Request}");
+      //Logger.LogDebug($"HttpClient : {_HttpClient}");
+      //_HttpClient.BaseAddress = new Uri("http://localhost:1234/probe");
+      LastResponse = await _HttpClient.GetAsync("probe", cancellationToken).ConfigureAwait(false);
 
-      LastResponse = await _HttpClient.SendAsync(RequestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+      //Logger.LogDebug($"Response #{LocalRequestId} : {LastResponse.StatusCode} : Probing {BaseAddress}");
 
-      Logger.LogDebugExBox($"Response #{LocalRequestId} : {LastResponse.StatusCode}", $"Probing {BaseAddress}");
+      return true; //      LastResponse.IsSuccessStatusCode;
 
-      return LastResponse.IsSuccessStatusCode;
     } catch (Exception ex) {
-      Logger.LogErrorBox($"Unable to probe server ({LocalRequestId})", ex);
+      Logger.LogErrorBox($"Unable to probe server ({LocalRequestId}) - {this.ToString()}", ex);
       return false;
     }
 

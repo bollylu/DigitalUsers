@@ -2,11 +2,11 @@
 
 public interface IDataSource {
 
-  bool Open();
-  bool Close();
+  ValueTask<bool> Open();
+  ValueTask<bool> Close();
 
-  bool Read();
-  bool Save();
+  ValueTask<bool> Read();
+  ValueTask<bool> Save();
 
   public IEnumerable<IPerson> GetPeople();
   public IPerson? GetPerson(string id);

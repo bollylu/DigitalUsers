@@ -17,7 +17,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("PolicyName", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
 var app = builder.Build();
+
+app.UseCors("PolicyName");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
@@ -32,15 +39,19 @@ if (IsDebug) {
 } else {
   DataSource = new TDataSourceFile(DataFile);
   // If datasource is missing, create it as a copy of memory datasource
-  if (!DataSource.Open()) {
+  if (!await DataSource.Open()) {
     DataSource = new TDataSourceFile(new TDataSourceMemory(), DataFile);
-    if (!DataSource.Save()) {
+    if (!await DataSource.Save()) {
       app.Logger.LogCritical("Unable to build datafile");
       Environment.Exit(1);
     }
   }
-  DataSource.Read();
+  await DataSource.Read();
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.MapGet("/probe", () => { return "OK"; }).Produces(200);
 
 app.MapGet("/getall", () =>
 {

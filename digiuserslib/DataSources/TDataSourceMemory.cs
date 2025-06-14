@@ -96,21 +96,21 @@ namespace digiuserslib {
       throw new NotImplementedException();
     }
 
-    public bool Open() {
-      return true;
+    public ValueTask<bool> Open() {
+      return ValueTask.FromResult(true);
     }
 
-    public bool Close() {
-      return true;
+    public ValueTask<bool> Close() {
+      return ValueTask.FromResult(true);
     }
 
-    public bool Read() {
+    public ValueTask<bool> Read() {
       _Initialize();
-      return true;
+      return ValueTask.FromResult(true);
     }
 
-    public bool Save() {
-      return true;
+    public ValueTask<bool> Save() {
+      return ValueTask.FromResult(true);
     }
   }
 }
