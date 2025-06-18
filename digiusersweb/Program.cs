@@ -1,3 +1,5 @@
+using digiuserslib;
+
 using digiusersweb;
 
 using Microsoft.AspNetCore.Components.Web;
@@ -12,27 +14,12 @@ builder.Services.AddLogging();
 
 ILogger Logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
 
-List<string> ApiServerAddresses = [
-  "http://localhost:1234","https://localhost:1235"];
-
-TApiServer? ApiServer = null;
-foreach (string ApiServerAddressItem in ApiServerAddresses) {
-  TApiServer TestApiServer = new TApiServer(ApiServerAddressItem);
-  using (CancellationTokenSource Timeout = new CancellationTokenSource(5000)) {
-    if (await TestApiServer.ProbeServerAsync(Timeout.Token)) {
-      ApiServer = TestApiServer;
-      break;
-    } else {
-      ApiServer = null;
-    }
-  }
-}
-if (ApiServer is null) {
-  Logger.LogCritical("Missing api server");
+TDataSourceWebWithCache DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));
+if (!await DataSource.Open()) {
+  Logger.LogCritical("Missing datasource");
   return;
-} else {
-  Logger.LogInformation($"ApiServer={ApiServer}");
 }
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
