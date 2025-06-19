@@ -1,57 +1,51 @@
-﻿@page "/weather"
-@inject HttpClient Http
+﻿@page "/organigramme-page"
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>Organigramme</PageTitle>
 
-<h1>Weather</h1>
+<h1>Ville de Seraing</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th aria-label="Temperature in Celsius">Temp. (C)</th>
-                <th aria-label="Temperature in Farenheit">Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<MermaidDiagram Definition="@Organigram" />
 
 @code {
-    private WeatherForecast[]? forecasts;
+  string Organigram = @"
+flowchart TD
+    adambr[Bruno Adam
+    **Directeur Général**]
+    paparal[Alexandra Paparelli
+    ##Directrice Générale adjointe]
+    subgraph Direction
+        direction LR
+        adambr <--> paparal
+    end
 
-    protected override async Task OnInitializedAsync()
-    {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-    }
+    reiser[Eric Reis,
+    Responsable travaux]
+    subgraph Travaux
+      reiser --> bultoca
+    end
 
-    public class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
 
-        public int TemperatureC { get; set; }
+    bollylu[Luc Bolly
+    **Responsable IT**]
+    verdal[Alain Verdin
+    Support]
+    fernmi[Miguel Fernandez
+    Support]
+    grisfr[Frédéric Gris
+    Support]
+    menarna[Nathalie Ménart
+    Administratif]
+    subgraph Informatique
+      bollylu --> verdal
+      bollylu --> fernmi
+      bollylu --> grisfr
+      bollylu --> menarna
+    end
 
-        public string? Summary { get; set; }
+    Direction --> Travaux
+    Direction --> Informatique
+";
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
+
 }
+

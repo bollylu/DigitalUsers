@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "digiusersweb", "digiuserswe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "digiusersrest", "digiusersrest\digiusersrest.csproj", "{40726D05-8B99-4943-9FA9-FA2C3D0DDACD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorade.Mermaid", "..\Blazorade-Mermaid-11\Blazorade.Mermaid\Blazorade.Mermaid.csproj", "{B12D341C-28C7-C756-CB93-9D616A38FF37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{40726D05-8B99-4943-9FA9-FA2C3D0DDACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40726D05-8B99-4943-9FA9-FA2C3D0DDACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40726D05-8B99-4943-9FA9-FA2C3D0DDACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B12D341C-28C7-C756-CB93-9D616A38FF37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12D341C-28C7-C756-CB93-9D616A38FF37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12D341C-28C7-C756-CB93-9D616A38FF37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12D341C-28C7-C756-CB93-9D616A38FF37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
