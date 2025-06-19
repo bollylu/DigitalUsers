@@ -7,7 +7,7 @@ using BLTools.Diagnostic.Logging;
 using digiuserslib.Json;
 
 namespace digiuserslib;
-public class TDataSourceFile : ALoggable, IDataSource {
+public class TDataSourceFile : ALoggable<TDataSourceFile>, IDataSource {
 
   public const string DEFAULT_DATAFILE = "data.json";
   public string DataFile { get; set; } = DEFAULT_DATAFILE;
@@ -19,7 +19,10 @@ public class TDataSourceFile : ALoggable, IDataSource {
     Converters = {
       new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
       new TAgentJsonConverter()
-    }
+    },
+    IndentSize = 2,
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    PropertyNameCaseInsensitive = true
   };
   public TDataSourceFile(string dataFile = DEFAULT_DATAFILE) {
     DataFile = dataFile;

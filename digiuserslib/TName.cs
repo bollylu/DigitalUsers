@@ -1,9 +1,12 @@
-﻿namespace digiuserslib;
+﻿using System.Text.Json.Serialization;
+
+namespace digiuserslib;
 
 public class TName : IName {
+  [JsonIgnore]
   public string FullName => $"{FirstName} {LastName}";
-  public string FirstName { get; set; } = "";
-  public string LastName { get; set; } = "";
+  public string FirstName { get; set; } = string.Empty;
+  public string LastName { get; set; } = string.Empty;
 
   public TName() { }
   public TName(string firstName, string lastName) {

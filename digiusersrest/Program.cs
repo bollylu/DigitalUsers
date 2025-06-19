@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddLogging(logger => logger.AddConsole());
 
 builder.Services.AddCors(options =>
 {
@@ -55,14 +56,16 @@ app.MapGet("/probe", () => { return "OK"; }).Produces(200);
 
 app.MapGet("/getall", () =>
 {
+  app.Logger.LogInformation($"Request /getall");
   return DataSource.GetPeople();
 })
 .WithName("GetAll");
 
 app.MapGet("/get/{id}", (string id) =>
 {
+  app.Logger.LogInformation($"Request /get {id}");
   return DataSource.GetPerson(id);
-}).WithName("GetById");
+}).WithName("Get");
 
 app.Run();
 

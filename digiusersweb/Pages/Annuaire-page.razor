@@ -1,43 +1,49 @@
-﻿@page "/Annuaire-page"  
-@using digiuserslib  
+﻿@page "/Annuaire-page"
+@using digiuserslib
 
-<PageTitle>Annuaire</PageTitle>  
+<PageTitle>Annuaire</PageTitle>
 
-<h1>Annuaire</h1>  
+<h1>Annuaire</h1>
 
-<p role="status">Nombre de personnes dans l'annuaire: @DataSource?.GetPeople().Count()</p>  
+<p role="status">Nombre de personnes dans l'annuaire: @People.Count()</p>
 
-@if (DataSource is not null) {  
-  <table style="width:100%" cellspacing="2" border="1" cellpadding="1" >  
-    <tr>  
-      <th>Nom</th>  
-      <th>Titre</th>  
-      <th>Departement</th>  
-      <th>Téléphone</th>  
-      <th>Extension</th>  
-      <th>Tél. mobile</th>  
-    </tr>  
-    @foreach (IPerson PersonItem in DataSource.GetPeople())  
-    {  
-      <tr>  
-        <td>@PersonItem.Name.FullName</td>  
-        <td>@PersonItem.Title</td>  
-        <td>@PersonItem.Department</td>  
-        <td>@PersonItem.PhoneNumberPrimary.FullPhoneNumber</td>  
-        <td>@PersonItem.PhoneNumberPrimary.Extension</td>  
-        <td>@PersonItem.PhoneNumberMobile.FullPhoneNumber</td>  
-      </tr>  
-    }  
-  </table>  
-}  
+@if (DataSource is not null) {
+  <table style="width:100%" cellspacing="2" border="1" cellpadding="1">
+    <tr>
+      <th>Nom</th>
+      <th>Titre</th>
+      <th>Departement</th>
+      <th>Téléphone</th>
+      <th>Extension</th>
+      <th>Tél. mobile</th>
+    </tr>
+    @foreach (IPerson PersonItem in People) {
+      <tr>
+        <td>@PersonItem.Name.FullName</td>
+        <td>@PersonItem.Title</td>
+        <td>@PersonItem.Department</td>
+        <td>@PersonItem.PhoneNumberPrimary.FullPhoneNumber</td>
+        <td>@PersonItem.PhoneNumberPrimary.Extension</td>
+        <td>@PersonItem.PhoneNumberMobile.FullPhoneNumber</td>
+      </tr>
+    }
+  </table>
+}
 
-@code {  
-    private IDataSource? DataSource;  
+@code {
+  private IDataSource? DataSource;
 
-    protected override async Task OnInitializedAsync()  
-    {  
-        DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));  
-        await DataSource.Read(); 
-        StateHasChanged();
-    }  
+  List<IPerson> People = [];
+
+  protected override async Task OnInitializedAsync() {
+    DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));
+    if (!await DataSource.Open()) {
+      return;
+    }
+    if (await DataSource.Read()) {
+      People.Clear();
+      People.AddRange(DataSource.GetPeople());
+    }
+    StateHasChanged();
+  }
 }

@@ -2,331 +2,236 @@
   {
     "Id": "geradde",
     "Name": {
-      "FullName": "Deborah G\u00E9radon",
-      "FirstName": "Deborah",
-      "LastName": "G\u00E9radon"
+      "firstName": "Deborah",
+      "lastName": "G\u00E9radon"
     },
     "EmailPrimary": {
-      "Address": "d.geradon@seraing.be",
-      "DisplayName": ""
+      "address": "d.geradon@seraing.be",
+      "displayName": ""
     },
     "EmailSecondary": {
-      "Address": "bourgmestre@seraing.be",
-      "DisplayName": ""
+      "address": "bourgmestre@seraing.be",
+      "displayName": ""
     },
     "PhoneNumberPrimary": {
-      "FullPhoneNumber": "0032-43-308-001",
-      "Number": "308",
-      "Prefix": "43",
-      "Extension": "001",
-      "CountryCode": "32"
-    },
-    "PhoneNumberSecondary": {
-      "FullPhoneNumber": "0032---",
-      "Number": "",
-      "Prefix": "",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "308",
+      "prefix": "43",
+      "extension": "001",
+      "countryCode": "32"
     },
     "PhoneNumberMobile": {
-      "FullPhoneNumber": "0032-470-123456-",
-      "Number": "123456",
-      "Prefix": "470",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "123456",
+      "prefix": "470",
+      "extension": "",
+      "countryCode": "32"
     },
     "WorkLocationPrimary": {
-      "Name": "H\u00F4tel de ville",
-      "Address1": "Place Communale, 8",
-      "Address2": "",
-      "AddressDetails": "5\u00E8me \u00E9tage, Informatique",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
-    },
-    "WorkLocationSecondary": {
-      "Name": "",
-      "Address1": "",
-      "Address2": "",
-      "AddressDetails": "",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
+      "name": "H\u00F4tel de ville",
+      "address1": "Place Communale, 8",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
     },
     "Picture": {
-      "PictureBase64": "",
-      "PictureUrl": ""
+      "pictureBase64": "",
+      "pictureUrl": ""
     },
     "Company": "Ville de Seraing",
     "Department": "Direction",
     "SubDepartment": "",
     "Notes": "",
-    "DependsOn": ""
+    "DependsOn": "",
+    "Title": "Bourgmestre"
   },
   {
     "Id": "adambr",
     "Name": {
-      "FullName": "Bruno Adam",
-      "FirstName": "Bruno",
-      "LastName": "Adam"
+      "firstName": "Bruno",
+      "lastName": "Adam"
     },
     "EmailPrimary": {
-      "Address": "b.adam@seraing.be",
-      "DisplayName": ""
+      "address": "b.adam@seraing.be",
+      "displayName": ""
     },
     "EmailSecondary": {
-      "Address": "dg@seraing.be",
-      "DisplayName": ""
+      "address": "dg@seraing.be",
+      "displayName": ""
     },
     "PhoneNumberPrimary": {
-      "FullPhoneNumber": "0032-43-308-002",
-      "Number": "308",
-      "Prefix": "43",
-      "Extension": "002",
-      "CountryCode": "32"
-    },
-    "PhoneNumberSecondary": {
-      "FullPhoneNumber": "0032---",
-      "Number": "",
-      "Prefix": "",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "308",
+      "prefix": "43",
+      "extension": "002",
+      "countryCode": "32"
     },
     "PhoneNumberMobile": {
-      "FullPhoneNumber": "0032-470-123457-",
-      "Number": "123457",
-      "Prefix": "470",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "123457",
+      "prefix": "470",
+      "extension": "",
+      "countryCode": "32"
     },
     "WorkLocationPrimary": {
-      "Name": "H\u00F4tel de ville",
-      "Address1": "Place Communale, 8",
-      "Address2": "",
-      "AddressDetails": "5\u00E8me \u00E9tage, Informatique",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
-    },
-    "WorkLocationSecondary": {
-      "Name": "",
-      "Address1": "",
-      "Address2": "",
-      "AddressDetails": "",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
+      "name": "H\u00F4tel de ville",
+      "address1": "Place Communale, 8",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
     },
     "Picture": {
-      "PictureBase64": "",
-      "PictureUrl": ""
+      "pictureBase64": "",
+      "pictureUrl": ""
     },
     "Company": "Ville de Seraing",
     "Department": "Direction",
     "SubDepartment": "",
     "Notes": "",
-    "DependsOn": "geradde"
+    "DependsOn": "geradde",
+    "Title": "Directeur G\u00E9n\u00E9ral"
   },
   {
     "Id": "paparal",
     "Name": {
-      "FullName": "Alexandra Paparelli",
-      "FirstName": "Alexandra",
-      "LastName": "Paparelli"
+      "firstName": "Alexandra",
+      "lastName": "Paparelli"
     },
     "EmailPrimary": {
-      "Address": "a.paparelli@seraing.be",
-      "DisplayName": ""
+      "address": "a.paparelli@seraing.be",
+      "displayName": ""
     },
     "EmailSecondary": {
-      "Address": "dga@seraing.be",
-      "DisplayName": ""
+      "address": "dga@seraing.be",
+      "displayName": ""
     },
     "PhoneNumberPrimary": {
-      "FullPhoneNumber": "0032-43-308-003",
-      "Number": "308",
-      "Prefix": "43",
-      "Extension": "003",
-      "CountryCode": "32"
-    },
-    "PhoneNumberSecondary": {
-      "FullPhoneNumber": "0032---",
-      "Number": "",
-      "Prefix": "",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "308",
+      "prefix": "43",
+      "extension": "003",
+      "countryCode": "32"
     },
     "PhoneNumberMobile": {
-      "FullPhoneNumber": "0032-470-123458-",
-      "Number": "123458",
-      "Prefix": "470",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "123458",
+      "prefix": "470",
+      "extension": "",
+      "countryCode": "32"
     },
     "WorkLocationPrimary": {
-      "Name": "H\u00F4tel de ville",
-      "Address1": "Place Communale, 8",
-      "Address2": "",
-      "AddressDetails": "5\u00E8me \u00E9tage, Informatique",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
-    },
-    "WorkLocationSecondary": {
-      "Name": "",
-      "Address1": "",
-      "Address2": "",
-      "AddressDetails": "",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
+      "name": "H\u00F4tel de ville",
+      "address1": "Place Communale, 8",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
     },
     "Picture": {
-      "PictureBase64": "",
-      "PictureUrl": ""
+      "pictureBase64": "",
+      "pictureUrl": ""
     },
     "Company": "Ville de Seraing",
     "Department": "Direction",
     "SubDepartment": "",
     "Notes": "",
-    "DependsOn": "geradde"
+    "DependsOn": "geradde",
+    "Title": "Directrice G\u00E9n\u00E9rale adjointe"
   },
   {
     "Id": "bollylu",
     "Name": {
-      "FullName": "Luc Bolly",
-      "FirstName": "Luc",
-      "LastName": "Bolly"
+      "firstName": "Luc",
+      "lastName": "Bolly"
     },
     "EmailPrimary": {
-      "Address": "l.bolly@seraing.be",
-      "DisplayName": ""
+      "address": "l.bolly@seraing.be",
+      "displayName": ""
     },
     "EmailSecondary": {
-      "Address": "",
-      "DisplayName": ""
+      "address": "",
+      "displayName": ""
     },
     "PhoneNumberPrimary": {
-      "FullPhoneNumber": "0032-43-308-710",
-      "Number": "308",
-      "Prefix": "43",
-      "Extension": "710",
-      "CountryCode": "32"
-    },
-    "PhoneNumberSecondary": {
-      "FullPhoneNumber": "0032---",
-      "Number": "",
-      "Prefix": "",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "308",
+      "prefix": "43",
+      "extension": "710",
+      "countryCode": "32"
     },
     "PhoneNumberMobile": {
-      "FullPhoneNumber": "0032-474-960084-",
-      "Number": "960084",
-      "Prefix": "474",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "960084",
+      "prefix": "474",
+      "extension": "",
+      "countryCode": "32"
     },
     "WorkLocationPrimary": {
-      "Name": "Cit\u00E9 administrative",
-      "Address1": "Place Kuborn, 5",
-      "Address2": "",
-      "AddressDetails": "5\u00E8me \u00E9tage, Informatique",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
-    },
-    "WorkLocationSecondary": {
-      "Name": "",
-      "Address1": "",
-      "Address2": "",
-      "AddressDetails": "",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
+      "name": "Cit\u00E9 administrative",
+      "address1": "Place Kuborn, 5",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
     },
     "Picture": {
-      "PictureBase64": "",
-      "PictureUrl": ""
+      "pictureBase64": "",
+      "pictureUrl": ""
     },
     "Company": "Ville de Seraing",
     "Department": "Gestion informatique",
     "SubDepartment": "Head of IT",
     "Notes": "",
-    "DependsOn": "adambr"
+    "DependsOn": "adambr",
+    "Title": "Responsable IT"
   },
   {
     "Id": "bollyal",
     "Name": {
-      "FullName": "Alain Bolly",
-      "FirstName": "Alain",
-      "LastName": "Bolly"
+      "firstName": "Alain",
+      "lastName": "Bolly"
     },
     "EmailPrimary": {
-      "Address": "a.bolly@seraing.be",
-      "DisplayName": ""
+      "address": "a.bolly@seraing.be",
+      "displayName": ""
     },
     "EmailSecondary": {
-      "Address": "",
-      "DisplayName": ""
+      "address": "",
+      "displayName": ""
     },
     "PhoneNumberPrimary": {
-      "FullPhoneNumber": "0032-43-308-586",
-      "Number": "308",
-      "Prefix": "43",
-      "Extension": "586",
-      "CountryCode": "32"
-    },
-    "PhoneNumberSecondary": {
-      "FullPhoneNumber": "0032---",
-      "Number": "",
-      "Prefix": "",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "308",
+      "prefix": "43",
+      "extension": "586",
+      "countryCode": "32"
     },
     "PhoneNumberMobile": {
-      "FullPhoneNumber": "0032-470-123459-",
-      "Number": "123459",
-      "Prefix": "470",
-      "Extension": "",
-      "CountryCode": "32"
+      "number": "123459",
+      "prefix": "470",
+      "extension": "",
+      "countryCode": "32"
     },
     "WorkLocationPrimary": {
-      "Name": "H\u00F4tel de ville",
-      "Address1": "Place xxx,8",
-      "Address2": "",
-      "AddressDetails": "Rez",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
-    },
-    "WorkLocationSecondary": {
-      "Name": "",
-      "Address1": "",
-      "Address2": "",
-      "AddressDetails": "",
-      "Number": "",
-      "City": "Seraing",
-      "ZipCode": "4100",
-      "Country": "Belgique"
+      "name": "H\u00F4tel de ville",
+      "address1": "Place xxx,8",
+      "address2": "",
+      "addressDetails": "Rez",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
     },
     "Picture": {
-      "PictureBase64": "",
-      "PictureUrl": ""
+      "pictureBase64": "",
+      "pictureUrl": ""
     },
     "Company": "Ville de Seraing",
     "Department": "Optimisation",
     "SubDepartment": "",
     "Notes": "",
-    "DependsOn": "adambr"
+    "DependsOn": "adambr",
+    "Title": "Responsable optimisation"
   }
 ]

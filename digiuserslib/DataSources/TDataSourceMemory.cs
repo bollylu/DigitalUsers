@@ -1,6 +1,8 @@
 ﻿
+using BLTools.Diagnostic.Logging;
+
 namespace digiuserslib {
-  public class TDataSourceMemory : IDataSource {
+  public class TDataSourceMemory : ALoggable<TDataSourceMemory>, IDataSource {
 
     private readonly List<IPerson> _People = new List<IPerson>();
 

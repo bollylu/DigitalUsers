@@ -1,4 +1,7 @@
-﻿namespace digiuserslib;
+﻿using Microsoft.Win32.SafeHandles;
+using System.Text.Json.Serialization;
+
+namespace digiuserslib;
 
 public class TLocation : ILocation {
 
@@ -14,6 +17,9 @@ public class TLocation : ILocation {
   public string City { get; set; } = DEFAULT_CITY;
   public string ZipCode { get; set; } = DEFAULT_ZIPCODE;
   public string Country { get; set; } = DEFAULT_COUNTRY;
+  
+  [JsonIgnore]
+  public bool IsInvalid => Name.Trim() == string.Empty;
 
   public static TLocation Empty => new TLocation();
 }

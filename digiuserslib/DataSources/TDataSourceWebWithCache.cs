@@ -1,14 +1,14 @@
 ﻿
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
+using BLTools;
 using BLTools.Diagnostic.Logging;
 
 using digiuserslib.Json;
 
 namespace digiuserslib;
 
-public class TDataSourceWebWithCache : ALoggable, IDataSource {
+public class TDataSourceWebWithCache : ALoggable<TDataSourceWebWithCache>, IDataSource {
 
   public Uri? DataSourceUri {
     get => _dataSourceUri;
@@ -19,27 +19,31 @@ public class TDataSourceWebWithCache : ALoggable, IDataSource {
   }
   private Uri? _dataSourceUri;
 
-  private readonly HttpClient _HttpClient = new HttpClient();
+  private readonly HttpClient _HttpClient = new();
   public HttpResponseMessage? LastResponse { get; private set; }
 
-  private readonly List<IPerson> _People = new List<IPerson>();
+  private readonly List<IPerson> _People = [];
 
   private readonly JsonSerializerOptions _JsonOptions = new() {
     WriteIndented = true,
     Converters = {
       new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
       new TAgentJsonConverter()
-    }
+    },
+    IndentSize = 2,
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    PropertyNameCaseInsensitive = true
   };
 
   #region --- Constructor(s) ---------------------------------------------------------------------------------
-  public TDataSourceWebWithCache() { }
+  public TDataSourceWebWithCache() {
+  }
 
-  public TDataSourceWebWithCache(string dataSourceUri) {
+  public TDataSourceWebWithCache(string dataSourceUri) : this() {
     DataSourceUri = new Uri(dataSourceUri);
   }
 
-  public TDataSourceWebWithCache(Uri dataSourceUri) {
+  public TDataSourceWebWithCache(Uri dataSourceUri) : this() {
     DataSourceUri = dataSourceUri;
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
@@ -64,12 +68,14 @@ public class TDataSourceWebWithCache : ALoggable, IDataSource {
   }
 
   public async ValueTask<bool> Read() {
+    string DataFileContent = "(null)";
     try {
       CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
-      LastResponse = await _HttpClient.GetAsync("getall", cancellationToken).ConfigureAwait(false);
+      string Response = await _HttpClient.GetStringAsync("getall", cancellationToken).ConfigureAwait(false);
 
-      if (LastResponse.IsSuccessStatusCode) {
-        string DataFileContent = await LastResponse.Content.ReadAsStringAsync();
+      if (Response is not null && !Response.IsEmpty()) { 
+        LastResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+        DataFileContent = Response;
         Logger.LogDebugBox("Content", DataFileContent);
         _People.Clear();
         _People.AddRange(JsonSerializer.Deserialize<List<TAgent>>(DataFileContent, _JsonOptions) ?? []);
@@ -80,6 +86,7 @@ public class TDataSourceWebWithCache : ALoggable, IDataSource {
 
     } catch (Exception ex) {
       Logger.LogErrorBox($"Unable to read data from server", ex);
+      Logger.LogDebugBox("Datafilecontent", DataFileContent);
       return false;
     }
   }
