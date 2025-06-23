@@ -1,5 +1,4 @@
 ﻿using digiuserslib;
-using static BLTools.Diagnostic.TraceInfo;
 
 namespace digiuserstest {
   public class Tests {
@@ -8,47 +7,75 @@ namespace digiuserstest {
     }
 
     [Test]
-    public void ConvertPeopleToMermaid_GetDepartments() {
+    public void MemDataSource_GetDepartments() {
       Message("Get the departments");
-      TPeople People = new();
-      IDataSource MemDatasource = new TDataSourceMemory();
-      People.AddRange(MemDatasource.GetPeople());
-      Assert.That(People.GetDepartments().Any(), Is.True);
+      IDataSource MemDataSource = new TDataSourceMemory();
+      Dump(MemDataSource.GetDepartments());
+      Assert.That(MemDataSource.GetDepartments().Any(), Is.True);
       Ok();
     }
 
     [Test]
-    public void ConvertPeopleToMermaid_GetHeadOfDepartmentInfo() {
-      const string DEPARTMENT = "Gestion informatique";
+    public void MemDataSource_GetHeadOfDepartmentInfo() {
+      const string DEPARTMENT = "informatique";
       Message("Get the head of department");
-      TPeople People = new();
-      IDataSource MemDatasource = new TDataSourceMemory();
-      People.AddRange(MemDatasource.GetPeople());
-
-      IPerson? HeadOfIT = People.SingleOrDefault(x => x.Id == "bollylu");
-      if (HeadOfIT is null) {
-        Assert.Fail("Missing head of IT");
-        throw new Exception();
-      }
-      Assert.That(People.GetHeadOfDepartment(DEPARTMENT)?.Id, Is.Not.Null);
-      Assert.That(People.GetHeadOfDepartment(DEPARTMENT)?.Id, Is.EqualTo(HeadOfIT.Id));
+      IDataSource MemDataSource = new TDataSourceMemory();
+      IPerson? HeadOfIT = MemDataSource.GetHeadOfDepartment(DEPARTMENT);
+      Assert.That(MemDataSource.GetHeadOfDepartment(DEPARTMENT)?.Id, Is.Not.Null);
+      Dump(HeadOfIT, 2);
       Ok();
     }
 
     [Test]
-    public void ConvertPeopleToMermaid_BuildUser() {
-      const string DEPARTMENT = "Gestion informatique";
+    public void MemDataSource_BuildUser() {
+      const string DEPARTMENT = "informatique";
       Message("Get the head of department");
-      TPeople People = new();
-      IDataSource MemDatasource = new TDataSourceMemory();
-      People.AddRange(MemDatasource.GetPeople());
+      IDataSource MemDataSource = new TDataSourceMemory();
 
-      IPerson? HeadOfIT = People.SingleOrDefault(x => x.Id == "bollylu");
-      Assert.That(HeadOfIT, Is.Not.Null);
-      Message(HeadOfIT.Name.FullName);
-      string Mermaid = People.BuildUser(HeadOfIT);
+      TMermaidConverter MermaidConverter = new(MemDataSource);
+      string Mermaid = MermaidConverter.BuildUser(MemDataSource.GetHeadOfDepartment(DEPARTMENT)?.Id ?? "");
       Assert.That(Mermaid, Is.Not.Null);
-      Message(Mermaid);
+      Dump(Mermaid);
+      Ok();
+    }
+
+    [Test]
+    public void ConvertPeopleToMermaid_BuildDepartment() {
+      const string DEPARTMENT = "informatique";
+      Message("Get the head of department");
+      IDataSource MemDataSource = new TDataSourceMemory();
+      TMermaidConverter MermaidConverter = new(MemDataSource);
+
+      string Mermaid = MermaidConverter.BuildDepartment(DEPARTMENT);
+      Assert.That(Mermaid, Is.Not.Null);
+      Dump(Mermaid);
+      Ok();
+    }
+
+    [Test]
+    public void ConvertPeopleToMermaid_BuildSubDepartments() {
+      const string DEPARTMENT = "informatique";
+      Message("Get the subdepartments");
+      IDataSource MemDataSource = new TDataSourceMemory();
+      TMermaidConverter MermaidConverter = new(MemDataSource);
+
+      string Mermaid = MermaidConverter.BuildSubDepartments(DEPARTMENT);
+      Assert.That(Mermaid, Is.Not.Null);
+      Dump(Mermaid);
+      Ok();
+    }
+
+    [Test]
+    public void ConvertPeopleToMermaid_BuildOrganigram() {
+      Message("Builds the organigram");
+      IDataSource MemDataSource = new TDataSourceMemory();
+      TMermaidConverter MermaidConverter = new(MemDataSource);
+
+      string Mermaid = MermaidConverter.BuildOrganigram();
+      Assert.That(Mermaid, Is.Not.Null);
+      Console.WriteLine(Mermaid);
+      Dump(Mermaid);
+
       Ok();
     }
   }

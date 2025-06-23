@@ -15,8 +15,8 @@ public interface IPerson : IInvalid {
 
   string Company { get; }
   string Title { get; }
-  string Department { get; }
-  string SubDepartment { get; }
+  IDepartment Department { get; }
+  IDepartment SubDepartment { get; }
 
   ILocation WorkLocationPrimary { get; }
   ILocation WorkLocationSecondary { get; }

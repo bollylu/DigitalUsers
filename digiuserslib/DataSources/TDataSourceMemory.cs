@@ -1,11 +1,12 @@
 ﻿
 using BLTools.Diagnostic.Logging;
 
+using digiuserslib.DataSources;
+
 namespace digiuserslib {
-  public class TDataSourceMemory : ALoggable<TDataSourceMemory>, IDataSource {
+  public class TDataSourceMemory : ADataSourceWithCache {
 
-    private readonly List<IPerson> _People = new List<IPerson>();
-
+    #region --- Constructor(s) ---------------------------------------------------------------------------------
     public TDataSourceMemory() {
       _Initialize();
     }
@@ -19,8 +20,7 @@ namespace digiuserslib {
         EmailSecondary = new TMailAddress() { Address = "bourgmestre@seraing.be" },
         WorkLocationPrimary = new TLocation() { Name = "Hôtel de ville", Address1 = "Place Communale, 8", AddressDetails = "5ème étage, Informatique" },
         Company = "Ville de Seraing",
-        Department = "Direction",
-        SubDepartment = "",
+        Department = new TDepartment("direction", "Direction"),
         Title = "Bourgmestre"
       });
       _People.Add(new TAgent("adambr") {
@@ -31,8 +31,7 @@ namespace digiuserslib {
         EmailSecondary = new TMailAddress() { Address = "dg@seraing.be" },
         WorkLocationPrimary = new TLocation() { Name = "Hôtel de ville", Address1 = "Place Communale, 8", AddressDetails = "5ème étage, Informatique" },
         Company = "Ville de Seraing",
-        Department = "Direction",
-        SubDepartment = "",
+        Department = new TDepartment("direction", "Direction"),
         Title = "Directeur Général",
         DependsOn = "geradde"
       });
@@ -44,8 +43,7 @@ namespace digiuserslib {
         EmailSecondary = new TMailAddress() { Address = "dga@seraing.be" },
         WorkLocationPrimary = new TLocation() { Name = "Hôtel de ville", Address1 = "Place Communale, 8", AddressDetails = "5ème étage, Informatique" },
         Company = "Ville de Seraing",
-        Department = "Direction",
-        SubDepartment = "",
+        Department = new TDepartment("direction", "Direction"),
         Title = "Directrice Générale adjointe",
         DependsOn = "geradde"
       });
@@ -56,10 +54,54 @@ namespace digiuserslib {
         EmailPrimary = new TMailAddress() { Address = "l.bolly@seraing.be" },
         WorkLocationPrimary = new TLocation() { Name = "Cité administrative", Address1 = "Place Kuborn, 5", AddressDetails = "5ème étage, Informatique" },
         Company = "Ville de Seraing",
-        Department = "Gestion informatique",
-        SubDepartment = "Head of IT",
+        Department = new TDepartment("informatique", "Informatique"),
+        SubDepartment = new TDepartment("head", "Head"),
         Title = "Responsable IT",
         DependsOn = "adambr"
+      });
+      _People.Add(new TAgent("verdial") {
+        Name = new TName() { FirstName = "Alain", LastName = "Verdin" },
+        PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "307" },
+        EmailPrimary = new TMailAddress() { Address = "a.verdin@seraing.be" },
+        WorkLocationPrimary = new TLocation() { Name = "Cité administrative", Address1 = "Place Kuborn, 5", AddressDetails = "5ème étage, Informatique" },
+        Company = "Ville de Seraing",
+        Department = new TDepartment("informatique", "Informatique"),
+        SubDepartment = new TDepartment("support", "Ville"),
+        Title = "IT support",
+        DependsOn = "bollylu"
+      });
+      _People.Add(new TAgent("grisfr") {
+        Name = new TName() { FirstName = "Frédéric", LastName = "Gris" },
+        PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "308" },
+        EmailPrimary = new TMailAddress() { Address = "f.gris@seraing.be" },
+        WorkLocationPrimary = new TLocation() { Name = "Cité administrative", Address1 = "Place Kuborn, 5", AddressDetails = "5ème étage, Informatique" },
+        Company = "Ville de Seraing",
+        Department = new TDepartment("informatique", "Informatique"),
+        SubDepartment = new TDepartment("support", "Ville"),
+        Title = "IT support",
+        DependsOn = "bollylu"
+      });
+      _People.Add(new TAgent("daglima") {
+        Name = new TName() { FirstName = "Maxence", LastName = "D'Agliano" },
+        PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "306" },
+        EmailPrimary = new TMailAddress() { Address = "m.dagliano@seraing.be" },
+        WorkLocationPrimary = new TLocation() { Name = "Cité administrative", Address1 = "Place Kuborn, 5", AddressDetails = "5ème étage, Informatique" },
+        Company = "Ville de Seraing",
+        Department = new TDepartment("informatique", "Informatique"),
+        SubDepartment = new TDepartment("ecoles", "Ecoles"),
+        Title = "IT support",
+        DependsOn = "bollylu"
+      });
+      _People.Add(new TAgent("menarna") {
+        Name = new TName() { FirstName = "Nathalie", LastName = "Ménart" },
+        PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "306" },
+        EmailPrimary = new TMailAddress() { Address = "n.menart@seraing.be" },
+        WorkLocationPrimary = new TLocation() { Name = "Cité administrative", Address1 = "Place Kuborn, 5", AddressDetails = "5ème étage, Informatique" },
+        Company = "Ville de Seraing",
+        Department = new TDepartment("informatique", "Informatique"),
+        SubDepartment = new TDepartment("administratif", "Administratif"),
+        Title = "Agent administratif",
+        DependsOn = "bollylu"
       });
       _People.Add(new TAgent("bollyal") {
         Name = new TName() { FirstName = "Alain", LastName = "Bolly" },
@@ -68,51 +110,30 @@ namespace digiuserslib {
         EmailPrimary = new TMailAddress() { Address = "a.bolly@seraing.be" },
         WorkLocationPrimary = new TLocation() { Name = "Hôtel de ville", Address1 = "Place xxx,8", AddressDetails = "Rez" },
         Company = "Ville de Seraing",
-        Department = "Optimisation",
+        Department = new TDepartment("optimisation", "Optimisation"),
         Title = "Responsable optimisation",
         DependsOn = "adambr"
       });
     }
+    #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
-    public IEnumerable<IPerson> GetPeople() {
-      return _People;
-    }
-
-    public IPerson? GetPerson(string id) {
-      return _People.FirstOrDefault(p => p.Id == id);
-    }
-
-    public IEnumerable<IPerson> GetPeopleForDepartment(string department) {
-      return _People.Where(p => p.Department.Contains(department, StringComparison.CurrentCultureIgnoreCase));
-    }
-
-    public IPerson? GetPersonForPhoneNumber(IPhoneNumber phoneNumber) {
-      throw new NotImplementedException();
-    }
-
-    public IPerson? GetPersonForEmail(IMailAddress mailAddress) {
-      throw new NotImplementedException();
-    }
-
-    public IEnumerable<IPerson> GetPeopleForLocation(ILocation location) {
-      throw new NotImplementedException();
-    }
-
-    public ValueTask<bool> Open() {
+    #region --- I/O --------------------------------------------
+    public override ValueTask<bool> Open() {
       return ValueTask.FromResult(true);
     }
 
-    public ValueTask<bool> Close() {
+    public override ValueTask<bool> Close() {
       return ValueTask.FromResult(true);
     }
 
-    public ValueTask<bool> Read() {
+    public override ValueTask<bool> Read() {
       _Initialize();
       return ValueTask.FromResult(true);
     }
 
-    public ValueTask<bool> Save() {
+    public override ValueTask<bool> Save() {
       return ValueTask.FromResult(true);
     }
+    #endregion --- I/O -----------------------------------------
   }
 }

@@ -10,8 +10,8 @@ public class TAgent : IPerson {
   public IPhoneNumber PhoneNumberMobile { get; set; } = new TPhoneNumber();
   public string Company { get; set; } = string.Empty;
   public string Title { get; set; } = string.Empty;
-  public string Department { get; set; } = string.Empty;
-  public string SubDepartment { get; set; } = string.Empty;
+  public IDepartment Department { get; set; } = new TDepartment();
+  public IDepartment SubDepartment { get; set; } = new TDepartment();
   public ILocation WorkLocationPrimary { get; set; } = new TLocation();
   public ILocation WorkLocationSecondary { get; set; } = new TLocation();
   public IPicture Picture { get; set; } = new TPicture();

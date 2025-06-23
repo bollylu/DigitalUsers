@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+
 using BLTools;
 using BLTools.Diagnostic.Logging;
 using BLTools.Json;
@@ -67,10 +68,11 @@ public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
               RetVal.Company = reader.GetString() ?? "";
               break;
             case nameof(TAgent.Department):
-              RetVal.Department = reader.GetString() ?? "";
+              RetVal.Department = JsonSerializer.Deserialize<TDepartment>(ref reader, options) ?? TDepartment.Empty;
               break;
             case nameof(TAgent.SubDepartment):
-              RetVal.SubDepartment = reader.GetString() ?? "";
+              RetVal.SubDepartment = JsonSerializer.Deserialize<TDepartment>(ref reader, options) ?? TDepartment.Empty;
+              break;
               break;
             case nameof(TAgent.Notes):
               RetVal.Notes = reader.GetString() ?? "";
@@ -113,27 +115,27 @@ public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
     writer.WritePropertyName(nameof(TAgent.EmailSecondary));
     JsonSerializer.Serialize(writer, value.EmailSecondary, options);
 
-    if (!value.PhoneNumberPrimary.IsInvalid) {
+    if (value.PhoneNumberPrimary.IsValid) {
       writer.WritePropertyName(nameof(TAgent.PhoneNumberPrimary));
       JsonSerializer.Serialize(writer, value.PhoneNumberPrimary, options);
     }
 
-    if (!value.PhoneNumberSecondary.IsInvalid) {
+    if (value.PhoneNumberSecondary.IsValid) {
       writer.WritePropertyName(nameof(TAgent.PhoneNumberSecondary));
       JsonSerializer.Serialize(writer, value.PhoneNumberSecondary, options);
     }
 
-    if (!value.PhoneNumberMobile.IsInvalid) {
+    if (value.PhoneNumberMobile.IsValid) {
       writer.WritePropertyName(nameof(TAgent.PhoneNumberMobile));
       JsonSerializer.Serialize(writer, value.PhoneNumberMobile, options);
     }
 
-    if (!value.WorkLocationPrimary.IsInvalid) {
+    if (value.WorkLocationPrimary.IsValid) {
       writer.WritePropertyName(nameof(TAgent.WorkLocationPrimary));
       JsonSerializer.Serialize(writer, value.WorkLocationPrimary, options);
     }
 
-    if (!value.WorkLocationSecondary.IsInvalid) {
+    if (value.WorkLocationSecondary.IsValid) {
       writer.WritePropertyName(nameof(TAgent.WorkLocationSecondary));
       JsonSerializer.Serialize(writer, value.WorkLocationSecondary, options);
     }
@@ -142,8 +144,17 @@ public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
     JsonSerializer.Serialize(writer, value.Picture, options);
 
     writer.WriteString(nameof(TAgent.Company), value.Company);
-    writer.WriteString(nameof(TAgent.Department), value.Department);
-    writer.WriteString(nameof(TAgent.SubDepartment), value.SubDepartment);
+
+    if (value.Department.IsValid) {
+      writer.WritePropertyName(nameof(TAgent.Department));
+      JsonSerializer.Serialize(writer, value.Department, options);
+    }
+
+    if (value.SubDepartment.IsValid) {
+      writer.WritePropertyName(nameof(TAgent.SubDepartment));
+      JsonSerializer.Serialize(writer, value.SubDepartment, options);
+    }
+
     writer.WriteString(nameof(TAgent.Notes), value.Notes);
     writer.WriteString(nameof(TAgent.DependsOn), value.DependsOn);
     writer.WriteString(nameof(TAgent.Title), value.Title);

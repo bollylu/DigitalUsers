@@ -10,7 +10,7 @@
 
 @code {
   string Organigram = @"
-lowchart TD
+flowchart TD
     adambr[Bruno Adam
     **Directeur Général**]
     paparal[Alexandra Paparelli
@@ -31,14 +31,19 @@ lowchart TD
 
     bollylu[Luc Bolly
     **Responsable IT**]
+
     verdal[Alain Verdin
     Support]
+
     fernmi[Miguel Fernandez
     Support]
+
     grisfr[Frédéric Gris
     Support]
+
     menarna[Nathalie Ménart
     Administratif]
+
     subgraph Informatique
       bollylu --> verdal
       bollylu --> fernmi
@@ -63,45 +68,9 @@ lowchart TD
       People.Clear();
       People.AddRange(DataSource.GetPeople());
     }
-    Organigram = BuildTree(People);
     StateHasChanged();
   }
-
-  private string BuildTree(List<IPerson> people) {
-    StringBuilder RetVal = new();
-    RetVal.AppendLine("flowchart TD");
-    foreach (IPerson PersonItem in people) {
-      RetVal.AppendLine(BuildUser(PersonItem));
-    }
-    // Scan all departments
-    foreach (string DepartmentItem in people.Select(p => p.Department).Distinct()) {
-      // DepartmentMembers
-      IEnumerable<IPerson> Members = people.Where(p => p.Department == DepartmentItem);
-      // Find the head : the one who does not relates to any in the group
-      IPerson? HeadOfDepartment = Members.SingleOrDefault(p => p.DependsOn != DepartmentItem);
-      if (HeadOfDepartment is null)
-      {
-        throw new ApplicationException("Error in data hierachy");
-      }
-      RetVal.AppendLine($"  subgraph {DepartmentItem}");
-      foreach (IPerson MemberItem in Members.Where(p=>p.Id!=HeadOfDepartment.Id))
-      {
-        RetVal.AppendLine($"    {HeadOfDepartment.Id}==>{MemberItem.Id}");
-      }
-      RetVal.AppendLine($"  end");
-    }
-
-    return RetVal.ToString();
-  }
-
-  private string BuildUser(IPerson person) {
-    StringBuilder RetVal = new();
-    RetVal.AppendLine($"{person.Id}[");
-    RetVal.AppendLine(person.Name.FullName);
-    RetVal.Append($"**{person.Title}**");
-    RetVal.AppendLine("]");
-    return RetVal.ToString();
-  }
+ 
 
 }
 

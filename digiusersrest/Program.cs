@@ -9,7 +9,7 @@ const string ARG_DATAFILE = "datafile";
 ISplitArgs Args = new SplitArgs();
 
 bool IsDebug = Args.IsDefined("debug");
-string DataFile = Args.GetValue(ARG_DATAFILE, TDataSourceFile.DEFAULT_DATAFILE);
+string DataFile = Args.GetValue(ARG_DATAFILE, TDataSourceFileWithCache.DEFAULT_DATAFILE);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,10 +38,10 @@ IDataSource DataSource;
 if (IsDebug) {
   DataSource = new TDataSourceMemory();
 } else {
-  DataSource = new TDataSourceFile(DataFile);
+  DataSource = new TDataSourceFileWithCache(DataFile);
   // If datasource is missing, create it as a copy of memory datasource
   if (!await DataSource.Open()) {
-    DataSource = new TDataSourceFile(new TDataSourceMemory(), DataFile);
+    DataSource = new TDataSourceFileWithCache(new TDataSourceMemory(), DataFile);
     if (!await DataSource.Save()) {
       app.Logger.LogCritical("Unable to build datafile");
       Environment.Exit(1);

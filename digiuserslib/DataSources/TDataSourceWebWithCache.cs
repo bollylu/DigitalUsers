@@ -1,14 +1,16 @@
 ﻿
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
 using BLTools;
 using BLTools.Diagnostic.Logging;
 
+using digiuserslib.DataSources;
 using digiuserslib.Json;
 
 namespace digiuserslib;
 
-public class TDataSourceWebWithCache : ALoggable<TDataSourceWebWithCache>, IDataSource {
+public class TDataSourceWebWithCache : ADataSourceWithCache {
 
   public Uri? DataSourceUri {
     get => _dataSourceUri;
@@ -21,8 +23,6 @@ public class TDataSourceWebWithCache : ALoggable<TDataSourceWebWithCache>, IData
 
   private readonly HttpClient _HttpClient = new();
   public HttpResponseMessage? LastResponse { get; private set; }
-
-  private readonly List<IPerson> _People = [];
 
   private readonly JsonSerializerOptions _JsonOptions = new() {
     WriteIndented = true,
@@ -48,7 +48,8 @@ public class TDataSourceWebWithCache : ALoggable<TDataSourceWebWithCache>, IData
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
-  public async ValueTask<bool> Open() {
+  #region --- I/O --------------------------------------------
+  public override async ValueTask<bool> Open() {
 
     try {
       CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
@@ -63,17 +64,17 @@ public class TDataSourceWebWithCache : ALoggable<TDataSourceWebWithCache>, IData
 
   }
 
-  public ValueTask<bool> Close() {
+  public override ValueTask<bool> Close() {
     return ValueTask.FromResult(true);
   }
 
-  public async ValueTask<bool> Read() {
+  public override async ValueTask<bool> Read() {
     string DataFileContent = "(null)";
     try {
       CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
       string Response = await _HttpClient.GetStringAsync("getall", cancellationToken).ConfigureAwait(false);
 
-      if (Response is not null && !Response.IsEmpty()) { 
+      if (Response is not null && !Response.IsEmpty()) {
         LastResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
         DataFileContent = Response;
         Logger.LogDebugBox("Content", DataFileContent);
@@ -91,31 +92,9 @@ public class TDataSourceWebWithCache : ALoggable<TDataSourceWebWithCache>, IData
     }
   }
 
-  public ValueTask<bool> Save() {
+  public override ValueTask<bool> Save() {
     throw new NotImplementedException();
   }
+  #endregion --- I/O -----------------------------------------
 
-  public IEnumerable<IPerson> GetPeople() {
-    return _People;
-  }
-
-  public IPerson? GetPerson(string id) {
-    return _People.FirstOrDefault(p => p.Id == id);
-  }
-
-  public IEnumerable<IPerson> GetPeopleForDepartment(string department) {
-    return _People.Where(p => p.Department.Contains(department, StringComparison.CurrentCultureIgnoreCase));
-  }
-
-  public IPerson? GetPersonForPhoneNumber(IPhoneNumber phoneNumber) {
-    throw new NotImplementedException();
-  }
-
-  public IPerson? GetPersonForEmail(IMailAddress mailAddress) {
-    throw new NotImplementedException();
-  }
-
-  public IEnumerable<IPerson> GetPeopleForLocation(ILocation location) {
-    throw new NotImplementedException();
-  }
 }

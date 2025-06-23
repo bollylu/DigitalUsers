@@ -8,12 +8,17 @@ public interface IDataSource {
   ValueTask<bool> Read();
   ValueTask<bool> Save();
 
-  public IEnumerable<IPerson> GetPeople();
-  public IPerson? GetPerson(string id);
+  IEnumerable<IPerson> GetPeople();
+  IPerson? GetPerson(string id);
 
-  public IEnumerable<IPerson> GetPeopleForDepartment(string department);
+  IEnumerable<IDepartment> GetDepartments();
+  IEnumerable<IDepartment> GetSubDepartments(string departmentId);
+  IPerson? GetHeadOfDepartment(string departmentId);
+  IEnumerable<IPerson> GetDepartmentMembers(string departmentId);
 
-  public IPerson? GetPersonForPhoneNumber(IPhoneNumber phoneNumber);
-  public IPerson? GetPersonForEmail(IMailAddress mailAddress);
-  public IEnumerable<IPerson> GetPeopleForLocation(ILocation location);
+  IPerson? GetPersonForPhoneNumber(IPhoneNumber phoneNumber);
+  IPerson? GetPersonForEmail(IMailAddress mailAddress);
+  IEnumerable<IPerson> GetPeopleForLocation(ILocation location);
+
+
 }
