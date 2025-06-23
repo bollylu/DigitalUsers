@@ -18,7 +18,7 @@ public class TAgent : IPerson {
   public string Notes { get; set; } = string.Empty;
   public string DependsOn { get; set; } = string.Empty;
 
-
+  public bool IsInvalid => Id.Trim() == string.Empty;
 
   public TAgent() {
   }

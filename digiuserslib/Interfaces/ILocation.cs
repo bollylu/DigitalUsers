@@ -1,7 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace digiuserslib;
-public interface ILocation {
+public interface ILocation : IInvalid {
+ 
   string Name { get; }
   string Address1 { get; }
   string Address2 { get; }
@@ -10,8 +11,5 @@ public interface ILocation {
   string City { get; }
   string ZipCode { get; }
   string Country { get; }
-
-  [JsonIgnore]
-  bool IsInvalid { get; }
 
 }
