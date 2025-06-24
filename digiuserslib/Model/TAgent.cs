@@ -1,6 +1,6 @@
 ﻿namespace digiuserslib;
 
-public class TAgent : IPerson {
+public class TAgent : IPerson, IDependency {
   public string Id { get; set; } = string.Empty;
   public IName Name { get; set; } = new TName();
   public IMailAddress EmailPrimary { get; set; } = new TMailAddress();

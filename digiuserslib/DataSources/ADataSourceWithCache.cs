@@ -11,6 +11,7 @@ namespace digiuserslib.DataSources;
 public abstract class ADataSourceWithCache : ADataSource, IDataSource {
 
   protected readonly TPeople _People = [];
+  protected readonly TDepartments _Departments = [];
 
   public override IEnumerable<IPerson> GetDepartmentMembers(string department) {
     return _People.Where(p => p.Department.Id.Trim().Equals(department, StringComparison.CurrentCultureIgnoreCase));
