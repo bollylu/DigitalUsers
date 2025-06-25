@@ -6,6 +6,8 @@
 
 <h1>Ville de Seraing</h1>
 
+<div>@DebugText</div>
+
 <MermaidDiagram Definition="@Organigram" />
 
 @code {
@@ -54,6 +56,7 @@ flowchart TD
     Direction --> Travaux
     Direction --> Informatique
 ";
+  string DebugText = "";
 
   private IDataSource? DataSource;
 
@@ -68,9 +71,12 @@ flowchart TD
       People.Clear();
       People.AddRange(DataSource.GetPeople());
     }
+    TMermaidConverter MermaidConverter = new TMermaidConverter(DataSource);
+    DebugText = MermaidConverter.BuildOrganigram().Replace("\n","\r\n");
+    Organigram = MermaidConverter.BuildOrganigram();
     StateHasChanged();
   }
- 
+
 
 }
 

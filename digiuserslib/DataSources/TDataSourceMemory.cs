@@ -32,7 +32,7 @@ namespace digiuserslib {
         Company = "Ville de Seraing",
         Department = _Departments["direction"] ?? new TDepartment(),
         Title = "Directeur Général",
-        DependsOn = ""
+        DependsOn = "paparal"
       });
 
       _People.Add(new TAgent("paparal") {
@@ -45,7 +45,7 @@ namespace digiuserslib {
         Company = "Ville de Seraing",
         Department = _Departments["direction"] ?? new TDepartment(),
         Title = "Directrice Générale adjointe",
-        DependsOn = ""
+        DependsOn = "adambr"
       });
 
       _People.Add(new TAgent("bollylu") {
@@ -58,7 +58,7 @@ namespace digiuserslib {
         Department = _Departments["informatique"] ?? new TDepartment(),
         SubDepartment = new TDepartment(),
         Title = "Responsable IT",
-        DependsOn = "direction"
+        DependsOn = ""
       });
 
       _People.Add(new TAgent("verdial") {
@@ -70,7 +70,7 @@ namespace digiuserslib {
         Department = _Departments["informatique"] ?? new TDepartment(),
         SubDepartment = _Departments["informatique/ville"] ?? new TDepartment(),
         Title = "IT support",
-        DependsOn = "informatique"
+        DependsOn = "informatique/ville"
       });
 
       _People.Add(new TAgent("grisfr") {
@@ -82,7 +82,7 @@ namespace digiuserslib {
         Department = _Departments["informatique"] ?? new TDepartment(),
         SubDepartment = _Departments["informatique/ville"] ?? new TDepartment(),
         Title = "IT support",
-        DependsOn = "informatique"
+        DependsOn = "informatique/ville"
       });
 
       _People.Add(new TAgent("daglima") {
@@ -94,7 +94,7 @@ namespace digiuserslib {
         Department = _Departments["informatique"] ?? new TDepartment(),
         SubDepartment = _Departments["informatique/écoles"] ?? new TDepartment(),
         Title = "IT support",
-        DependsOn = "informatique"
+        DependsOn = "informatique/écoles"
       });
 
       _People.Add(new TAgent("menarna") {
@@ -106,19 +106,21 @@ namespace digiuserslib {
         Department = _Departments["informatique"] ?? new TDepartment(),
         SubDepartment = _Departments["informatique/administratif"] ?? new TDepartment(),
         Title = "Agent administratif",
-        DependsOn = "informatique"
+        DependsOn = "informatique/ville"
       });
+
       _People.Add(new TAgent("bollyal") {
         Name = new TName() { FirstName = "Alain", LastName = "Bolly" },
-        PhoneNumberPrimary = new TPhoneNumber() { Prefix = "43", Number = "308", Extension = "586" },
+        PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "586" },
         PhoneNumberMobile = new TPhoneNumber() { Prefix = "470", Number = "123459" },
         EmailPrimary = new TMailAddress() { Address = "a.bolly@seraing.be" },
         WorkLocationPrimary = new TLocation() { Name = "Hôtel de ville", Address1 = "Place xxx,8", AddressDetails = "Rez" },
         Company = "Ville de Seraing",
         Department = new TDepartment("optimisation", "Optimisation"),
         Title = "Responsable optimisation",
-        DependsOn = "adambr"
+        DependsOn = "optimisation"
       });
+
     }
     #endregion --- Constructor(s) ------------------------------------------------------------------------------
 

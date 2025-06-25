@@ -28,9 +28,8 @@ public abstract class ADataSourceWithCache : ADataSource, IDataSource {
   }
 
   public override IPerson? GetHeadOfDepartment(string departmentId) {
-    return _People
-      .Where(p => p.Department.Id == departmentId)
-      .SingleOrDefault(p => p.DependsOn.IsNotIn(GetDepartmentMembers(departmentId).Select(p => p.Id)));
+    return GetDepartmentMembers(departmentId)
+      .SingleOrDefault(p => p.DependsOn.IsEmpty());
   }
 
 

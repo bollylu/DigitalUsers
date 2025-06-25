@@ -1,4 +1,5 @@
 ﻿@page "/Annuaire-page"
+@using BLTools
 @using digiuserslib
 
 <PageTitle>Annuaire</PageTitle>
@@ -13,15 +14,17 @@
       <th>Nom</th>
       <th>Titre</th>
       <th>Departement</th>
+      <th>SubDepartement</th>
       <th>Téléphone</th>
       <th>Extension</th>
       <th>Tél. mobile</th>
     </tr>
-    @foreach (IPerson PersonItem in People) {
+    @foreach (IPerson PersonItem in People.OrderBy(x => x.Department.Name).ThenBy(x => x.SubDepartment.Name)) {
       <tr>
         <td>@PersonItem.Name.FullName</td>
         <td>@PersonItem.Title</td>
-        <td>@PersonItem.Department</td>
+        <td>@PersonItem.Department.Name</td>
+        <td>@PersonItem.SubDepartment.Name.After('/')</td>
         <td>@PersonItem.PhoneNumberPrimary.FullPhoneNumber</td>
         <td>@PersonItem.PhoneNumberPrimary.Extension</td>
         <td>@PersonItem.PhoneNumberMobile.FullPhoneNumber</td>

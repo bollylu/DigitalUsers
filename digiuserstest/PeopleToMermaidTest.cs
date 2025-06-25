@@ -21,8 +21,8 @@ namespace digiuserstest {
       Message("Get the head of department");
       IDataSource MemDataSource = new TDataSourceMemory();
       IPerson? HeadOfIT = MemDataSource.GetHeadOfDepartment(DEPARTMENT);
-      Assert.That(MemDataSource.GetHeadOfDepartment(DEPARTMENT)?.Id, Is.Not.Null);
-      Dump(HeadOfIT, 2);
+      Assert.That(HeadOfIT, Is.Not.Null);
+      Dump(HeadOfIT.Name.FullName, 2);
       Ok();
     }
 

@@ -1,0 +1,410 @@
+[
+  {
+    "Id": "adambr",
+    "Name": {
+      "firstName": "Bruno",
+      "lastName": "Adam"
+    },
+    "EmailPrimary": {
+      "address": "b.adam@seraing.be",
+      "displayName": ""
+    },
+    "EmailSecondary": {
+      "address": "dg@seraing.be",
+      "displayName": ""
+    },
+    "PhoneNumberPrimary": {
+      "number": "308",
+      "prefix": "43",
+      "extension": "002",
+      "countryCode": "32"
+    },
+    "PhoneNumberMobile": {
+      "number": "123457",
+      "prefix": "470",
+      "extension": "",
+      "countryCode": "32"
+    },
+    "WorkLocationPrimary": {
+      "name": "H\u00F4tel de Ville",
+      "address1": "Place communale, 8",
+      "address2": "",
+      "addressDetails": "Bureau DGA",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
+    },
+    "Picture": {
+      "pictureBase64": "",
+      "pictureUrl": ""
+    },
+    "Company": "Ville de Seraing",
+    "Department": {
+      "id": "direction",
+      "name": "Direction",
+      "description": "",
+      "dependsOn": ""
+    },
+    "Notes": "",
+    "DependsOn": "paparal",
+    "Title": "Directeur G\u00E9n\u00E9ral"
+  },
+  {
+    "Id": "paparal",
+    "Name": {
+      "firstName": "Alexandra",
+      "lastName": "Paparelli"
+    },
+    "EmailPrimary": {
+      "address": "a.paparelli@seraing.be",
+      "displayName": ""
+    },
+    "EmailSecondary": {
+      "address": "dga@seraing.be",
+      "displayName": ""
+    },
+    "PhoneNumberPrimary": {
+      "number": "308",
+      "prefix": "43",
+      "extension": "003",
+      "countryCode": "32"
+    },
+    "PhoneNumberMobile": {
+      "number": "123458",
+      "prefix": "470",
+      "extension": "",
+      "countryCode": "32"
+    },
+    "WorkLocationPrimary": {
+      "name": "H\u00F4tel de Ville",
+      "address1": "Place communale, 8",
+      "address2": "",
+      "addressDetails": "Bureau DGA",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
+    },
+    "Picture": {
+      "pictureBase64": "",
+      "pictureUrl": ""
+    },
+    "Company": "Ville de Seraing",
+    "Department": {
+      "id": "direction",
+      "name": "Direction",
+      "description": "",
+      "dependsOn": ""
+    },
+    "Notes": "",
+    "DependsOn": "adambr",
+    "Title": "Directrice G\u00E9n\u00E9rale adjointe"
+  },
+  {
+    "Id": "bollylu",
+    "Name": {
+      "firstName": "Luc",
+      "lastName": "Bolly"
+    },
+    "EmailPrimary": {
+      "address": "l.bolly@seraing.be",
+      "displayName": ""
+    },
+    "EmailSecondary": {
+      "address": "",
+      "displayName": ""
+    },
+    "PhoneNumberPrimary": {
+      "number": "308",
+      "prefix": "43",
+      "extension": "710",
+      "countryCode": "32"
+    },
+    "PhoneNumberMobile": {
+      "number": "960084",
+      "prefix": "474",
+      "extension": "",
+      "countryCode": "32"
+    },
+    "WorkLocationPrimary": {
+      "name": "Cit\u00E9 administrative",
+      "address1": "Place Kuborn, 5",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
+    },
+    "Picture": {
+      "pictureBase64": "",
+      "pictureUrl": ""
+    },
+    "Company": "Ville de Seraing",
+    "Department": {
+      "id": "informatique",
+      "name": "Informatique",
+      "description": "",
+      "dependsOn": "direction"
+    },
+    "Notes": "",
+    "DependsOn": "",
+    "Title": "Responsable IT"
+  },
+  {
+    "Id": "verdial",
+    "Name": {
+      "firstName": "Alain",
+      "lastName": "Verdin"
+    },
+    "EmailPrimary": {
+      "address": "a.verdin@seraing.be",
+      "displayName": ""
+    },
+    "EmailSecondary": {
+      "address": "",
+      "displayName": ""
+    },
+    "PhoneNumberPrimary": {
+      "number": "3308",
+      "prefix": "4",
+      "extension": "307",
+      "countryCode": "32"
+    },
+    "WorkLocationPrimary": {
+      "name": "Cit\u00E9 administrative",
+      "address1": "Place Kuborn, 5",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
+    },
+    "Picture": {
+      "pictureBase64": "",
+      "pictureUrl": ""
+    },
+    "Company": "Ville de Seraing",
+    "Department": {
+      "id": "informatique",
+      "name": "Informatique",
+      "description": "",
+      "dependsOn": "direction"
+    },
+    "SubDepartment": {
+      "id": "informatique/ville",
+      "name": "Informatique/Ville",
+      "description": "",
+      "dependsOn": "informatique"
+    },
+    "Notes": "",
+    "DependsOn": "informatique/ville",
+    "Title": "IT support"
+  },
+  {
+    "Id": "grisfr",
+    "Name": {
+      "firstName": "Fr\u00E9d\u00E9ric",
+      "lastName": "Gris"
+    },
+    "EmailPrimary": {
+      "address": "f.gris@seraing.be",
+      "displayName": ""
+    },
+    "EmailSecondary": {
+      "address": "",
+      "displayName": ""
+    },
+    "PhoneNumberPrimary": {
+      "number": "3308",
+      "prefix": "4",
+      "extension": "308",
+      "countryCode": "32"
+    },
+    "WorkLocationPrimary": {
+      "name": "Cit\u00E9 administrative",
+      "address1": "Place Kuborn, 5",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
+    },
+    "Picture": {
+      "pictureBase64": "",
+      "pictureUrl": ""
+    },
+    "Company": "Ville de Seraing",
+    "Department": {
+      "id": "informatique",
+      "name": "Informatique",
+      "description": "",
+      "dependsOn": "direction"
+    },
+    "SubDepartment": {
+      "id": "informatique/ville",
+      "name": "Informatique/Ville",
+      "description": "",
+      "dependsOn": "informatique"
+    },
+    "Notes": "",
+    "DependsOn": "informatique/ville",
+    "Title": "IT support"
+  },
+  {
+    "Id": "daglima",
+    "Name": {
+      "firstName": "Maxence",
+      "lastName": "D\u0027Agliano"
+    },
+    "EmailPrimary": {
+      "address": "m.dagliano@seraing.be",
+      "displayName": ""
+    },
+    "EmailSecondary": {
+      "address": "",
+      "displayName": ""
+    },
+    "PhoneNumberPrimary": {
+      "number": "3308",
+      "prefix": "4",
+      "extension": "306",
+      "countryCode": "32"
+    },
+    "WorkLocationPrimary": {
+      "name": "Cit\u00E9 administrative",
+      "address1": "Place Kuborn, 5",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
+    },
+    "Picture": {
+      "pictureBase64": "",
+      "pictureUrl": ""
+    },
+    "Company": "Ville de Seraing",
+    "Department": {
+      "id": "informatique",
+      "name": "Informatique",
+      "description": "",
+      "dependsOn": "direction"
+    },
+    "SubDepartment": {
+      "id": "informatique/\u00E9coles",
+      "name": "Informatique/Ecoles",
+      "description": "",
+      "dependsOn": "informatique"
+    },
+    "Notes": "",
+    "DependsOn": "informatique/\u00E9coles",
+    "Title": "IT support"
+  },
+  {
+    "Id": "menarna",
+    "Name": {
+      "firstName": "Nathalie",
+      "lastName": "M\u00E9nart"
+    },
+    "EmailPrimary": {
+      "address": "n.menart@seraing.be",
+      "displayName": ""
+    },
+    "EmailSecondary": {
+      "address": "",
+      "displayName": ""
+    },
+    "PhoneNumberPrimary": {
+      "number": "3308",
+      "prefix": "4",
+      "extension": "306",
+      "countryCode": "32"
+    },
+    "WorkLocationPrimary": {
+      "name": "Cit\u00E9 administrative",
+      "address1": "Place Kuborn, 5",
+      "address2": "",
+      "addressDetails": "5\u00E8me \u00E9tage, Informatique",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
+    },
+    "Picture": {
+      "pictureBase64": "",
+      "pictureUrl": ""
+    },
+    "Company": "Ville de Seraing",
+    "Department": {
+      "id": "informatique",
+      "name": "Informatique",
+      "description": "",
+      "dependsOn": "direction"
+    },
+    "SubDepartment": {
+      "id": "informatique/administratif",
+      "name": "Informatique/Administratif",
+      "description": "",
+      "dependsOn": "informatique"
+    },
+    "Notes": "",
+    "DependsOn": "informatique/ville",
+    "Title": "Agent administratif"
+  },
+  {
+    "Id": "bollyal",
+    "Name": {
+      "firstName": "Alain",
+      "lastName": "Bolly"
+    },
+    "EmailPrimary": {
+      "address": "a.bolly@seraing.be",
+      "displayName": ""
+    },
+    "EmailSecondary": {
+      "address": "",
+      "displayName": ""
+    },
+    "PhoneNumberPrimary": {
+      "number": "3308",
+      "prefix": "4",
+      "extension": "586",
+      "countryCode": "32"
+    },
+    "PhoneNumberMobile": {
+      "number": "123459",
+      "prefix": "470",
+      "extension": "",
+      "countryCode": "32"
+    },
+    "WorkLocationPrimary": {
+      "name": "H\u00F4tel de ville",
+      "address1": "Place xxx,8",
+      "address2": "",
+      "addressDetails": "Rez",
+      "number": "",
+      "city": "Seraing",
+      "zipCode": "4100",
+      "country": "Belgique"
+    },
+    "Picture": {
+      "pictureBase64": "",
+      "pictureUrl": ""
+    },
+    "Company": "Ville de Seraing",
+    "Department": {
+      "id": "optimisation",
+      "name": "Optimisation",
+      "description": "",
+      "dependsOn": ""
+    },
+    "Notes": "",
+    "DependsOn": "optimisation",
+    "Title": "Responsable optimisation"
+  }
+]
