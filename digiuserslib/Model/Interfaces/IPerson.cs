@@ -1,8 +1,6 @@
 ﻿namespace digiuserslib;
 
-public interface IPerson : IInvalid {
-
-  string Id { get; }
+public interface IPerson : IRecord, IInvalid {
 
   IName Name { get; }
 

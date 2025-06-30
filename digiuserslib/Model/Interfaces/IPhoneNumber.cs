@@ -1,13 +1,17 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace digiuserslib;
-public interface IPhoneNumber : IInvalid {
-  [JsonIgnore]
-  string FullPhoneNumber { get; }
+public interface IPhoneNumber : IRecord, IInvalid {
+
+  int Order { get; }
 
   string Number { get; }
   string Prefix { get; }
   string Extension { get; }
   string CountryCode { get; }
+  EPhoneNumberType Type { get; }
+
+  [JsonIgnore]
+  string FullPhoneNumber { get; }
 
 }

@@ -44,10 +44,10 @@ public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
               RetVal.Name = JsonSerializer.Deserialize<TName>(ref reader, options) ?? new TName();
               break;
             case nameof(TAgent.EmailPrimary):
-              RetVal.EmailPrimary = JsonSerializer.Deserialize<TMailAddress>(ref reader, options) ?? TMailAddress.Empty;
+              RetVal.EmailPrimary = JsonSerializer.Deserialize<RMailAddress>(ref reader, options) ?? RMailAddress.Empty;
               break;
             case nameof(TAgent.EmailSecondary):
-              RetVal.EmailSecondary = JsonSerializer.Deserialize<TMailAddress>(ref reader, options) ?? TMailAddress.Empty;
+              RetVal.EmailSecondary = JsonSerializer.Deserialize<RMailAddress>(ref reader, options) ?? RMailAddress.Empty;
               break;
             case nameof(TAgent.PhoneNumberPrimary):
               RetVal.PhoneNumberPrimary = JsonSerializer.Deserialize<TPhoneNumber>(ref reader, options) ?? TPhoneNumber.Empty;
@@ -59,10 +59,10 @@ public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
               RetVal.PhoneNumberMobile = JsonSerializer.Deserialize<TPhoneNumber>(ref reader, options) ?? TPhoneNumber.Empty;
               break;
             case nameof(TAgent.WorkLocationPrimary):
-              RetVal.WorkLocationPrimary = JsonSerializer.Deserialize<TLocation>(ref reader, options) ?? TLocation.Empty;
+              RetVal.WorkLocationPrimary = JsonSerializer.Deserialize<RLocation>(ref reader, options) ?? RLocation.Empty;
               break;
             case nameof(TAgent.WorkLocationSecondary):
-              RetVal.WorkLocationSecondary = JsonSerializer.Deserialize<TLocation>(ref reader, options) ?? TLocation.Empty;
+              RetVal.WorkLocationSecondary = JsonSerializer.Deserialize<RLocation>(ref reader, options) ?? RLocation.Empty;
               break;
             case nameof(TAgent.Company):
               RetVal.Company = reader.GetString() ?? "";

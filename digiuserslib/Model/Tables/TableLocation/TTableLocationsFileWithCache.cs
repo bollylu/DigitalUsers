@@ -1,23 +1,21 @@
-﻿
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using BLTools.Diagnostic.Logging;
-
-using digiuserslib.DataSources;
-using digiuserslib.Json;
-
 namespace digiuserslib;
-public class TDataSourceFileWithCache : ADataSourceWithCache, IDataSource {
 
-  public const string DEFAULT_DATAFILE = "data.json";
+public class TTableLocationsFileWithCache : ATableMemory<ILocation> {
+
+  public override string Name { get; protected set; } = nameof(TTableLocationsFileWithCache);
+  public override string Description { get; protected set; } = "All locations in a file";
+
+  public const string DEFAULT_DATAFILE = "locations.json";
+
   public string DataFile { get; set; } = DEFAULT_DATAFILE;
 
   private readonly JsonSerializerOptions _JsonOptions = new() {
     WriteIndented = true,
     Converters = {
       new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
-      new TAgentJsonConverter()
     },
     IndentSize = 2,
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -25,14 +23,13 @@ public class TDataSourceFileWithCache : ADataSourceWithCache, IDataSource {
   };
 
   #region --- Constructor(s) ---------------------------------------------------------------------------------
-  public TDataSourceFileWithCache(string dataFile = DEFAULT_DATAFILE) {
-    DataFile = dataFile;
+  public TTableLocationsFileWithCache() : base() {
+    // Default constructor initializes the data file path
+    DataFile = DEFAULT_DATAFILE;
   }
 
-  public TDataSourceFileWithCache(IDataSource dataSource, string dataFile = DEFAULT_DATAFILE) : this(dataFile) {
-    foreach (IPerson p in dataSource.GetPeople()) {
-      _People.Add(p);
-    }
+  public TTableLocationsFileWithCache(string dataFile) : this() {
+    DataFile = dataFile;
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
@@ -41,18 +38,23 @@ public class TDataSourceFileWithCache : ADataSourceWithCache, IDataSource {
     if (!File.Exists(DataFile)) {
       return ValueTask.FromResult(false);
     }
+    _Records.Clear(); // Clear existing records to ensure a fresh start
     return ValueTask.FromResult(true);
   }
 
   public override ValueTask<bool> Close() {
+    if (IsDirty) { // If the data is dirty, we should save it before closing
+      return Save();
+    }
     return ValueTask.FromResult(true);
   }
 
-  public override async ValueTask<bool> Read() {
+  public async override ValueTask<bool> Read() {
     try {
       string DataFileContent = await File.ReadAllTextAsync(DataFile);
-      _People.Clear();
-      _People.AddRange(JsonSerializer.Deserialize<List<TAgent>>(DataFileContent, _JsonOptions) ?? []);
+      _Records.Clear();
+      _Records.AddRange(JsonSerializer.Deserialize<List<RLocation>>(DataFileContent, _JsonOptions) ?? []);
+      IsDirty = false; // Reset dirty flag after reading
       return true;
     } catch (Exception ex) {
       Logger.LogErrorBox("Unable to read data", ex);
@@ -60,9 +62,10 @@ public class TDataSourceFileWithCache : ADataSourceWithCache, IDataSource {
     }
   }
 
-  public override async ValueTask<bool> Save() {
+  public async override ValueTask<bool> Save() {
     try {
-      await File.WriteAllTextAsync(DataFile, JsonSerializer.Serialize(_People, _JsonOptions));
+      await File.WriteAllTextAsync(DataFile, JsonSerializer.Serialize(_Records, _JsonOptions));
+      IsDirty = false; // Reset dirty flag after saving
       return true;
     } catch (Exception ex) {
       Logger.LogErrorBox("Unable to save data", ex);

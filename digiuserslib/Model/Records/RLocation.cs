@@ -1,9 +1,10 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+
+using Microsoft.Win32.SafeHandles;
 
 namespace digiuserslib;
 
-public record TLocation : ILocation {
+public record RLocation : ARecord, ILocation {
 
   public const string DEFAULT_COUNTRY = "Belgique";
   public const string DEFAULT_CITY = "Seraing";
@@ -19,18 +20,20 @@ public record TLocation : ILocation {
   public string Country { get; set; } = DEFAULT_COUNTRY;
 
   [JsonIgnore]
-  public bool IsInvalid => Name.Trim() == string.Empty;
+  public override bool IsInvalid => base.IsInvalid || Name.Trim() == string.Empty;
 
-  public static TLocation Empty => new();
+  public static RLocation Empty => new();
 
-  public static TLocation CiteAdministrative => new() {
+  public static RLocation CiteAdministrative => new() {
+    Id = "cite-administrative",
     Name = "Cité administrative",
     Address1 = "Place Kuborn, 5",
     ZipCode = "4100",
     City = "Seraing"
   };
 
-  public static TLocation HotelDeVille => new() {
+  public static RLocation HotelDeVille => new() {
+    Id = "hotel-de-ville",
     Name = "Hôtel de Ville",
     Address1 = "Place communale, 8",
     ZipCode = "4100",

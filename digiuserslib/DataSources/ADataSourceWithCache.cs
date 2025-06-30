@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BLTools;
 
-using BLTools;
-using BLTools.Diagnostic.Logging;
+namespace digiuserslib;
 
-namespace digiuserslib.DataSources;
 public abstract class ADataSourceWithCache : ADataSource, IDataSource {
 
   protected readonly TPeople _People = [];
   protected readonly TDepartments _Departments = [];
+
+  protected ADataSourceWithCache() {
+    _Tables.Add(new TTableLocationMemory());
+    //_Tables.Add(new TTablePeople());
+    //_Tables.Add(new TTableDepartment());
+    //_Tables.Add(new TTablePhoneNumber());
+    //_Tables.Add(new TTableImage());
+  }
 
   public override IEnumerable<IPerson> GetDepartmentMembers(string department) {
     return _People.Where(p => p.Department.Id.Trim().Equals(department, StringComparison.CurrentCultureIgnoreCase));
@@ -35,7 +37,9 @@ public abstract class ADataSourceWithCache : ADataSource, IDataSource {
 
 
   public override IEnumerable<IPerson> GetPeople() {
-    return _People;
+    TTableLocationMemory? TableLocation = _Tables.SingleOrDefault(x => x.Name == nameof(TTableLocationMemory)) as TTableLocationMemory ??
+      throw new InvalidOperationException("Location table not found in data source.");
+
   }
 
   public override IPerson? GetPerson(string id) {

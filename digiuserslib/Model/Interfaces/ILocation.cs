@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace digiuserslib;
-public interface ILocation : IInvalid {
- 
+public interface ILocation : IRecord, IInvalid {
+
   string Name { get; }
   string Address1 { get; }
   string Address2 { get; }

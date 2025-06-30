@@ -1,6 +1,6 @@
 ﻿namespace digiuserslib;
 
-public interface IPicture : IInvalid {
+public interface IPicture : IRecord, IInvalid {
   string PictureBase64 { get; }
   string PictureUrl { get; }
 }

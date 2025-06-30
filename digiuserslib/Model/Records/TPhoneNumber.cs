@@ -3,12 +3,12 @@ using System.Text.Json.Serialization;
 
 namespace digiuserslib;
 
-public class TPhoneNumber : IPhoneNumber {
+public record TPhoneNumber : ARecord, IPhoneNumber {
 
   public string CountryCode { get; set; } = "32";
   public string Prefix { get; set; } = string.Empty;
   public string Number { get; set; } = string.Empty;
-    public string Extension { get; set; } = string.Empty;
+  public string Extension { get; set; } = string.Empty;
 
   [JsonIgnore]
   public string FullPhoneNumber {
@@ -26,7 +26,7 @@ public class TPhoneNumber : IPhoneNumber {
           RetVal.Append(Prefix.Trim());
         }
       }
-      
+
       if (Number.Trim() != string.Empty) {
         RetVal.Append('/');
         RetVal.Append(Number.Trim());
@@ -39,10 +39,12 @@ public class TPhoneNumber : IPhoneNumber {
       return RetVal.ToString();
     }
   }
-  
 
   [JsonIgnore]
-  public bool IsInvalid => Number.Trim() == string.Empty && Extension.Trim() == string.Empty;
+  public override bool IsInvalid => Number.Trim() == string.Empty && Extension.Trim() == string.Empty;
 
   public static TPhoneNumber Empty => new TPhoneNumber();
+
+  public int Order { get; set; } = 1;
+  public EPhoneNumberType Type { get; set; } = EPhoneNumberType.Unknown;
 }

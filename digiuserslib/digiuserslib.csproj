@@ -10,6 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataSources\ADataSourceWithCache.cs" />
+    <Compile Remove="DataSources\TDataSourceWebWithCache.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BLTools" Version="6.1.4" />
   </ItemGroup>
 
