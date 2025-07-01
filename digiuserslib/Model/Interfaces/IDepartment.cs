@@ -1,7 +1,8 @@
 ﻿namespace digiuserslib;
 
-public interface IDepartment : IRecord, IInvalid {
+public interface IDepartment : IRecord, IInvalid, IHierarchy {
   string Name { get; }
   string Description { get; }
-  string DependsOn { get; }
+  IPerson? HeadOfDepartment { get; }
+  IHierarchy? DependsOn { get; }
 }

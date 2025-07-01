@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace digiuserslib;
 
-public record TPhoneNumber : ARecord, IPhoneNumber {
+public record RPhoneNumber : ARecord, IPhoneNumber {
 
-  public string CountryCode { get; set; } = "32";
+  public EPhoneCountry CountryCode { get; set; } = EPhoneCountry.Belgium;
   public string Prefix { get; set; } = string.Empty;
   public string Number { get; set; } = string.Empty;
   public string Extension { get; set; } = string.Empty;
@@ -14,7 +14,7 @@ public record TPhoneNumber : ARecord, IPhoneNumber {
   public string FullPhoneNumber {
     get {
       StringBuilder RetVal = new();
-      if (CountryCode == "32") {
+      if (CountryCode == EPhoneCountry.Belgium) {
         RetVal.Append('0');
         if (Prefix.Trim() != string.Empty) {
           RetVal.Append(Prefix.Trim());
@@ -43,7 +43,7 @@ public record TPhoneNumber : ARecord, IPhoneNumber {
   [JsonIgnore]
   public override bool IsInvalid => Number.Trim() == string.Empty && Extension.Trim() == string.Empty;
 
-  public static TPhoneNumber Empty => new TPhoneNumber();
+  public static RPhoneNumber Empty => new();
 
   public int Order { get; set; } = 1;
   public EPhoneNumberType Type { get; set; } = EPhoneNumberType.Unknown;

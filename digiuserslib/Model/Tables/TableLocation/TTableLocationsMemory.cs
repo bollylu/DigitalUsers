@@ -10,7 +10,7 @@ public class TTableLocationsMemory : ATableMemory<ILocation> {
   public override string Name { get; protected set; } = nameof(TTableLocationsMemory);
   public override string Description { get; protected set; } = "All locations";
 
-  protected TTableLocationsMemory() : base() { }
+  public TTableLocationsMemory() : base() { }
 
   protected override void _Initialize() {
     _Records.Add(RLocation.CiteAdministrative);

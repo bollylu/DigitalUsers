@@ -11,12 +11,12 @@ using BLTools.Diagnostic.Logging;
 using BLTools.Json;
 
 namespace digiuserslib.Json;
-public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
+public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
 
   public override bool CanConvert(Type typeToConvert) {
-    return typeToConvert == typeof(TAgent) || typeToConvert == typeof(IPerson);
+    return typeToConvert == typeof(RAgent) || typeToConvert == typeof(IPerson);
   }
-  public override TAgent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+  public override RAgent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
     try {
 
       if (reader.TokenType != JsonTokenType.StartObject) {
@@ -24,7 +24,7 @@ public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
         throw new JsonException();
       }
 
-      TAgent RetVal = new();
+      RAgent RetVal = new();
 
       while (reader.Read()) {
         if (reader.TokenType == JsonTokenType.EndObject) {
@@ -37,54 +37,38 @@ public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
           Logger.Log($"Processing {PropertyName.WithQuotes()}");
           reader.Read();
           switch (PropertyName) {
-            case nameof(TAgent.Id):
+            case nameof(RAgent.Id):
               RetVal.Id = reader.GetString() ?? "";
               break;
-            case nameof(TAgent.Name):
+            case nameof(RAgent.Name):
               RetVal.Name = JsonSerializer.Deserialize<TName>(ref reader, options) ?? new TName();
               break;
-            case nameof(TAgent.EmailPrimary):
-              RetVal.EmailPrimary = JsonSerializer.Deserialize<RMailAddress>(ref reader, options) ?? RMailAddress.Empty;
+            case nameof(RAgent.EmailAdresses):
+              RetVal.EmailAdresses.AddRange(JsonSerializer.Deserialize<List<RMailAddress>>(ref reader, options) ?? []);
               break;
-            case nameof(TAgent.EmailSecondary):
-              RetVal.EmailSecondary = JsonSerializer.Deserialize<RMailAddress>(ref reader, options) ?? RMailAddress.Empty;
+            case nameof(RAgent.PhoneNumbers):
+              RetVal.PhoneNumbers.AddRange(JsonSerializer.Deserialize<List<RPhoneNumber>>(ref reader, options) ?? []);
               break;
-            case nameof(TAgent.PhoneNumberPrimary):
-              RetVal.PhoneNumberPrimary = JsonSerializer.Deserialize<TPhoneNumber>(ref reader, options) ?? TPhoneNumber.Empty;
+            case nameof(RAgent.Locations):
+              RetVal.Locations.AddRange(JsonSerializer.Deserialize<List<RLocation>>(ref reader, options) ?? []);
               break;
-            case nameof(TAgent.PhoneNumberSecondary):
-              RetVal.PhoneNumberSecondary = JsonSerializer.Deserialize<TPhoneNumber>(ref reader, options) ?? TPhoneNumber.Empty;
-              break;
-            case nameof(TAgent.PhoneNumberMobile):
-              RetVal.PhoneNumberMobile = JsonSerializer.Deserialize<TPhoneNumber>(ref reader, options) ?? TPhoneNumber.Empty;
-              break;
-            case nameof(TAgent.WorkLocationPrimary):
-              RetVal.WorkLocationPrimary = JsonSerializer.Deserialize<RLocation>(ref reader, options) ?? RLocation.Empty;
-              break;
-            case nameof(TAgent.WorkLocationSecondary):
-              RetVal.WorkLocationSecondary = JsonSerializer.Deserialize<RLocation>(ref reader, options) ?? RLocation.Empty;
-              break;
-            case nameof(TAgent.Company):
+            case nameof(RAgent.Company):
               RetVal.Company = reader.GetString() ?? "";
               break;
-            case nameof(TAgent.Department):
-              RetVal.Department = JsonSerializer.Deserialize<TDepartment>(ref reader, options) ?? TDepartment.Empty;
+            case nameof(RAgent.Departments):
+              RetVal.Departments.AddRange(JsonSerializer.Deserialize<List<RDepartment>>(ref reader, options) ?? []);
               break;
-            case nameof(TAgent.SubDepartment):
-              RetVal.SubDepartment = JsonSerializer.Deserialize<TDepartment>(ref reader, options) ?? TDepartment.Empty;
-              break;
-              break;
-            case nameof(TAgent.Notes):
+            case nameof(RAgent.Notes):
               RetVal.Notes = reader.GetString() ?? "";
               break;
-            case nameof(TAgent.DependsOn):
-              RetVal.DependsOn = reader.GetString() ?? "";
+            case nameof(RAgent.DependsOn):
+              RetVal.DependsOn = null;
               break;
-            case nameof(TAgent.Title):
+            case nameof(RAgent.Title):
               RetVal.Title = reader.GetString() ?? "";
               break;
-            case nameof(TAgent.Picture):
-              RetVal.Picture = JsonSerializer.Deserialize<TPicture>(ref reader, options) ?? new TPicture();
+            case nameof(RAgent.Picture):
+              RetVal.Picture = JsonSerializer.Deserialize<RPicture>(ref reader, options) ?? new RPicture();
               break;
             default:
               Logger.LogWarningBox("Agent unknown property ** : ", PropertyName);
@@ -101,63 +85,67 @@ public class TAgentJsonConverter : JsonConverter<TAgent>, ILoggable {
 
   }
 
-  public override void Write(Utf8JsonWriter writer, TAgent value, JsonSerializerOptions options) {
+  public override void Write(Utf8JsonWriter writer, RAgent value, JsonSerializerOptions options) {
     writer.WriteStartObject();
 
-    writer.WriteString(nameof(TAgent.Id), value.Id);
+    writer.WriteString(nameof(RAgent.Id), value.Id);
 
-    writer.WritePropertyName(nameof(TAgent.Name));
+    writer.WritePropertyName(nameof(RAgent.Name));
     JsonSerializer.Serialize(writer, value.Name, options);
 
-    writer.WritePropertyName(nameof(TAgent.EmailPrimary));
-    JsonSerializer.Serialize(writer, value.EmailPrimary, options);
-
-    writer.WritePropertyName(nameof(TAgent.EmailSecondary));
-    JsonSerializer.Serialize(writer, value.EmailSecondary, options);
-
-    if (value.PhoneNumberPrimary.IsValid) {
-      writer.WritePropertyName(nameof(TAgent.PhoneNumberPrimary));
-      JsonSerializer.Serialize(writer, value.PhoneNumberPrimary, options);
+    if (value.EmailAdresses.Any()) {
+      writer.WritePropertyName(nameof(RAgent.EmailAdresses));
+      writer.WriteStartArray();
+      foreach (IMailAddress EmailItem in value.EmailAdresses) {
+        if (EmailItem.IsValid) {
+          JsonSerializer.Serialize(writer, EmailItem, options);
+        }
+      }
+      writer.WriteEndArray();
     }
 
-    if (value.PhoneNumberSecondary.IsValid) {
-      writer.WritePropertyName(nameof(TAgent.PhoneNumberSecondary));
-      JsonSerializer.Serialize(writer, value.PhoneNumberSecondary, options);
+    if (value.PhoneNumbers.Any()) {
+      writer.WritePropertyName(nameof(RAgent.PhoneNumbers));
+      writer.WriteStartArray();
+      foreach (IPhoneNumber PhoneItem in value.PhoneNumbers) {
+        if (PhoneItem.IsValid) {
+          JsonSerializer.Serialize(writer, PhoneItem, options);
+        }
+      }
+      writer.WriteEndArray();
     }
 
-    if (value.PhoneNumberMobile.IsValid) {
-      writer.WritePropertyName(nameof(TAgent.PhoneNumberMobile));
-      JsonSerializer.Serialize(writer, value.PhoneNumberMobile, options);
+    if (value.Locations.Any()) {
+      writer.WritePropertyName(nameof(RAgent.Locations));
+      writer.WriteStartArray();
+      foreach (ILocation LocationItem in value.Locations) {
+        if (LocationItem.IsValid) {
+          JsonSerializer.Serialize(writer, LocationItem, options);
+        }
+      }
+      writer.WriteEndArray();
     }
 
-    if (value.WorkLocationPrimary.IsValid) {
-      writer.WritePropertyName(nameof(TAgent.WorkLocationPrimary));
-      JsonSerializer.Serialize(writer, value.WorkLocationPrimary, options);
+    if (value.Departments.Any()) {
+      writer.WritePropertyName(nameof(RAgent.Departments));
+      writer.WriteStartArray();
+      foreach (IDepartment DepartmentItem in value.Departments) {
+        if (DepartmentItem.IsValid) {
+          JsonSerializer.Serialize(writer, DepartmentItem, options);
+        }
+      }
+      writer.WriteEndArray();
     }
 
-    if (value.WorkLocationSecondary.IsValid) {
-      writer.WritePropertyName(nameof(TAgent.WorkLocationSecondary));
-      JsonSerializer.Serialize(writer, value.WorkLocationSecondary, options);
-    }
-
-    writer.WritePropertyName(nameof(TAgent.Picture));
+    writer.WritePropertyName(nameof(RAgent.Picture));
     JsonSerializer.Serialize(writer, value.Picture, options);
 
-    writer.WriteString(nameof(TAgent.Company), value.Company);
+    writer.WriteString(nameof(RAgent.Company), value.Company);
 
-    if (value.Department.IsValid) {
-      writer.WritePropertyName(nameof(TAgent.Department));
-      JsonSerializer.Serialize(writer, value.Department, options);
-    }
 
-    if (value.SubDepartment.IsValid) {
-      writer.WritePropertyName(nameof(TAgent.SubDepartment));
-      JsonSerializer.Serialize(writer, value.SubDepartment, options);
-    }
-
-    writer.WriteString(nameof(TAgent.Notes), value.Notes);
-    writer.WriteString(nameof(TAgent.DependsOn), value.DependsOn);
-    writer.WriteString(nameof(TAgent.Title), value.Title);
+    writer.WriteString(nameof(RAgent.Notes), value.Notes);
+    writer.WriteString(nameof(RAgent.DependsOn), value.DependsOn?.Id.Value ?? "");
+    writer.WriteString(nameof(RAgent.Title), value.Title);
 
     writer.WriteEndObject();
   }

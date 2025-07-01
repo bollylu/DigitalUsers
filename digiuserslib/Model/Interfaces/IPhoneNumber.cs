@@ -8,7 +8,7 @@ public interface IPhoneNumber : IRecord, IInvalid {
   string Number { get; }
   string Prefix { get; }
   string Extension { get; }
-  string CountryCode { get; }
+  EPhoneCountry CountryCode { get; }
   EPhoneNumberType Type { get; }
 
   [JsonIgnore]

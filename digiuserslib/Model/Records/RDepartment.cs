@@ -1,22 +1,24 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
 namespace digiuserslib;
-public class TDepartment : IDepartment, IInvalid, IEqualityComparer<TDepartment> {
+public record RDepartment : IDepartment, IInvalid, IEqualityComparer<RDepartment> {
   public TKeyId Id { get; set; } = string.Empty;
+
   public string Name { get; set; } = string.Empty;
   public string Description { get; set; } = string.Empty;
-  public string DependsOn { get; set; } = string.Empty;
+  public IPerson? HeadOfDepartment { get; set; } = new RAgent();
+  public IHierarchy? DependsOn { get; set; } = null;
   public bool IsInvalid => Id.IsInvalid || Name.Trim() == string.Empty;
 
-  public TDepartment() { }
-  public TDepartment(string id, string name) {
+  public RDepartment() { }
+  public RDepartment(string id, string name) {
     Id = id;
     Name = name;
   }
 
-  public static TDepartment Empty => new();
+  public static RDepartment Empty => new();
 
-  public bool Equals(TDepartment? x, TDepartment? y) {
+  public bool Equals(RDepartment? x, RDepartment? y) {
     if (x is null || y is null) {
       return false;
     }
@@ -28,7 +30,7 @@ public class TDepartment : IDepartment, IInvalid, IEqualityComparer<TDepartment>
     return true;
   }
 
-  public int GetHashCode([DisallowNull] TDepartment obj) {
+  public int GetHashCode([DisallowNull] RDepartment obj) {
     return obj.Id.GetHashCode();
   }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -94,7 +95,7 @@ public abstract class ATableWebMemory<T> : ATableMemory<T> where T : IRecord {
   }
 
   public override ValueTask<bool> Save() {
-    throw new NotImplementedException();
+    throw new NotImplementedException("Save operation is not implemented for ATableWebMemory. Please implement it in derived classes.");
   }
   #endregion --- I/O -----------------------------------------
 }
