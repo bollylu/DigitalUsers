@@ -44,6 +44,10 @@ public record RPhoneNumber : ARecord, IPhoneNumber {
   public override bool IsInvalid => Number.Trim() == string.Empty && Extension.Trim() == string.Empty;
 
   public static RPhoneNumber Empty => new();
+  public static RPhoneNumber Invalid => new() { Number = string.Empty, Extension = string.Empty };
+  public static RPhoneNumber BollyLucOffice => new() { Id = "043308710", CountryCode = EPhoneCountry.Belgium, Prefix = "4", Number = "3308", Extension = "710", Type = EPhoneNumberType.Work };
+  public static RPhoneNumber BollyAlainOffice => new() { Id = "0433008374", CountryCode = EPhoneCountry.Belgium, Prefix = "4", Number = "3308", Extension = "374", Type = EPhoneNumberType.Work };
+  public static RPhoneNumber BollyLucMobile => new() { Id = "0474960084", CountryCode = EPhoneCountry.Belgium, Prefix = "474", Number = "960084", Type = EPhoneNumberType.Mobile };
 
   public int Order { get; set; } = 1;
   public EPhoneNumberType Type { get; set; } = EPhoneNumberType.Unknown;

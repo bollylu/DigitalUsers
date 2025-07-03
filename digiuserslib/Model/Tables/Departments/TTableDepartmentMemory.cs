@@ -7,10 +7,10 @@ public class TTableDepartmentMemory : ATableMemory<IDepartment> {
   public TTableDepartmentMemory() : base() { }
 
   protected override void _Initialize() {
-    _Records.Add(RDepartment.Direction);
-    _Records.Add(RDepartment.GestionInformatique);
-    _Records.Add(RDepartment.Travaux);
-    _Records.Add(RDepartment.Optimisation);
+    Add(RDepartment.Direction);
+    Add(RDepartment.GestionInformatique);
+    Add(RDepartment.Travaux);
+    Add(RDepartment.Optimisation);
   }
 }
 

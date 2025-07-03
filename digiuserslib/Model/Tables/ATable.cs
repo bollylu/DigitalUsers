@@ -32,7 +32,7 @@ public abstract class ATable<T> : ATable, ITable<T> where T : IRecord {
 
   public abstract T? Get(TKeyId keyId);
   public abstract IEnumerable<T> GetAll();
-  public abstract T? Create(T record);
+  public abstract T? Add(T record);
   public abstract T? Update(T record);
   public abstract bool Delete(TKeyId keyId);
   public abstract bool Delete(T record);

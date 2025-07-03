@@ -1,4 +1,6 @@
-﻿namespace digiuserslib;
+﻿using BLTools;
+
+namespace digiuserslib;
 public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
 
   protected readonly List<T> _Records = [];
@@ -66,22 +68,22 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
 
   #region --- Records access async --------------------------------------------
   public override Task<T?> GetAsync(TKeyId keyId) {
-    return Task.FromResult(_Records.SingleOrDefault(x => x.Id == keyId));
+    return Task.FromResult(_Records.SingleOrDefault(x => x.Id.Value == keyId.Value));
   }
 
   public override async IAsyncEnumerable<T> GetAllAsync() {
     await Task.Yield();
-    foreach (T LocationItem in _Records) {
-      yield return LocationItem;
+    foreach (T RecordItem in _Records) {
+      yield return RecordItem;
     }
   }
 
   public override Task<T?> CreateAsync(T record) {
     if (record.IsInvalid) {
-      throw new ArgumentException("Invalid location record.");
+      throw new ArgumentException("Invalid record.");
     }
     if (_Records.Any(x => x.Id == record.Id)) {
-      throw new InvalidOperationException($"Location with ID {record.Id} already exists.");
+      throw new InvalidOperationException($"Record with ID {record.Id.Value.WithQuotes()} already exists.");
     }
     _Records.Add(record);
     IsDirty = true; // Mark as dirty since we modified the records
@@ -94,7 +96,7 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
     }
     T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id);
     if (ExistingRecord == null) {
-      throw new KeyNotFoundException($"Record with ID {record.Id} not found.");
+      throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} not found.");
     }
     int Index = _Records.IndexOf(ExistingRecord);
     _Records[Index] = record;
@@ -108,7 +110,7 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
     }
     T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == keyId);
     if (ExistingRecord == null) {
-      throw new KeyNotFoundException($"Location with ID {keyId} not found.");
+      throw new KeyNotFoundException($"Record with ID {keyId.Value.WithQuotes()} not found.");
     }
     _Records.Remove(ExistingRecord);
     IsDirty = true; // Mark as dirty since we modified the records
@@ -117,11 +119,11 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
 
   public override Task<bool> DeleteAsync(T record) {
     if (record.IsInvalid) {
-      throw new ArgumentException("Invalid location record.");
+      throw new ArgumentException("Invalid record.");
     }
     T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id);
     if (ExistingRecord == null) {
-      throw new KeyNotFoundException($"Location with ID {record.Id} not found.");
+      throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} not found.");
     }
     _Records.Remove(ExistingRecord);
     IsDirty = true; // Mark as dirty since we modified the records
@@ -135,17 +137,17 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
   }
 
   public override IEnumerable<T> GetAll() {
-    foreach (T LocationItem in _Records) {
-      yield return LocationItem;
+    foreach (T RecordItem in _Records) {
+      yield return RecordItem;
     }
   }
 
-  public override T? Create(T record) {
+  public override T? Add(T record) {
     if (record.IsInvalid) {
-      throw new ArgumentException("Invalid location record.");
+      throw new ArgumentException("Invalid record.");
     }
     if (_Records.Any(x => x.Id == record.Id)) {
-      throw new InvalidOperationException($"Location with ID {record.Id} already exists.");
+      throw new InvalidOperationException($"Record with ID {record.Id.Value.WithQuotes()} already exists.");
     }
     _Records.Add(record);
     IsDirty = true; // Mark as dirty since we modified the records
@@ -158,7 +160,7 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
     }
     T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id);
     if (ExistingRecord == null) {
-      throw new KeyNotFoundException($"Record with ID {record.Id} not found.");
+      throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} not found.");
     }
     int Index = _Records.IndexOf(ExistingRecord);
     _Records[Index] = record;
@@ -172,7 +174,7 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
     }
     T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == keyId);
     if (ExistingRecord == null) {
-      throw new KeyNotFoundException($"Location with ID {keyId} not found.");
+      throw new KeyNotFoundException($"Record with ID {keyId.Value.WithQuotes()} not found.");
     }
     _Records.Remove(ExistingRecord);
     IsDirty = true; // Mark as dirty since we modified the records
@@ -181,11 +183,11 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
 
   public override bool Delete(T record) {
     if (record.IsInvalid) {
-      throw new ArgumentException("Invalid location record.");
+      throw new ArgumentException("Invalid record.");
     }
     T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id);
     if (ExistingRecord == null) {
-      throw new KeyNotFoundException($"Location with ID {record.Id} not found.");
+      throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} not found.");
     }
     _Records.Remove(ExistingRecord);
     IsDirty = true; // Mark as dirty since we modified the records

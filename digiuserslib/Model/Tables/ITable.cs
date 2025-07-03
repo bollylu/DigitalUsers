@@ -37,7 +37,7 @@ public interface ITable<T> : ITable where T : IRecord {
   T? Get(TKeyId keyId);
   IEnumerable<T> GetAll();
 
-  T? Create(T record);
+  T? Add(T record);
   T? Update(T record);
   bool Delete(TKeyId keyId);
   bool Delete(T record);
