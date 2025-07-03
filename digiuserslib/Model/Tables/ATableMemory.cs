@@ -11,19 +11,46 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
   protected virtual void _Initialize() { }
 
   #region --- I/O --------------------------------------------
-  public override ValueTask<bool> Open() {
+  public override bool Open() {
+    _Records.Clear();
+    IsDirty = false; // Reset dirty state
+    return true;
+  }
+
+  public override bool Close() {
+    _Records.Clear();
+    IsDirty = false; // Reset dirty state
+    return true;
+  }
+
+  public override bool Read() {
+    _Records.Clear();
+    // Initialize with some dummy data for testing purposes
+
+    IsDirty = false; // Reset dirty state
+    return true;
+  }
+
+  public override bool Save() {
+    IsDirty = false; // Reset dirty state
+    return true;
+  }
+  #endregion --- I/O -----------------------------------------
+
+  #region --- I/O async --------------------------------------------
+  public override ValueTask<bool> OpenAsync() {
     _Records.Clear();
     IsDirty = false; // Reset dirty state
     return ValueTask.FromResult(true);
   }
 
-  public override ValueTask<bool> Close() {
+  public override ValueTask<bool> CloseAsync() {
     _Records.Clear();
     IsDirty = false; // Reset dirty state
     return ValueTask.FromResult(true);
   }
 
-  public override ValueTask<bool> Read() {
+  public override ValueTask<bool> ReadAsync() {
     _Records.Clear();
     // Initialize with some dummy data for testing purposes
 
@@ -31,13 +58,13 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
     return ValueTask.FromResult(true);
   }
 
-  public override ValueTask<bool> Save() {
+  public override ValueTask<bool> SaveAsync() {
     IsDirty = false; // Reset dirty state
     return ValueTask.FromResult(true);
   }
-  #endregion --- I/O -----------------------------------------
+  #endregion --- I/O async -----------------------------------------
 
-  #region --- Records access --------------------------------------------
+  #region --- Records access async --------------------------------------------
   public override Task<T?> GetAsync(TKeyId keyId) {
     return Task.FromResult(_Records.SingleOrDefault(x => x.Id == keyId));
   }
@@ -100,6 +127,69 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
     IsDirty = true; // Mark as dirty since we modified the records
     return Task.FromResult(true);
   }
-  #endregion --- Records access -----------------------------------------
+  #endregion --- Records access async -----------------------------------------
 
+  #region --- Records access sync --------------------------------------------
+  public override T? Get(TKeyId keyId) {
+    return _Records.SingleOrDefault(x => x.Id.Value == keyId.Value);
+  }
+
+  public override IEnumerable<T> GetAll() {
+    foreach (T LocationItem in _Records) {
+      yield return LocationItem;
+    }
+  }
+
+  public override T? Create(T record) {
+    if (record.IsInvalid) {
+      throw new ArgumentException("Invalid location record.");
+    }
+    if (_Records.Any(x => x.Id == record.Id)) {
+      throw new InvalidOperationException($"Location with ID {record.Id} already exists.");
+    }
+    _Records.Add(record);
+    IsDirty = true; // Mark as dirty since we modified the records
+    return record;
+  }
+
+  public override T? Update(T record) {
+    if (record.IsInvalid) {
+      throw new ArgumentException("Invalid record.");
+    }
+    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id);
+    if (ExistingRecord == null) {
+      throw new KeyNotFoundException($"Record with ID {record.Id} not found.");
+    }
+    int Index = _Records.IndexOf(ExistingRecord);
+    _Records[Index] = record;
+    IsDirty = true; // Mark as dirty since we modified the records
+    return record;
+  }
+
+  public override bool Delete(TKeyId keyId) {
+    if (keyId.IsInvalid) {
+      throw new ArgumentException("Invalid key ID.");
+    }
+    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == keyId);
+    if (ExistingRecord == null) {
+      throw new KeyNotFoundException($"Location with ID {keyId} not found.");
+    }
+    _Records.Remove(ExistingRecord);
+    IsDirty = true; // Mark as dirty since we modified the records
+    return true;
+  }
+
+  public override bool Delete(T record) {
+    if (record.IsInvalid) {
+      throw new ArgumentException("Invalid location record.");
+    }
+    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id);
+    if (ExistingRecord == null) {
+      throw new KeyNotFoundException($"Location with ID {record.Id} not found.");
+    }
+    _Records.Remove(ExistingRecord);
+    IsDirty = true; // Mark as dirty since we modified the records
+    return true;
+  }
+  #endregion --- Records access sync -----------------------------------------
 }

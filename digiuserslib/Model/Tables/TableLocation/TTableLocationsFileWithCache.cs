@@ -34,22 +34,21 @@ public class TTableLocationsFileWithCache : ATableMemory<ILocation> {
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
   #region --- I/O --------------------------------------------
-  public override ValueTask<bool> Open() {
+  public override async ValueTask<bool> OpenAsync() {
     if (!File.Exists(DataFile)) {
-      return ValueTask.FromResult(false);
+      return false;
     }
-    _Records.Clear(); // Clear existing records to ensure a fresh start
-    return ValueTask.FromResult(true);
+    return await ReadAsync();
   }
 
-  public override ValueTask<bool> Close() {
+  public override async ValueTask<bool> CloseAsync() {
     if (IsDirty) { // If the data is dirty, we should save it before closing
-      return Save();
+      return await SaveAsync();
     }
-    return ValueTask.FromResult(true);
+    return true;
   }
 
-  public async override ValueTask<bool> Read() {
+  public async override ValueTask<bool> ReadAsync() {
     try {
       string DataFileContent = await File.ReadAllTextAsync(DataFile);
       _Records.Clear();
@@ -62,7 +61,7 @@ public class TTableLocationsFileWithCache : ATableMemory<ILocation> {
     }
   }
 
-  public async override ValueTask<bool> Save() {
+  public async override ValueTask<bool> SaveAsync() {
     try {
       await File.WriteAllTextAsync(DataFile, JsonSerializer.Serialize(_Records, _JsonOptions));
       IsDirty = false; // Reset dirty flag after saving

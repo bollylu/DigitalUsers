@@ -93,9 +93,9 @@ public abstract class ADataSource : ALoggable, IDataSource {
   #endregion --- Data access -----------------------------------------
 
   #region --- I/O --------------------------------------------
-  public async ValueTask<bool> Open() {
+  public async ValueTask<bool> OpenAsync() {
     foreach (ITable TableItem in _Tables) {
-      if (!await TableItem.Open().ConfigureAwait(false)) {
+      if (!await TableItem.OpenAsync().ConfigureAwait(false)) {
         Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
         return false;
       }
@@ -103,9 +103,9 @@ public abstract class ADataSource : ALoggable, IDataSource {
     return true;
   }
 
-  public async ValueTask<bool> Close() {
+  public async ValueTask<bool> CloseAsync() {
     foreach (ITable TableItem in _Tables) {
-      if (!await TableItem.Close().ConfigureAwait(false)) {
+      if (!await TableItem.CloseAsync().ConfigureAwait(false)) {
         Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
         return false;
       }
@@ -113,9 +113,9 @@ public abstract class ADataSource : ALoggable, IDataSource {
     return true;
   }
 
-  public async ValueTask<bool> Read() {
+  public async ValueTask<bool> ReadAsync() {
     foreach (ITable TableItem in _Tables) {
-      if (!await TableItem.Read().ConfigureAwait(false)) {
+      if (!await TableItem.ReadAsync().ConfigureAwait(false)) {
         Logger.LogError($"Unable to read table {TableItem.Name.WithQuotes()}");
         return false;
       }
@@ -123,9 +123,51 @@ public abstract class ADataSource : ALoggable, IDataSource {
     return true;
   }
 
-  public async ValueTask<bool> Save() {
+  public async ValueTask<bool> SaveAsync() {
     foreach (ITable TableItem in _Tables) {
-      if (!await TableItem.Save().ConfigureAwait(false)) {
+      if (!await TableItem.SaveAsync().ConfigureAwait(false)) {
+        Logger.LogError($"Unable to save table {TableItem.Name.WithQuotes()}");
+        return false;
+      }
+    }
+    return true;
+  }
+  #endregion --- I/O -----------------------------------------
+
+  #region --- I/O --------------------------------------------
+  public bool Open() {
+    foreach (ITable TableItem in _Tables) {
+      if (! TableItem.Open()) {
+        Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public bool Close() {
+    foreach (ITable TableItem in _Tables) {
+      if (! TableItem.Close()) {
+        Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public bool Read() {
+    foreach (ITable TableItem in _Tables) {
+      if (! TableItem.Read()) {
+        Logger.LogError($"Unable to read table {TableItem.Name.WithQuotes()}");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public bool Save() {
+    foreach (ITable TableItem in _Tables) {
+      if (! TableItem.Save()) {
         Logger.LogError($"Unable to save table {TableItem.Name.WithQuotes()}");
         return false;
       }

@@ -2,12 +2,18 @@
 
 public interface IDataSource {
 
-  #region --- I/O --------------------------------------------
-  ValueTask<bool> Open();
-  ValueTask<bool> Close();
+  #region --- I/O async --------------------------------------------
+  ValueTask<bool> OpenAsync();
+  ValueTask<bool> CloseAsync();
+  ValueTask<bool> ReadAsync();
+  ValueTask<bool> SaveAsync();
+  #endregion --- I/O async -----------------------------------------
 
-  ValueTask<bool> Read();
-  ValueTask<bool> Save();
+  #region --- I/O --------------------------------------------
+  bool Open();
+  bool Close();
+  bool Read();
+  bool Save();
   #endregion --- I/O -----------------------------------------
 
   #region --- Locations --------------------------------------------

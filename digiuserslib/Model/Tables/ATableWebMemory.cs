@@ -46,7 +46,7 @@ public abstract class ATableWebMemory<T> : ATableMemory<T> where T : IRecord {
   protected override void _Initialize() { }
 
   #region --- I/O --------------------------------------------
-  public override async ValueTask<bool> Open() {
+  public override async ValueTask<bool> OpenAsync() {
 
     try {
       CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
@@ -62,14 +62,14 @@ public abstract class ATableWebMemory<T> : ATableMemory<T> where T : IRecord {
 
   }
 
-  public override ValueTask<bool> Close() {
+  public override async ValueTask<bool> CloseAsync() {
     if (IsDirty) { // If the data is dirty, we should save it before closing
-      return Save();
+      return await SaveAsync();
     }
-    return ValueTask.FromResult(true);
+    return true;
   }
 
-  public override async ValueTask<bool> Read() {
+  public override async ValueTask<bool> ReadAsync() {
     string DataResponse = "(null)";
     try {
       CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
@@ -94,7 +94,7 @@ public abstract class ATableWebMemory<T> : ATableMemory<T> where T : IRecord {
     }
   }
 
-  public override ValueTask<bool> Save() {
+  public override ValueTask<bool> SaveAsync() {
     throw new NotImplementedException("Save operation is not implemented for ATableWebMemory. Please implement it in derived classes.");
   }
   #endregion --- I/O -----------------------------------------

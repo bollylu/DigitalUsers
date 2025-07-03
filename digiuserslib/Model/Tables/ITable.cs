@@ -10,13 +10,19 @@ public interface ITable {
   string Name { get; }
   string Description { get; }
 
-  #region --- I/O --------------------------------------------
-  ValueTask<bool> Open();
-  ValueTask<bool> Close();
+  #region --- I/O sync --------------------------------------------
+  bool Open();
+  bool Close();
+  bool Read();
+  bool Save();
+  #endregion --- I/O async -----------------------------------------
 
-  ValueTask<bool> Read();
-  ValueTask<bool> Save();
-  #endregion --- I/O -----------------------------------------
+  #region --- I/O async --------------------------------------------
+  ValueTask<bool> OpenAsync();
+  ValueTask<bool> CloseAsync();
+  ValueTask<bool> ReadAsync();
+  ValueTask<bool> SaveAsync();
+  #endregion --- I/O async -----------------------------------------
 }
 
 public interface ITable<T> : ITable where T : IRecord {
@@ -27,4 +33,12 @@ public interface ITable<T> : ITable where T : IRecord {
   Task<T?> UpdateAsync(T record);
   Task<bool> DeleteAsync(TKeyId keyId);
   Task<bool> DeleteAsync(T record);
+
+  T? Get(TKeyId keyId);
+  IEnumerable<T> GetAll();
+
+  T? Create(T record);
+  T? Update(T record);
+  bool Delete(TKeyId keyId);
+  bool Delete(T record);
 }
