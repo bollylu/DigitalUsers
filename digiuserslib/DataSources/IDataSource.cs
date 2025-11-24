@@ -35,7 +35,7 @@ public interface IDataSource {
   #endregion --- Mail addresses -----------------------------------------
 
   #region --- People --------------------------------------------
-  Task<IPerson?> GetPersonAsync(string id);
+  Task<IPerson?> GetPersonAsync(TKeyId id);
   IAsyncEnumerable<IPerson> GetPeopleAsync();
   Task<IPerson?> GetPersonByPhoneNumberAsync(IPhoneNumber phoneNumber);
   Task<IPerson?> GetPersonByEmailAsync(IMailAddress mailAddress);

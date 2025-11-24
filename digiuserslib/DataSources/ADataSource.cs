@@ -1,15 +1,9 @@
-﻿using BLTools;
-using BLTools.Diagnostic.Logging;
+﻿using BLTools.Diagnostic.Logging;
 
 namespace digiuserslib;
 
+[System.Runtime.Versioning.RequiresPreviewFeatures]
 public abstract class ADataSource : ALoggable, IDataSource {
-
-  protected readonly List<ITable> _Tables = [];
-
-  public ATable<ILocation> TableLocation =>
-    _Tables.OfType<ATable<ILocation>>().SingleOrDefault() ??
-    throw new InvalidOperationException("TableLocation is not initialized.");
 
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   protected ADataSource() {
@@ -20,159 +14,32 @@ public abstract class ADataSource : ALoggable, IDataSource {
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
-  #region --- Data access --------------------------------------------
-  public async Task<ILocation?> GetLocationAsync(string id) {
-    return await TableLocation.GetAsync(id).ConfigureAwait(false);
-  }
-  public async IAsyncEnumerable<ILocation> GetLocationsAsync() {
-    await foreach (ILocation LocationItem in TableLocation.GetAllAsync().ConfigureAwait(false)) {
-      yield return LocationItem;
-    }
-  }
+  public abstract Task<IPerson?> GetPersonAsync(TKeyId id);
+  public abstract IAsyncEnumerable<IPerson> GetPeopleAsync();
+  public abstract Task<IPerson?> GetPersonByPhoneNumberAsync(IPhoneNumber phoneNumber);
+  public abstract Task<IPerson?> GetPersonByEmailAsync(IMailAddress mailAddress);
 
-  public IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(string idPerson) {
-    throw new NotImplementedException();
-  }
+  public abstract Task<ILocation?> GetLocationAsync(string id);
+  public abstract IAsyncEnumerable<ILocation> GetLocationsAsync();
+  public abstract IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(string idPerson);
+  public abstract Task<IPhoneNumber?> GetPhoneNumberAsync(string id);
+  public abstract IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersAsync();
+  public abstract IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(string idPerson);
+  public abstract Task<IMailAddress?> GetMailAddressAsync(string id);
+  public abstract IAsyncEnumerable<IMailAddress> GetMailAddressesAsync();
+  public abstract IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(string idPerson);
 
-  public Task<IPhoneNumber?> GetPhoneNumberAsync(string id) {
-    throw new NotImplementedException();
-  }
+  public abstract IAsyncEnumerable<IPerson> GetPeopleByLocationAsync(ILocation location);
+  public abstract Task<IDepartment?> GetDepartmentAsync(string departmentId);
+  public abstract Task<IPerson?> GetHeadOfDepartmentAsync(string departmentId);
+  public abstract IAsyncEnumerable<IPerson> GetDepartmentMembersAsync(string departmentId);
 
-  public IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersAsync() {
-    throw new NotImplementedException();
-  }
-
-  public IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(string idPerson) {
-    throw new NotImplementedException();
-  }
-
-  public Task<IMailAddress?> GetMailAddressAsync(string id) {
-    throw new NotImplementedException();
-  }
-
-  public IAsyncEnumerable<IMailAddress> GetMailAddressesAsync() {
-    throw new NotImplementedException();
-  }
-
-  public IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(string idPerson) {
-    throw new NotImplementedException();
-  }
-
-  public Task<IPerson?> GetPersonAsync(string id) {
-    throw new NotImplementedException();
-  }
-
-  public IAsyncEnumerable<IPerson> GetPeopleAsync() {
-    throw new NotImplementedException();
-  }
-
-  public Task<IPerson?> GetPersonByPhoneNumberAsync(IPhoneNumber phoneNumber) {
-    throw new NotImplementedException();
-  }
-
-  public Task<IPerson?> GetPersonByEmailAsync(IMailAddress mailAddress) {
-    throw new NotImplementedException();
-  }
-
-  public IAsyncEnumerable<IPerson> GetPeopleByLocationAsync(ILocation location) {
-    throw new NotImplementedException();
-  }
-
-  public Task<IDepartment?> GetDepartmentAsync(string departmentId) {
-    throw new NotImplementedException();
-  }
-
-  public Task<IPerson?> GetHeadOfDepartmentAsync(string departmentId) {
-    throw new NotImplementedException();
-  }
-
-  public IAsyncEnumerable<IPerson> GetDepartmentMembersAsync(string departmentId) {
-    throw new NotImplementedException();
-  }
-
-  #endregion --- Data access -----------------------------------------
-
-  #region --- I/O --------------------------------------------
-  public async ValueTask<bool> OpenAsync() {
-    foreach (ITable TableItem in _Tables) {
-      if (!await TableItem.OpenAsync().ConfigureAwait(false)) {
-        Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public async ValueTask<bool> CloseAsync() {
-    foreach (ITable TableItem in _Tables) {
-      if (!await TableItem.CloseAsync().ConfigureAwait(false)) {
-        Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public async ValueTask<bool> ReadAsync() {
-    foreach (ITable TableItem in _Tables) {
-      if (!await TableItem.ReadAsync().ConfigureAwait(false)) {
-        Logger.LogError($"Unable to read table {TableItem.Name.WithQuotes()}");
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public async ValueTask<bool> SaveAsync() {
-    foreach (ITable TableItem in _Tables) {
-      if (!await TableItem.SaveAsync().ConfigureAwait(false)) {
-        Logger.LogError($"Unable to save table {TableItem.Name.WithQuotes()}");
-        return false;
-      }
-    }
-    return true;
-  }
-  #endregion --- I/O -----------------------------------------
-
-  #region --- I/O --------------------------------------------
-  public bool Open() {
-    foreach (ITable TableItem in _Tables) {
-      if (! TableItem.Open()) {
-        Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public bool Close() {
-    foreach (ITable TableItem in _Tables) {
-      if (! TableItem.Close()) {
-        Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public bool Read() {
-    foreach (ITable TableItem in _Tables) {
-      if (! TableItem.Read()) {
-        Logger.LogError($"Unable to read table {TableItem.Name.WithQuotes()}");
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public bool Save() {
-    foreach (ITable TableItem in _Tables) {
-      if (! TableItem.Save()) {
-        Logger.LogError($"Unable to save table {TableItem.Name.WithQuotes()}");
-        return false;
-      }
-    }
-    return true;
-  }
-  #endregion --- I/O -----------------------------------------
+  public abstract ValueTask<bool> OpenAsync();
+  public abstract ValueTask<bool> CloseAsync();
+  public abstract ValueTask<bool> ReadAsync();
+  public abstract ValueTask<bool> SaveAsync();
+  public abstract bool Open();
+  public abstract bool Close();
+  public abstract bool Read();
+  public abstract bool Save();
 }

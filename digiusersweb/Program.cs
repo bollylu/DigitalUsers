@@ -14,8 +14,8 @@ builder.Services.AddLogging();
 
 ILogger Logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
 
-TDataSourceWebWithCache DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));
-if (!await DataSource.Open()) {
+TDataSourceWeb DataSource = new TDataSourceWeb(new Uri("http://localhost:1234"));
+if (!await DataSource.OpenAsync()) {
   Logger.LogCritical("Missing datasource");
   return;
 }

@@ -1,15 +1,16 @@
-﻿namespace digiuserslib;
+﻿using digiuserslib.Model;
 
-public interface IPerson : IRecord, IInvalid, IHierarchy {
+namespace digiuserslib;
+
+public interface IPerson : IRecord, IInvalid {
 
   IName Name { get; }
 
   List<IMailAddress> EmailAdresses { get; }
-  List<IPhoneNumber> PhoneNumbers { get; }
+  TPhoneNumbers PhoneNumbers { get; }
   List<ILocation> Locations { get; }
-  List<IDepartment> Departments { get; }
-  IHierarchy? DependsOn { get; }
-
+  TDepartments Departments { get; }
+  
   string Company { get; }
   string Title { get; }
 
