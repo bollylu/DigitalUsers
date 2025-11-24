@@ -1,9 +1,12 @@
-﻿namespace digiuserslib;
+﻿using System.Text.Json.Serialization;
+
+namespace digiuserslib;
 
 public record RPicture : ARecord, IPicture {
   public string PictureBase64 { get; init; } = string.Empty;
   public string PictureUrl { get; init; } = string.Empty;
 
+  [JsonIgnore]
   public override bool IsInvalid => PictureBase64.Trim() != string.Empty && PictureUrl.Trim() != string.Empty;
 
   public RPicture() { }

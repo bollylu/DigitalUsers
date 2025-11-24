@@ -2,16 +2,16 @@
 namespace digiuserslib.Model {
   public class TTablePersonsMemory : ATableMemory<IPerson> {
     public TTablePersonsMemory() {
-      _Initialize();
+      Initialize();
     }
 
     private bool _IsInitiallized = false;
 
-    protected override void _Initialize() {
+    protected override void Initialize() {
       if (_IsInitiallized) {
         return;
       }
-      base._Initialize();
+      base.Initialize();
       Add(RAgent.BollyLuc);
       Add(RAgent.AdamBruno);
       Add(RAgent.DupontJean);

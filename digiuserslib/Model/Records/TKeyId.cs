@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Text.Json.Serialization;
 
 using BLTools;
 using BLTools.Diagnostic.Logging;
@@ -7,8 +8,14 @@ using BLTools.Diagnostic.Logging;
 using digiuserslib.Interfaces;
 
 namespace digiuserslib;
-public class TKeyId : ALoggable, IId<string>, IEqualityComparer<TKeyId> {
+public class TKeyId : ILoggable, IId<string>, IEqualityComparer<TKeyId> {
+
+  [JsonIgnore]
+  public ILogger Logger { get; } = new TConsoleLogger() { Name = nameof(TKeyId) };
+
   public string Value { get; set; } = string.Empty;
+
+  [JsonIgnore]
   public bool IsInvalid => Value.Trim().IsEmpty();
 
   public TKeyId() { }
@@ -42,10 +49,11 @@ public class TKeyId : ALoggable, IId<string>, IEqualityComparer<TKeyId> {
     return obj.Value?.GetHashCode() ?? 0;
   }
 
-  //public string Dump() {
-  //  StringBuilder RetVal = new StringBuilder();
-  //  RetVal.Append(Value.WithQuotes());
-  //  return RetVal.ToString();
-  //}
+    
+    //public string Dump() {
+    //  StringBuilder RetVal = new StringBuilder();
+    //  RetVal.Append(Value.WithQuotes());
+    //  return RetVal.ToString();
+    //}
 
 }

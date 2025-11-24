@@ -10,7 +10,7 @@ public class TTablePersonMemory : ATableMemory<IPerson> {
     base.Initialize();
     // Add some dummy data for testing purposes
     Add(RAgent.AdamBruno);
-    Add(RAgent.BollyAlain);
+    Add(RAgent.DupontJean);
     Add(RAgent.BollyLuc);
   }
 

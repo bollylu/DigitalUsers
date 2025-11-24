@@ -9,10 +9,15 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
   protected ATableMemory() : base() {
   }
 
+  private bool _IsInitialized = false;
   protected override void Initialize() {
+    if (_IsInitialized) {
+      return;
+    }
     base.Initialize();
     Name = $"MemoryTable{typeof(T).Name}";
     Description = $"In-memory table for {typeof(T).Name} records.";
+    _IsInitialized = true;
   }
 
   #region --- I/O --------------------------------------------

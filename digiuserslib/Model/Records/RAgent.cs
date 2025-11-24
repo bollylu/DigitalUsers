@@ -27,7 +27,9 @@ public record RAgent : ARecord, IPerson {
     Id = id;
   }
 
-  public static RAgent BollyLuc => new("agent-001") {
+  #endregion -------------------------------------------------------------------------------------------------
+
+  public static RAgent BollyLuc => new("bollylu") {
     Name = new TName("Luc", "Bolly"),
     Company = "Ville de Seraing",
     Title = "Responsable IT",

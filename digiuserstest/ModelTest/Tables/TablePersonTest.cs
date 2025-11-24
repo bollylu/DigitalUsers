@@ -1,4 +1,5 @@
 ﻿using digiuserslib;
+using digiuserslib.Model;
 using digiuserslib.Model.Tables.Memory;
 
 using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
@@ -35,7 +36,7 @@ public class TablePersonTest {
   public void TableDepartmentMemory_Get_Ok() {
     Message("Create an table of persons");
     TTablePersonMemory TablePersons = new();
-    string AgentId = RAgent.AdamBruno.Id;
+    string AgentId = RAgent.DupontJean.Id;
     Message($"Get existing department {AgentId}");
     IPerson? Agent = TablePersons.Get(AgentId);
     Assert.That(Agent, Is.Not.Null);

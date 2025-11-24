@@ -10,7 +10,6 @@ public interface IPerson : IRecord, IInvalid {
   TPhoneNumbers PhoneNumbers { get; }
   List<ILocation> Locations { get; }
   TDepartments Departments { get; }
-  IHierarchy? DependsOn { get; }
 
   string Company { get; }
   string Title { get; }

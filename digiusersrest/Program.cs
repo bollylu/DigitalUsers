@@ -63,11 +63,11 @@ app.MapGet("/getall", async () => {
 })
 .WithName("GetAll");
 
-//app.MapGet("/get/{id}", (string id) =>
-//{
-//  app.Logger.LogInformation($"Request /get {id}");
-//  return DataSource.GetPerson(id);
-//}).WithName("Get");
+app.MapGet("/get/{id}", async (string id) =>
+{
+  app.Logger.LogInformation($"Request /get {id}");
+  return await DataSource.GetPersonAsync(id);
+}).WithName("Get");
 
 app.Run();
 
