@@ -14,11 +14,11 @@ builder.Services.AddLogging();
 
 ILogger Logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
 
-TDataSourceWebWithCache DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));
-if (!await DataSource.Open()) {
-  Logger.LogCritical("Missing datasource");
-  return;
-}
+//TDataSourceWebWithCache DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));
+//if (!await DataSource.OpenAsync()) {
+//  Logger.LogCritical("Missing datasource");
+//  return;
+//}
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");

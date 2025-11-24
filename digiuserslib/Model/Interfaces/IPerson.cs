@@ -5,9 +5,9 @@ public interface IPerson : IRecord, IInvalid, IHierarchy {
   IName Name { get; }
 
   List<IMailAddress> EmailAdresses { get; }
-  List<IPhoneNumber> PhoneNumbers { get; }
+  TPhoneNumbers PhoneNumbers { get; }
   List<ILocation> Locations { get; }
-  List<IDepartment> Departments { get; }
+  TDepartments Departments { get; }
   IHierarchy? DependsOn { get; }
 
   string Company { get; }

@@ -32,7 +32,7 @@ public abstract class ATableWebMemory<T> : ATableMemory<T> where T : IRecord {
 
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   protected ATableWebMemory() {
-    _Initialize();
+    Initialize();
   }
   protected ATableWebMemory(string dataSourceUri) : this() {
     DataSourceUri = new Uri(dataSourceUri);
@@ -43,7 +43,7 @@ public abstract class ATableWebMemory<T> : ATableMemory<T> where T : IRecord {
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
 
-  protected override void _Initialize() { }
+  protected override void Initialize() { }
 
   #region --- I/O --------------------------------------------
   public override async ValueTask<bool> OpenAsync() {

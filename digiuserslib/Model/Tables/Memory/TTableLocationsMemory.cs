@@ -7,7 +7,7 @@ public class TTableLocationsMemory : ATableMemory<ILocation> {
 
   public TTableLocationsMemory() : base() { }
 
-  protected override void _Initialize() {
+  protected override void Initialize() {
     _Records.Add(RLocation.CiteAdministrative);
     _Records.Add(RLocation.HotelDeVille);
   }

@@ -62,20 +62,20 @@ flowchart TD
 
   List<IPerson> People = [];
 
-  protected override async Task OnInitializedAsync() {
-    DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));
-    if (!await DataSource.Open()) {
-      return;
-    }
-    if (await DataSource.Read()) {
-      People.Clear();
-      People.AddRange(DataSource.GetPeople());
-    }
-    TMermaidConverter MermaidConverter = new TMermaidConverter(DataSource);
-    DebugText = MermaidConverter.BuildOrganigram().Replace("\n","\r\n");
-    Organigram = MermaidConverter.BuildOrganigram();
-    StateHasChanged();
-  }
+  // protected override async Task OnInitializedAsync() {
+  //   DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));
+  //   if (!await DataSource.OpenAsync()) {
+  //     return;
+  //   }
+  //   if (await DataSource.ReadAsync()) {
+  //     People.Clear();
+  //     //People.AddRange(DataSource.GetPeople());
+  //   }
+  //   TMermaidConverter MermaidConverter = new TMermaidConverter(DataSource);
+  //   DebugText = MermaidConverter.BuildOrganigram().Replace("\n","\r\n");
+  //   Organigram = MermaidConverter.BuildOrganigram();
+  //   StateHasChanged();
+  // }
 
 
 }

@@ -6,7 +6,7 @@ public class TTablePhoneNumbersMemory : ATableMemory<IPhoneNumber> {
 
   public TTablePhoneNumbersMemory() : base() { }
 
-  protected override void _Initialize() {
+  protected override void Initialize() {
     Add(RPhoneNumber.BollyLucOffice);
     Add(RPhoneNumber.BollyAlainOffice);
     Add(RPhoneNumber.BollyLucMobile);

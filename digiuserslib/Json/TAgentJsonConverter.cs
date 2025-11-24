@@ -13,9 +13,12 @@ using BLTools.Json;
 namespace digiuserslib.Json;
 public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
 
+  public ILogger Logger { get; set; } = new TConsoleLogger() { Name = nameof(TAgentJsonConverter) };
+
   public override bool CanConvert(Type typeToConvert) {
     return typeToConvert == typeof(RAgent) || typeToConvert == typeof(IPerson);
   }
+
   public override RAgent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
     try {
 
@@ -27,6 +30,7 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
       RAgent RetVal = new();
 
       while (reader.Read()) {
+
         if (reader.TokenType == JsonTokenType.EndObject) {
           return RetVal;
         }
@@ -36,6 +40,7 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
           PropertyName = $"{PropertyName.Left(1).ToUpperInvariant()}{PropertyName[1..]}";
           Logger.Log($"Processing {PropertyName.WithQuotes()}");
           reader.Read();
+
           switch (PropertyName) {
             case nameof(RAgent.Id):
               RetVal.Id = reader.GetString() ?? "";
@@ -86,6 +91,7 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
   }
 
   public override void Write(Utf8JsonWriter writer, RAgent value, JsonSerializerOptions options) {
+
     writer.WriteStartObject();
 
     writer.WriteString(nameof(RAgent.Id), value.Id);
@@ -150,5 +156,5 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
     writer.WriteEndObject();
   }
 
-  public ILogger Logger { get; set; } = new TConsoleLogger() { Name = nameof(TAgentJsonConverter) };
+
 }

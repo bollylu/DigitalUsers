@@ -6,11 +6,14 @@ public abstract class ATableMemory<T> : ATable<T> where T : IRecord {
   protected readonly List<T> _Records = [];
   protected bool IsDirty = false;
 
-  protected ATableMemory() {
-    _Initialize();
+  protected ATableMemory() : base() {
   }
 
-  protected virtual void _Initialize() { }
+  protected override void Initialize() {
+    base.Initialize();
+    Name = $"MemoryTable{typeof(T).Name}";
+    Description = $"In-memory table for {typeof(T).Name} records.";
+  }
 
   #region --- I/O --------------------------------------------
   public override bool Open() {
