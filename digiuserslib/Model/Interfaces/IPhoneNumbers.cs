@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿
+namespace digiuserslib.Model {
+  public interface IPhoneNumbers : IList<IPhoneNumber> {
 
-namespace digiuserslib;
-public interface IPhoneNumbers {
+    IPhoneNumber? MobilePhoneNumber { get; }
+    IPhoneNumber? WorkPhoneNumber { get; }
+    IPhoneNumber? HomePhoneNumber { get; }
 
-  IPhoneNumber OfficePhoneNumber { get; }
-  IPhoneNumber MobilePhoneNumber { get; }
-  IPhoneNumber SecondaryPhoneNumber { get; }
-
+  }
 }

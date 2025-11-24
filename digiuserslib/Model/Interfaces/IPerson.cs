@@ -1,6 +1,8 @@
-﻿namespace digiuserslib;
+﻿using digiuserslib.Model;
 
-public interface IPerson : IRecord, IInvalid, IHierarchy {
+namespace digiuserslib;
+
+public interface IPerson : IRecord, IInvalid {
 
   IName Name { get; }
 

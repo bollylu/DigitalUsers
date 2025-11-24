@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using BLTools;
 using BLTools.Diagnostic.Logging;
 using BLTools.Json;
+using digiuserslib.Model;
 
 namespace digiuserslib.Json;
 public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
@@ -65,9 +66,6 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
               break;
             case nameof(RAgent.Notes):
               RetVal.Notes = reader.GetString() ?? "";
-              break;
-            case nameof(RAgent.DependsOn):
-              RetVal.DependsOn = null;
               break;
             case nameof(RAgent.Title):
               RetVal.Title = reader.GetString() ?? "";
@@ -150,7 +148,6 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
 
 
     writer.WriteString(nameof(RAgent.Notes), value.Notes);
-    writer.WriteString(nameof(RAgent.DependsOn), value.DependsOn?.Id.Value ?? "");
     writer.WriteString(nameof(RAgent.Title), value.Title);
 
     writer.WriteEndObject();

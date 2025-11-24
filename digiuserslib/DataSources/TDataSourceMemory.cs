@@ -1,127 +1,190 @@
-﻿namespace digiuserslib {
+﻿using BLTools;
+using digiuserslib.Model;
+
+namespace digiuserslib {
   public class TDataSourceMemory : ADataSource {
+
+    private readonly List<ITable> _Tables = [];
 
     #region --- Constructor(s) ---------------------------------------------------------------------------------
     public TDataSourceMemory() {
-
-      _Tables.Add(new TTableLocationsMemory());
-
       _Initialize();
     }
 
+    private TTablePersonsMemory? PersonsTable => (TTablePersonsMemory?)_Tables.FirstOrDefault(t => t is TTablePersonsMemory);
+
     private void _Initialize() {
-
-      //_Departments.Add(new TDepartment() { Id = "direction", Name = "Direction", DependsOn = "" });
-      //_Departments.Add(new TDepartment() { Id = "informatique", Name = "Informatique", DependsOn = "direction" });
-      //_Departments.Add(new TDepartment() { Id = "informatique/ville", Name = "Informatique/Ville", DependsOn = "informatique" });
-      //_Departments.Add(new TDepartment() { Id = "informatique/écoles", Name = "Informatique/Ecoles", DependsOn = "informatique" });
-      //_Departments.Add(new TDepartment() { Id = "informatique/administratif", Name = "Informatique/Administratif", DependsOn = "informatique" });
-      //_Departments.Add(new TDepartment() { Id = "travaux", Name = "Travaux", DependsOn = "direction" });
-      //_Departments.Add(new TDepartment() { Id = "travaux/acceuil", Name = "Travaux/Acceuil", DependsOn = "travaux" });
-      //_Departments.Add(new TDepartment() { Id = "comptabilité", Name = "Comptabilité", DependsOn = "direction" });
-
-      //_People.Add(new TAgent("adambr") {
-      //  Name = new TName() { FirstName = "Bruno", LastName = "Adam" },
-      //  PhoneNumberPrimary = new TPhoneNumber() { Prefix = "43", Number = "308", Extension = "002" },
-      //  PhoneNumberMobile = new TPhoneNumber() { Prefix = "470", Number = "123457" },
-      //  EmailPrimary = new TMailAddress() { Address = "b.adam@seraing.be" },
-      //  EmailSecondary = new TMailAddress() { Address = "dg@seraing.be" },
-      //  WorkLocationPrimary = TLocation.HotelDeVille with { AddressDetails = "Bureau DGA" },
-      //  Company = "Ville de Seraing",
-      //  Department = _Departments["direction"] ?? new TDepartment(),
-      //  Title = "Directeur Général",
-      //  DependsOn = ""
-      //});
-
-      //_People.Add(new TAgent("paparal") {
-      //  Name = new TName() { FirstName = "Alexandra", LastName = "Paparelli" },
-      //  PhoneNumberPrimary = new TPhoneNumber() { Prefix = "43", Number = "308", Extension = "003" },
-      //  PhoneNumberMobile = new TPhoneNumber() { Prefix = "470", Number = "123458" },
-      //  EmailPrimary = new TMailAddress() { Address = "a.paparelli@seraing.be" },
-      //  EmailSecondary = new TMailAddress() { Address = "dga@seraing.be" },
-      //  WorkLocationPrimary = TLocation.HotelDeVille with { AddressDetails = "Bureau DGA" },
-      //  Company = "Ville de Seraing",
-      //  Department = _Departments["direction"] ?? new TDepartment(),
-      //  Title = "Directrice Générale adjointe",
-      //  DependsOn = "adambr"
-      //});
-
-      //_People.Add(new TAgent("bollylu") {
-      //  Name = new TName() { FirstName = "Luc", LastName = "Bolly" },
-      //  PhoneNumberPrimary = new TPhoneNumber() { Prefix = "43", Number = "308", Extension = "710" },
-      //  PhoneNumberMobile = new TPhoneNumber() { Prefix = "474", Number = "960084" },
-      //  EmailPrimary = new TMailAddress() { Address = "l.bolly@seraing.be" },
-      //  WorkLocationPrimary = TLocation.CiteAdministrative with { AddressDetails = "5ème étage, Informatique" },
-      //  Company = "Ville de Seraing",
-      //  Department = _Departments["informatique"] ?? new TDepartment(),
-      //  SubDepartment = new TDepartment(),
-      //  Title = "Responsable IT",
-      //  DependsOn = ""
-      //});
-
-      //_People.Add(new TAgent("verdial") {
-      //  Name = new TName() { FirstName = "Alain", LastName = "Verdin" },
-      //  PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "307" },
-      //  EmailPrimary = new TMailAddress() { Address = "a.verdin@seraing.be" },
-      //  WorkLocationPrimary = TLocation.CiteAdministrative with { AddressDetails = "5ème étage, Informatique" },
-      //  Company = "Ville de Seraing",
-      //  Department = _Departments["informatique"] ?? new TDepartment(),
-      //  SubDepartment = _Departments["informatique/ville"] ?? new TDepartment(),
-      //  Title = "IT support",
-      //  DependsOn = "informatique/ville"
-      //});
-
-      //_People.Add(new TAgent("grisfr") {
-      //  Name = new TName() { FirstName = "Frédéric", LastName = "Gris" },
-      //  PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "308" },
-      //  EmailPrimary = new TMailAddress() { Address = "f.gris@seraing.be" },
-      //  WorkLocationPrimary = TLocation.CiteAdministrative with { AddressDetails = "5ème étage, Informatique" },
-      //  Company = "Ville de Seraing",
-      //  Department = _Departments["informatique"] ?? new TDepartment(),
-      //  SubDepartment = _Departments["informatique/ville"] ?? new TDepartment(),
-      //  Title = "IT support",
-      //  DependsOn = "informatique/ville"
-      //});
-
-      //_People.Add(new TAgent("daglima") {
-      //  Name = new TName() { FirstName = "Maxence", LastName = "D'Agliano" },
-      //  PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "306" },
-      //  EmailPrimary = new TMailAddress() { Address = "m.dagliano@seraing.be" },
-      //  WorkLocationPrimary = TLocation.CiteAdministrative with { AddressDetails = "5ème étage, Informatique" },
-      //  Company = "Ville de Seraing",
-      //  Department = _Departments["informatique"] ?? new TDepartment(),
-      //  SubDepartment = _Departments["informatique/écoles"] ?? new TDepartment(),
-      //  Title = "IT support",
-      //  DependsOn = "informatique/écoles"
-      //});
-
-      //_People.Add(new TAgent("menarna") {
-      //  Name = new TName() { FirstName = "Nathalie", LastName = "Ménart" },
-      //  PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "306" },
-      //  EmailPrimary = new TMailAddress() { Address = "n.menart@seraing.be" },
-      //  WorkLocationPrimary = TLocation.CiteAdministrative with { AddressDetails = "5ème étage, Informatique" },
-      //  Company = "Ville de Seraing",
-      //  Department = _Departments["informatique"] ?? new TDepartment(),
-      //  SubDepartment = _Departments["informatique/administratif"] ?? new TDepartment(),
-      //  Title = "Agent administratif",
-      //  DependsOn = "informatique/ville"
-      //});
-
-      //_People.Add(new TAgent("bollyal") {
-      //  Name = new TName() { FirstName = "Alain", LastName = "Bolly" },
-      //  PhoneNumberPrimary = new TPhoneNumber() { Prefix = "4", Number = "3308", Extension = "586" },
-      //  PhoneNumberMobile = new TPhoneNumber() { Prefix = "470", Number = "123459" },
-      //  EmailPrimary = new TMailAddress() { Address = "a.bolly@seraing.be" },
-      //  WorkLocationPrimary = new TLocation() { Name = "Hôtel de ville", Address1 = "Place xxx,8", AddressDetails = "Rez" },
-      //  Company = "Ville de Seraing",
-      //  Department = new TDepartment("optimisation", "Optimisation"),
-      //  Title = "Responsable optimisation",
-      //  DependsOn = "optimisation"
-      //});
-
+      _Tables.Add(new TTablePersonsMemory());
+      _Tables.Add(new TTablePhoneNumbersMemory());
+      _Tables.Add(new TTableLocationsMemory());
+      //_Tables.Add(new TTableMailAddressesMemory());
+      //_Tables.Add(new TTableDepartmentsMemory());
     }
     #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
+    #region --- I/O Async -------------------------------------
+    public override async ValueTask<bool> OpenAsync() {
+      foreach (ITable TableItem in _Tables) {
+        if (!await TableItem.OpenAsync().ConfigureAwait(false)) {
+          Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
+          return false;
+        }
+      }
+      return true;
+    }
 
+    public override async ValueTask<bool> CloseAsync() {
+      foreach (ITable TableItem in _Tables) {
+        if (!await TableItem.CloseAsync().ConfigureAwait(false)) {
+          Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    public override async ValueTask<bool> ReadAsync() {
+      foreach (ITable TableItem in _Tables) {
+        if (!await TableItem.ReadAsync().ConfigureAwait(false)) {
+          Logger.LogError($"Unable to read table {TableItem.Name.WithQuotes()}");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    public override async ValueTask<bool> SaveAsync() {
+      foreach (ITable TableItem in _Tables) {
+        if (!await TableItem.SaveAsync().ConfigureAwait(false)) {
+          Logger.LogError($"Unable to save table {TableItem.Name.WithQuotes()}");
+          return false;
+        }
+      }
+      return true;
+    }
+    #endregion --- I/O -----------------------------------------
+
+    #region --- I/O --------------------------------------------
+    public override bool Open() {
+      //foreach (ITable TableItem in _Tables) {
+      //  if (!TableItem.Open()) {
+      //    Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
+      //    return false;
+      //  }
+      //}
+      return true;
+    }
+
+    public override bool Close() {
+      //foreach (ITable TableItem in _Tables) {
+      //  if (!TableItem.Close()) {
+      //    Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
+      //    return false;
+      //  }
+      //}
+      return true;
+    }
+
+    public override bool Read() {
+      //foreach (ITable TableItem in _Tables) {
+      //  if (!TableItem.Read()) {
+      //    Logger.LogError($"Unable to read table {TableItem.Name.WithQuotes()}");
+      //    return false;
+      //  }
+      //}
+      return true;
+    }
+
+    public override bool Save() {
+      //foreach (ITable TableItem in _Tables) {
+      //  if (!TableItem.Save()) {
+      //    Logger.LogError($"Unable to save table {TableItem.Name.WithQuotes()}");
+      //    return false;
+      //  }
+      //}
+      return true;
+    }
+
+    #endregion --- I/O -----------------------------------------
+
+    public override async Task<IPerson?> GetPersonAsync(TKeyId id) {
+      if (PersonsTable is null) {
+        throw new ApplicationException("Persons table is not initialized.");
+      }
+
+      return await PersonsTable.GetAsync(id);
+    }
+
+    public override async IAsyncEnumerable<IPerson> GetPeopleAsync() {
+      if (PersonsTable is null) {
+        yield break;
+      }
+
+      await foreach (var person in PersonsTable.GetAllAsync()) {
+        yield return person;
+      }
+    }
+
+    public override Task<IPerson?> GetPersonByPhoneNumberAsync(IPhoneNumber phoneNumber) {
+      throw new NotImplementedException();
+    }
+
+    public override Task<IPerson?> GetPersonByEmailAsync(IMailAddress mailAddress) {
+      throw new NotImplementedException();
+    }
+
+    public override Task<ILocation?> GetLocationAsync(string id) {
+      throw new NotImplementedException();
+    }
+
+    public override IAsyncEnumerable<ILocation> GetLocationsAsync() {
+      throw new NotImplementedException();
+    }
+
+    public override IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(string idPerson) {
+      throw new NotImplementedException();
+    }
+
+    public override Task<IPhoneNumber?> GetPhoneNumberAsync(string id) {
+      throw new NotImplementedException();
+    }
+
+    public override IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersAsync() {
+      throw new NotImplementedException();
+    }
+
+    public override IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(string idPerson) {
+      throw new NotImplementedException();
+    }
+
+    public override Task<IMailAddress?> GetMailAddressAsync(string id) {
+      throw new NotImplementedException();
+    }
+
+    public override IAsyncEnumerable<IMailAddress> GetMailAddressesAsync() {
+      throw new NotImplementedException();
+    }
+
+    public override IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(string idPerson) {
+      throw new NotImplementedException();
+    }
+
+    public override IAsyncEnumerable<IPerson> GetPeopleByLocationAsync(ILocation location) {
+      throw new NotImplementedException();
+    }
+
+    public override Task<IDepartment?> GetDepartmentAsync(string departmentId) {
+      throw new NotImplementedException();
+    }
+
+    public override Task<IPerson?> GetHeadOfDepartmentAsync(string departmentId) {
+      throw new NotImplementedException();
+    }
+
+    public override IAsyncEnumerable<IPerson> GetDepartmentMembersAsync(string departmentId) {
+      throw new NotImplementedException();
+    }
+
+    
   }
 }

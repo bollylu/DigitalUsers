@@ -13,22 +13,19 @@
     <tr>
       <th>Nom</th>
       <th>Titre</th>
-      <th>Departement</th>
-      <th>SubDepartement</th>
+      <th>Departement(s)</th>
       <th>Téléphone</th>
       <th>Extension</th>
       <th>Tél. mobile</th>
     </tr>
-    @foreach (IPerson PersonItem in People.OrderBy(x => x.Departments.First().Name)) {
-
+    @foreach (IPerson PersonItem in People.OrderBy(x => x.Name.FullName)) {
       <tr>
         <td>@PersonItem.Name.FullName</td>
         <td>@PersonItem.Title</td>
-        <td>@PersonItem.Departments.Main.Name</td>
-        <td>@PersonItem.Departments.Main.Name.After('/')</td>
-        <td>@PersonItem.PhoneNumbers.OfficePhoneNumber.FullPhoneNumber</td>
-        <td>@PersonItem.PhoneNumbers.OfficePhoneNumber.Extension</td>
-        <td>@PersonItem.PhoneNumbers.MobilePhoneNumber.FullPhoneNumber</td>
+        <td>@string.Join(',', PersonItem.Departments)</td>
+        <td>@PersonItem.PhoneNumbers.WorkPhoneNumber?.FullPhoneNumber??""</td>
+        <td>@PersonItem.PhoneNumbers.WorkPhoneNumber?.Extension</td>
+        <td>@PersonItem.PhoneNumbers.MobilePhoneNumber?.FullPhoneNumber</td>
       </tr>
     }
   </table>
@@ -39,15 +36,15 @@
 
   List<IPerson> People = [];
 
-  // protected override async Task OnInitializedAsync() {
-  //   DataSource = new TDataSourceWebWithCache(new Uri("http://localhost:1234"));
-  //   if (!await DataSource.OpenAsync()) {
-  //     return;
-  //   }
-  //   if (await DataSource.ReadAsync()) {
-  //     People.Clear();
-  //     People.AddRange(await DataSource.GetPeopleAsync());
-  //   }
-  //   StateHasChanged();
-  // }
+  protected override async Task OnInitializedAsync() {
+    DataSource = new TDataSourceWeb(new Uri("http://localhost:1234"));
+    if (!await DataSource.OpenAsync()) {
+      return;
+    }
+    if (await DataSource.ReadAsync()) {
+      People.Clear();
+      People.AddRange(await DataSource.GetPeopleAsync().ToListAsync());
+    }
+    StateHasChanged();
+  }
 }

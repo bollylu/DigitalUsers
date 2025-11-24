@@ -9,5 +9,9 @@ using BLTools;
 using digiuserslib.Interfaces;
 
 namespace digiuserslib {
-  public class TPeople : List<IPerson> { }
+
+  public class TPersons : List<IPerson>, IPersons {
+    public IPerson? this[string keyId] => this.FirstOrDefault(p => p.Id.Value.Equals(keyId, StringComparison.OrdinalIgnoreCase));
+  }
+
 }
