@@ -1,13 +1,14 @@
-﻿using System.Text.Json.Serialization;
-
-namespace digiuserslib;
+﻿namespace digiuserslib.Model;
 
 public class TName : IName {
-  [JsonIgnore]
-  public string FullName => $"{FirstName} {LastName}";
+
   public string FirstName { get; set; } = string.Empty;
   public string LastName { get; set; } = string.Empty;
 
+  [JsonIgnore]
+  public string FullName => $"{FirstName} {LastName}";
+
+  [JsonIgnore]
   public bool IsInvalid => FullName.Trim() == string.Empty;
 
   public TName() { }
@@ -15,4 +16,5 @@ public class TName : IName {
     FirstName = firstName;
     LastName = lastName;
   }
+
 }

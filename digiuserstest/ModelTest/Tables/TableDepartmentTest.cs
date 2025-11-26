@@ -1,4 +1,4 @@
-﻿using digiuserslib;
+﻿using digiuserslib.Model;
 
 namespace digiuserstest.ModelTest;
 public class TableDepartmentTest {
@@ -11,7 +11,7 @@ public class TableDepartmentTest {
   [Test]
   public void TableDepartmentMemory_IsOk() {
     Message("Create an table of departments");
-    TTableDepartmentMemory Departments = new();
+    TTableDepartmentsMemory Departments = new();
     Assert.That(Departments, Is.Not.Null);
     Dump(Departments, 3);
     Ok();
@@ -20,7 +20,7 @@ public class TableDepartmentTest {
   [Test]
   public void TableDepartmentMemory_GetAll() {
     Message("Create an table of departments");
-    TTableDepartmentMemory TableDepartments = new();
+    TTableDepartmentsMemory TableDepartments = new();
     Message("Get all departments");
     IEnumerable<IDepartment> Departments = TableDepartments.GetAll();
     Assert.That(Departments.Any(), Is.True);
@@ -31,7 +31,7 @@ public class TableDepartmentTest {
   [Test]
   public void TableDepartmentMemory_Get_Ok() {
     Message("Create an table of departments");
-    TTableDepartmentMemory TableDepartments = new();
+    TTableDepartmentsMemory TableDepartments = new();
     string DepartmentId = RDepartment.GestionInformatique.Id;
     Message($"Get existing department {DepartmentId}");
     IDepartment? Department = TableDepartments.Get(DepartmentId);
@@ -44,7 +44,7 @@ public class TableDepartmentTest {
   [Test]
   public void TableDepartmentMemory_Get_Bad() {
     Message("Create an table of departments");
-    TTableDepartmentMemory TableDepartments = new();
+    TTableDepartmentsMemory TableDepartments = new();
     string DepartmentId = "xxxxxxx";
     Message($"Get missing department {DepartmentId}");
     IDepartment? Department = TableDepartments.Get(DepartmentId);

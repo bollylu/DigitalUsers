@@ -9,11 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="==cleanup==\ADataSource-obsolete.cs" />
+    <Compile Remove="==cleanup==\ADataSourceAsync-obsolete.cs" />
+    <Compile Remove="==cleanup==\IDataSource-obsolete.cs" />
     <Compile Remove="DataSources\ADataSourceWithCache.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BLTools" Version="6.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="==cleanup==\" />
   </ItemGroup>
 
 </Project>

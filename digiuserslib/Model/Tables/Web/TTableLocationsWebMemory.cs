@@ -1,13 +1,6 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿namespace digiuserslib.Model;
 
-using BLTools;
-
-using digiuserslib.Interfaces;
-
-namespace digiuserslib;
-
-public class TTableLocationsWebMemory : ATableWebMemory<ILocation> {
+public class TTableLocationsWebMemory : ATableWeb<ILocation> {
   public override string Name { get; protected set; } = nameof(TTableLocationsWebMemory);
   public override string Description { get; protected set; } = "All locations from a web service";
 

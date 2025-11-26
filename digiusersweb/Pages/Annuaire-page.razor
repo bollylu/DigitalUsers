@@ -1,6 +1,7 @@
 ﻿@page "/Annuaire-page"
 @using BLTools
 @using digiuserslib
+@using digiuserslib.Model
 
 <PageTitle>Annuaire</PageTitle>
 
@@ -18,9 +19,9 @@
       <th>Extension</th>
       <th>Tél. mobile</th>
     </tr>
-    @foreach (IPerson PersonItem in People.OrderBy(x => x.Name.FullName)) {
+    @foreach (IContact PersonItem in People.OrderBy(x => x.FullName)) {
       <tr>
-        <td>@PersonItem.Name.FullName</td>
+        <td>@PersonItem.FullName</td>
         <td>@PersonItem.Title</td>
         <td>@string.Join(',', PersonItem.Departments)</td>
         <td>@PersonItem.PhoneNumbers.WorkPhoneNumber?.FullPhoneNumber??""</td>
@@ -32,19 +33,19 @@
 }
 
 @code {
-  private IDataSource? DataSource;
+  private IDataSourceAsync? DataSource;
 
-  List<IPerson> People = [];
+  List<IContact> People = [];
 
   protected override async Task OnInitializedAsync() {
     DataSource = new TDataSourceWeb(new Uri("http://localhost:1234"));
-    if (!await DataSource.OpenAsync()) {
+    if (!await ((IDataSourceDMOAsync)DataSource).OpenAsync()) {
       return;
     }
-    if (await DataSource.ReadAsync()) {
-      People.Clear();
-      People.AddRange(await DataSource.GetPeopleAsync().ToListAsync());
-    }
+    // if (await DataSource.ReadAsync()) {
+    //   People.Clear();
+    //   People.AddRange(await DataSource.GetContactsAsync().ToListAsync());
+    // }
     StateHasChanged();
   }
 }

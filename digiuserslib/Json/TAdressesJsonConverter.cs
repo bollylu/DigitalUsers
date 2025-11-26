@@ -1,14 +1,8 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿namespace digiuserslib.Json;
 
-using BLTools;
-using BLTools.Diagnostic.Logging;
-using BLTools.Json;
-
-namespace digiuserslib.Json;
 public class TMailAddressesJsonConverter : JsonConverter<List<RMailAddress>>, ILoggable {
 
-  public ILogger Logger { get; set; } = new TConsoleLogger() { Name = nameof(TAgentJsonConverter) };
+  public ILogger Logger { get; set; } = new TTraceLogger() { Name = nameof(TAgentJsonConverter) };
 
   public override bool CanConvert(Type typeToConvert) {
     return typeToConvert == typeof(List<RMailAddress>) || typeToConvert.IsInstanceOfType(typeof(IEnumerable<RMailAddress>));

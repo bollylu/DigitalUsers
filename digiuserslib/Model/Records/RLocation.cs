@@ -1,8 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-using Microsoft.Win32.SafeHandles;
-
-namespace digiuserslib;
+﻿namespace digiuserslib.Model;
 
 public record RLocation : ARecord, ILocation {
 
@@ -20,7 +16,7 @@ public record RLocation : ARecord, ILocation {
   public string Country { get; set; } = DEFAULT_COUNTRY;
 
   [JsonIgnore]
-  public override bool IsInvalid => base.IsInvalid || Name.Trim() == string.Empty;
+  public override bool IsInvalid => base.IsInvalid || string.IsNullOrWhiteSpace(Name);
 
   public static RLocation Empty => new();
 

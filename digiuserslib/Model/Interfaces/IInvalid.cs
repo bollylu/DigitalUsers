@@ -1,7 +1,7 @@
 ﻿
 using System.Text.Json.Serialization;
 
-namespace digiuserslib {
+namespace digiuserslib.Model {
   public interface IInvalid {
 
     [JsonIgnore]

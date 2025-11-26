@@ -1,24 +1,22 @@
-﻿using BLTools;
-
-namespace digiuserslib;
+﻿namespace digiuserslib.Model;
 
 public record RMailAddress : ARecord, IMailAddress {
   public string Address { get; set; } = string.Empty;
   public string DisplayName { get; set; } = string.Empty;
   public int Order { get; set; } = 1;
 
-  public static RMailAddress Empty => new RMailAddress();
-
+  [JsonIgnore]
   public override bool IsInvalid =>
-    Id.IsInvalid ||
-    Address.Trim() == string.Empty ||
+    base.IsInvalid ||
+    string.IsNullOrWhiteSpace(Address) ||
     !Address.Contains('@') ||
     Address.Count('@') > 1 ||
     !Address.Contains('.') ||
-    Address.Before('@').Trim() == string.Empty ||
-    Address.After('.').Trim() == string.Empty ||
-    Address.Between('@', '.').Trim() == string.Empty;
+    string.IsNullOrEmpty(Address.Before('@')) ||
+    string.IsNullOrWhiteSpace(Address.After('.')) ||
+    string.IsNullOrWhiteSpace(Address.Between('@', '.'));
 
+  public static RMailAddress Empty => new RMailAddress();
   public static RMailAddress BollyLuc => new RMailAddress() { Address = "l.bolly@seraing.be", DisplayName = "Luc Bolly - IT Manager" };
   public static RMailAddress BollyAlain => new RMailAddress() { Address = "a.bolly@seraing.be", DisplayName = "Alain Bolly - DPO" };
   public static RMailAddress AdamBruno => new RMailAddress() { Address = "b.adam@seraing.be", DisplayName = "Bruno Adam - DG" };

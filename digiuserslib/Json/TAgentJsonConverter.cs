@@ -12,15 +12,15 @@ using BLTools.Json;
 using digiuserslib.Model;
 
 namespace digiuserslib.Json;
-public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
+public class TAgentJsonConverter : JsonConverter<RContact>, ILoggable {
 
   public ILogger Logger { get; set; } = new TConsoleLogger() { Name = nameof(TAgentJsonConverter) };
 
   public override bool CanConvert(Type typeToConvert) {
-    return typeToConvert == typeof(RAgent) || typeToConvert == typeof(IPerson);
+    return typeToConvert == typeof(RContact) || typeToConvert == typeof(IContact);
   }
 
-  public override RAgent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+  public override RContact? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
     try {
 
       if (reader.TokenType != JsonTokenType.StartObject) {
@@ -28,7 +28,7 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
         throw new JsonException();
       }
 
-      RAgent RetVal = new();
+      RContact RetVal = new();
 
       while (reader.Read()) {
 
@@ -43,34 +43,31 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
           reader.Read();
 
           switch (PropertyName) {
-            case nameof(RAgent.Id):
+            case nameof(RContact.Id):
               RetVal.Id = reader.GetString() ?? "";
               break;
-            case nameof(RAgent.Name):
-              RetVal.Name = JsonSerializer.Deserialize<TName>(ref reader, options) ?? new TName();
-              break;
-            case nameof(RAgent.EmailAdresses):
+            case nameof(RContact.EmailAdresses):
               RetVal.EmailAdresses.AddRange(JsonSerializer.Deserialize<List<RMailAddress>>(ref reader, options) ?? []);
               break;
-            case nameof(RAgent.PhoneNumbers):
+            case nameof(RContact.PhoneNumbers):
               RetVal.PhoneNumbers.AddRange(JsonSerializer.Deserialize<List<RPhoneNumber>>(ref reader, options) ?? []);
               break;
-            case nameof(RAgent.Locations):
+            case nameof(RContact.Locations):
               RetVal.Locations.AddRange(JsonSerializer.Deserialize<List<RLocation>>(ref reader, options) ?? []);
               break;
-            case nameof(RAgent.Company):
+            case nameof(RContact.Company):
               RetVal.Company = reader.GetString() ?? "";
               break;
-            case nameof(RAgent.Departments):
+            case nameof(RContact.Departments):
               RetVal.Departments.AddRange(JsonSerializer.Deserialize<List<RDepartment>>(ref reader, options) ?? []);
               break;
-            case nameof(RAgent.Notes):
+            case nameof(RContact.Notes):
               RetVal.Notes = reader.GetString() ?? "";
               break;
-            case nameof(RAgent.Title):
+            case nameof(RContact.Title):
               RetVal.Title = reader.GetString() ?? "";
               break;
-            case nameof(RAgent.Picture):
+            case nameof(RContact.Picture):
               RetVal.Picture = JsonSerializer.Deserialize<RPicture>(ref reader, options) ?? new RPicture();
               break;
             default:
@@ -88,17 +85,14 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
 
   }
 
-  public override void Write(Utf8JsonWriter writer, RAgent value, JsonSerializerOptions options) {
+  public override void Write(Utf8JsonWriter writer, RContact value, JsonSerializerOptions options) {
 
     writer.WriteStartObject();
 
-    writer.WriteString(nameof(RAgent.Id), value.Id);
-
-    writer.WritePropertyName(nameof(RAgent.Name));
-    JsonSerializer.Serialize(writer, value.Name, options);
+    writer.WriteString(nameof(RContact.Id), value.Id);
 
     if (value.EmailAdresses.Any()) {
-      writer.WritePropertyName(nameof(RAgent.EmailAdresses));
+      writer.WritePropertyName(nameof(RContact.EmailAdresses));
       writer.WriteStartArray();
       foreach (IMailAddress EmailItem in value.EmailAdresses) {
         if (EmailItem.IsValid) {
@@ -109,7 +103,7 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
     }
 
     if (value.PhoneNumbers.Any()) {
-      writer.WritePropertyName(nameof(RAgent.PhoneNumbers));
+      writer.WritePropertyName(nameof(RContact.PhoneNumbers));
       writer.WriteStartArray();
       foreach (IPhoneNumber PhoneItem in value.PhoneNumbers) {
         if (PhoneItem.IsValid) {
@@ -120,7 +114,7 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
     }
 
     if (value.Locations.Any()) {
-      writer.WritePropertyName(nameof(RAgent.Locations));
+      writer.WritePropertyName(nameof(RContact.Locations));
       writer.WriteStartArray();
       foreach (ILocation LocationItem in value.Locations) {
         if (LocationItem.IsValid) {
@@ -131,7 +125,7 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
     }
 
     if (value.Departments.Any()) {
-      writer.WritePropertyName(nameof(RAgent.Departments));
+      writer.WritePropertyName(nameof(RContact.Departments));
       writer.WriteStartArray();
       foreach (IDepartment DepartmentItem in value.Departments) {
         if (DepartmentItem.IsValid) {
@@ -141,14 +135,14 @@ public class TAgentJsonConverter : JsonConverter<RAgent>, ILoggable {
       writer.WriteEndArray();
     }
 
-    writer.WritePropertyName(nameof(RAgent.Picture));
+    writer.WritePropertyName(nameof(RContact.Picture));
     JsonSerializer.Serialize(writer, value.Picture, options);
 
-    writer.WriteString(nameof(RAgent.Company), value.Company);
+    writer.WriteString(nameof(RContact.Company), value.Company);
 
 
-    writer.WriteString(nameof(RAgent.Notes), value.Notes);
-    writer.WriteString(nameof(RAgent.Title), value.Title);
+    writer.WriteString(nameof(RContact.Notes), value.Notes);
+    writer.WriteString(nameof(RContact.Title), value.Title);
 
     writer.WriteEndObject();
   }

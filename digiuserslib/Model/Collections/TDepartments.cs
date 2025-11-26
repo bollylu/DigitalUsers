@@ -5,18 +5,10 @@ namespace digiuserslib.Model {
   public class TDepartments : List<IDepartment>, IDepartments {
 
     [JsonIgnore]
-    public IDepartment? this[string id] {
-      get {
-        return this.SingleOrDefault(x => x.Id == id);
-      }
-    }
+    public IDepartment? this[string id] => this.SingleOrDefault(x => x.Id == id);
 
     [JsonIgnore]
-    public IDepartment Main {
-      get {
-        IDepartment? Dept = this.FirstOrDefault();
-        return Dept ?? throw new InvalidOperationException("No main department found.");
-      }
-    }
+    public IDepartment Main => this.FirstOrDefault() ?? throw new InvalidOperationException("No main department found.");
+ 
   }
 }

@@ -1,19 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using System.Text.Json.Serialization;
 
-using BLTools;
-using BLTools.Diagnostic.Logging;
+namespace digiuserslib.Model;
 
-using digiuserslib.Interfaces;
-
-namespace digiuserslib;
 public class TKeyId : ILoggable, IId<string>, IEqualityComparer<TKeyId> {
 
-  [JsonIgnore]
-  public ILogger Logger { get; } = new TConsoleLogger() { Name = nameof(TKeyId) };
-
   public string Value { get; set; } = string.Empty;
+
+  [JsonIgnore]
+  public ILogger Logger { get; } = new TTraceLogger() { Name = nameof(TKeyId) };
 
   [JsonIgnore]
   public bool IsInvalid => Value.Trim().IsEmpty();
@@ -30,7 +24,7 @@ public class TKeyId : ILoggable, IId<string>, IEqualityComparer<TKeyId> {
 
   public override string ToString() {
     StringBuilder RetVal = new StringBuilder();
-    RetVal.Append(Value.WithQuotes());
+    RetVal.Append($"{nameof(Value)} = {Value.WithQuotes()}");
     return RetVal.ToString();
   }
 
@@ -41,19 +35,12 @@ public class TKeyId : ILoggable, IId<string>, IEqualityComparer<TKeyId> {
     if (x is null || y is null) {
       return false;
     }
-    Logger.Log($"Comparing TKeyId: {x.Value.WithQuotes()} with {y.Value.WithQuotes()}");
+    Logger.LogDebug($"Comparing TKeyId: {x.Value.WithQuotes()} with {y.Value.WithQuotes()}");
     return string.Equals(x.Value, y.Value, StringComparison.OrdinalIgnoreCase);
   }
 
   public int GetHashCode([DisallowNull] TKeyId obj) {
     return obj.Value?.GetHashCode() ?? 0;
   }
-
-    
-    //public string Dump() {
-    //  StringBuilder RetVal = new StringBuilder();
-    //  RetVal.Append(Value.WithQuotes());
-    //  return RetVal.ToString();
-    //}
 
 }

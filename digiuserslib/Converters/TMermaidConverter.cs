@@ -6,10 +6,10 @@ namespace digiuserslib;
 
 public class TMermaidConverter {
 
-  private readonly IDataSource _DataSource;
+  private readonly IDataSourceAsync _DataSource;
 
   #region --- Constructor(s) ---------------------------------------------------------------------------------
-  public TMermaidConverter(IDataSource dataSource) {
+  public TMermaidConverter(IDataSourceAsync dataSource) {
     _DataSource = dataSource;
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------

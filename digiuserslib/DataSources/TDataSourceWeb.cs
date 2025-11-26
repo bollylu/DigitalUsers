@@ -1,16 +1,7 @@
 ﻿
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-using BLTools;
-using BLTools.Diagnostic.Logging;
-
-using digiuserslib;
-using digiuserslib.Json;
-
 namespace digiuserslib;
 
-public class TDataSourceWeb : ADataSource {
+public class TDataSourceWeb : ADataSourceDMOAsync, IDataSourceAsync {
 
   public Uri? DataSourceUri {
     get => _dataSourceUri;
@@ -67,118 +58,77 @@ public class TDataSourceWeb : ADataSource {
   public override ValueTask<bool> CloseAsync() {
     return ValueTask.FromResult(true);
   }
+  #endregion --- I/O -----------------------------------------
 
-  public override async ValueTask<bool> ReadAsync() {
-    //string DataFileContent = "(null)";
-    //try {
-    //  CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
-    //  string Response = await _HttpClient.GetStringAsync("getall", cancellationToken).ConfigureAwait(false);
-
-    //  if (Response is not null && !Response.IsEmpty()) {
-    //    LastResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-    //    DataFileContent = Response;
-    //    Logger.LogDebugBox("Content", DataFileContent);
-    //    _People.Clear();
-    //    _People.AddRange(JsonSerializer.Deserialize<List<TAgent>>(DataFileContent, _JsonOptions) ?? []);
-        return true;
-      //} else {
-      //  return false;
-      //}
-
-    //} catch (Exception ex) {
-    //  Logger.LogErrorBox($"Unable to read data from server", ex);
-    //  Logger.LogDebugBox("Datafilecontent", DataFileContent);
-    //  return false;
-    //}
-  }
-
-  public override ValueTask<bool> SaveAsync() {
+  public Task<ILocation?> GetLocationAsync(string id) {
     throw new NotImplementedException();
   }
 
-    public override Task<IPerson?> GetPersonAsync(TKeyId id) {
+  public IAsyncEnumerable<ILocation> GetLocationsAsync() {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(string idPerson) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IPhoneNumber?> GetPhoneNumberAsync(string id) {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersAsync() {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(string idPerson) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IMailAddress?> GetMailAddressAsync(string id) {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<IMailAddress> GetMailAddressesAsync() {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(string idPerson) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> GetContactAsync(TKeyId id) {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<IContact> GetContactsAsync() {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> GetContactByPhoneNumberAsync(string phoneNumber) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> GetContactByEmailAsync(string mailAddress) {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<IContact> GetContactsByLocationAsync(string location) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IDepartment?> GetDepartmentAsync(string departmentId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> GetHeadOfDepartmentAsync(string departmentId) {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<IContact> GetDepartmentMembersAsync(string departmentId) {
+    throw new NotImplementedException();
+  }
+
+    public IAsyncEnumerable<IDepartment> GetDepartmentsAsync() {
         throw new NotImplementedException();
     }
-
-    public override IAsyncEnumerable<IPerson> GetPeopleAsync() {
-        throw new NotImplementedException();
-    }
-
-    public override Task<IPerson?> GetPersonByPhoneNumberAsync(IPhoneNumber phoneNumber) {
-        throw new NotImplementedException();
-    }
-
-    public override Task<IPerson?> GetPersonByEmailAsync(IMailAddress mailAddress) {
-        throw new NotImplementedException();
-    }
-
-    public override Task<ILocation?> GetLocationAsync(string id) {
-        throw new NotImplementedException();
-    }
-
-    public override IAsyncEnumerable<ILocation> GetLocationsAsync() {
-        throw new NotImplementedException();
-    }
-
-    public override IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(string idPerson) {
-        throw new NotImplementedException();
-    }
-
-    public override Task<IPhoneNumber?> GetPhoneNumberAsync(string id) {
-        throw new NotImplementedException();
-    }
-
-    public override IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersAsync() {
-        throw new NotImplementedException();
-    }
-
-    public override IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(string idPerson) {
-        throw new NotImplementedException();
-    }
-
-    public override Task<IMailAddress?> GetMailAddressAsync(string id) {
-        throw new NotImplementedException();
-    }
-
-    public override IAsyncEnumerable<IMailAddress> GetMailAddressesAsync() {
-        throw new NotImplementedException();
-    }
-
-    public override IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(string idPerson) {
-        throw new NotImplementedException();
-    }
-
-    public override IAsyncEnumerable<IPerson> GetPeopleByLocationAsync(ILocation location) {
-        throw new NotImplementedException();
-    }
-
-    public override Task<IDepartment?> GetDepartmentAsync(string departmentId) {
-        throw new NotImplementedException();
-    }
-
-    public override Task<IPerson?> GetHeadOfDepartmentAsync(string departmentId) {
-        throw new NotImplementedException();
-    }
-
-    public override IAsyncEnumerable<IPerson> GetDepartmentMembersAsync(string departmentId) {
-        throw new NotImplementedException();
-    }
-
-    public override bool Open() {
-        throw new NotImplementedException();
-    }
-
-    public override bool Close() {
-        throw new NotImplementedException();
-    }
-
-    public override bool Read() {
-        throw new NotImplementedException();
-    }
-
-    public override bool Save() {
-        throw new NotImplementedException();
-    }
-    #endregion --- I/O -----------------------------------------
-
 }

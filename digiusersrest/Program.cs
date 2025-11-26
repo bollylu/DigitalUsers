@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using BLTools;
 
 using digiuserslib;
+using digiuserslib.Model;
 
 //const string ARG_DATAFILE = "datafile";
 
@@ -18,13 +19,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddLogging(logger => logger.AddConsole());
 
-builder.Services.AddCors(options => {
-  options.AddPolicy("PolicyName", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
 var app = builder.Build();
 
-app.UseCors("PolicyName");
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
@@ -33,7 +35,7 @@ if (app.Environment.IsDevelopment()) {
   app.UseHttpsRedirection();
 }
 
-IDataSource DataSource;
+IDataSourceAsync DataSource;
 //if (IsDebug) {
 DataSource = new TDataSourceMemory();
 //} else {
@@ -54,20 +56,51 @@ DataSource = new TDataSourceMemory();
 app.MapGet("/probe", () => { return "OK"; }).Produces(200);
 
 
-app.MapGet("/getall", async () => {
-  app.Logger.LogInformation($"Request /getall");
-  await DataSource.OpenAsync();
-  TPersons Persons = new TPersons();
-  Persons.AddRange(await DataSource.GetPeopleAsync().ToListAsync());
-  return Persons; // Ensure the result is returned
-})
-.WithName("GetAll");
-
-app.MapGet("/get/{id}", async (string id) =>
+app.MapGet("/contacts/getall", async () =>
 {
-  app.Logger.LogInformation($"Request /get {id}");
-  return await DataSource.GetPersonAsync(id);
-}).WithName("Get");
+  app.Logger.LogInformation($"Request /contact/getall");
+  TContacts Contacts = [.. await DataSource.GetContactsAsync().ToListAsync()];
+  return Contacts; // Ensure the result is returned
+})
+.WithName("GetAllContacts");
+
+app.MapGet("/locations/getall", async () =>
+{
+  app.Logger.LogInformation($"Request /locations/getall");
+  TLocations Locations = [.. await DataSource.GetLocationsAsync().ToListAsync()];
+  return Locations; // Ensure the result is returned
+})
+.WithName("GetAllLocations");
+
+app.MapGet("/phones/getall", async () =>
+{
+  app.Logger.LogInformation($"Request /phones/getall");
+  TPhoneNumbers PhoneNumbers = [.. await DataSource.GetPhoneNumbersAsync().ToListAsync()];
+  return PhoneNumbers; // Ensure the result is returned
+})
+.WithName("GetAllPhoneNumbers");
+
+app.MapGet("/departments/getall", async () =>
+{
+  app.Logger.LogInformation($"Request /departments/getall");
+  TDepartments Departments = [.. await DataSource.GetDepartmentsAsync().ToListAsync()];
+  return Departments; // Ensure the result is returned
+})
+.WithName("GetAllDepartments");
+
+app.MapGet("/mailaddresses/getall", async () =>
+{
+  app.Logger.LogInformation($"Request /mailaddresses/getall");
+  TMailAddresses MailAddresses = [.. await DataSource.GetMailAddressesAsync().ToListAsync()];
+  return MailAddresses; // Ensure the result is returned
+})
+.WithName("GetAllMailAddresses");
+
+app.MapGet("/contacts/get/{id}", async (string id) =>
+{
+  app.Logger.LogInformation($"Request /contact/get {id.WithQuotes()}");
+  return await DataSource.GetContactAsync(id);
+}).WithName("GetContactById");
 
 app.Run();
 
