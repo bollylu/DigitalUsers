@@ -6,6 +6,7 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
   protected bool IsDirty = false;
 
   protected ATableMemory() : base() {
+    Initialize();
   }
 
   protected override void Initialize() {

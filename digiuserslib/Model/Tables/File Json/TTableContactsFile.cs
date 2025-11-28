@@ -7,17 +7,17 @@ public class TTableContactsFile : ATableJsonFileWithCache<IContact> {
 
   public const string DEFAULT_DATAFILE = "contacts.json";
 
-  
-
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TTableContactsFile() : base() {
     Name = nameof(TTableContactsFile);
     Description = "All contact in a file";
     DataFile = DEFAULT_DATAFILE;
+    Initialize();
   }
 
   public TTableContactsFile(string dataFile) : this() {
     DataFile = dataFile;
+    Initialize();
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
