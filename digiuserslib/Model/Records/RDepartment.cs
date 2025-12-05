@@ -3,7 +3,7 @@ public record RDepartment : ARecord, IDepartment, IInvalid, IEqualityComparer<RD
 
   public string Name { get; set; } = string.Empty;
   public string Description { get; set; } = string.Empty;
-  public TKeyId HeadOfDepartment { get; set; } = TKeyId.Empty;
+  public IKeyId HeadOfDepartment { get; set; } = IKeyId.Empty;
 
   [JsonIgnore]
   public override bool IsInvalid => base.IsInvalid || string.IsNullOrWhiteSpace(Name);

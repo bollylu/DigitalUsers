@@ -18,5 +18,9 @@ public class TTablePhoneNumbersMemory : ATableMemory<IPhoneNumber> {
     Add(RPhoneNumber.BollyLucMobile);
     _IsInitialized = true;
   }
+
+  public IPhoneNumber? Create(IPhoneNumber phoneNumber) {
+    return Add(phoneNumber);
+  }
 }
 

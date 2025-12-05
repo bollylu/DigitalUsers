@@ -45,7 +45,7 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
   #endregion --- I/O -----------------------------------------
 
   #region --- Records access --------------------------------------------
-  public T? Get(TKeyId keyId) {
+  public T? Get(IKeyId keyId) {
     return _Records.SingleOrDefault(x => x.Id.Value == keyId.Value);
   }
 
@@ -78,11 +78,11 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
     return record;
   }
 
-  public bool Delete(TKeyId keyId) {
+  public bool Delete(IKeyId keyId) {
     if (keyId.IsInvalid) {
       throw new ArgumentException("Invalid key ID.");
     }
-    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == keyId) ?? throw new KeyNotFoundException($"Record with ID {keyId.Value.WithQuotes()} is not found.");
+    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == keyId.Value) ?? throw new KeyNotFoundException($"Record with ID {keyId.Value.WithQuotes()} is not found.");
     _Records.Remove(ExistingRecord);
     IsDirty = true; // Mark as dirty since we modified the records
     return true;
@@ -92,7 +92,7 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
     if (record.IsInvalid) {
       throw new ArgumentException("Invalid record.");
     }
-    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id) ?? throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} is not found.");
+    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id.Value) ?? throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} is not found.");
     _Records.Remove(ExistingRecord);
     IsDirty = true; // Mark as dirty since we modified the records
     return true;

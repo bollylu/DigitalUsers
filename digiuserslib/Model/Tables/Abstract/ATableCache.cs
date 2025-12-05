@@ -25,7 +25,7 @@ public abstract class ATableCache<T> : ATable, ITableHandlingAsync, ITableRecord
   public abstract ValueTask<bool> SaveAsync();
 
   #region --- Records access --------------------------------------------
-  public T? Get(TKeyId keyId) {
+  public T? Get(IKeyId keyId) {
     return _Records.SingleOrDefault(x => x.Id.Value == keyId.Value);
   }
 
@@ -58,7 +58,7 @@ public abstract class ATableCache<T> : ATable, ITableHandlingAsync, ITableRecord
     return record;
   }
 
-  public bool Delete(TKeyId keyId) {
+  public bool Delete(IKeyId keyId) {
     if (keyId.IsInvalid) {
       throw new ArgumentException("Invalid key ID.");
     }

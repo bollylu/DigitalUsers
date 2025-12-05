@@ -1,4 +1,6 @@
-﻿using BLTools;
+﻿using System.Transactions;
+
+using BLTools;
 
 using digiuserslib.Model;
 
@@ -47,12 +49,16 @@ namespace digiuserslib {
     }
     #endregion --- I/O -----------------------------------------
 
-    public Task<IContact?> GetContactAsync(TKeyId id) {
+    public Task<IContact?> GetContactAsync(IKeyId id) {
       IContact? Result = ContactsTable.Get(id);
       if (Result is null) {
         Logger.LogWarning($"Contact with Id {id} not found.");
       }
       return Task.FromResult(Result);
+    }
+
+    public ValueTask<bool> DeleteContactAsync(IKeyId id) {
+      return ValueTask.FromResult(ContactsTable.Delete(id));
     }
 
     public async IAsyncEnumerable<IContact> GetContactsAsync() {
@@ -73,10 +79,59 @@ namespace digiuserslib {
       return Task.FromResult(Result);
     }
 
-    public Task<ILocation?> GetLocationAsync(string id) {
+    public Task<IContact?> CreateContactAsync(IContactBasic contact) {
+      return Task.FromResult(ContactsTable.Create(contact));
+    }
+
+    public Task<IContact?> AddPhoneNumberToContactAsync(IKeyId contactId, IKeyId phoneNumberId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> RemovePhoneNumberFromContactAsync(IKeyId contactId, IKeyId phoneNumberId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> AddMailAddressToContactAsync(IKeyId contactId, IKeyId mailAddressId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> RemoveMailAddressFromContactAsync(IKeyId contactId, IKeyId mailAddressId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> AddLocationToContactAsync(IKeyId contactId, IKeyId locationId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> RemoveLocationFromContactAsync(IKeyId contactId, IKeyId locationId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> AddDepartmentToContactAsync(IKeyId contactId, IKeyId departmentId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> RemoveDepartmentFromContactAsync(IKeyId contactId, IKeyId departmentId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> AddPictureToContactAsync(IKeyId contactId, IKeyId pictureId) {
+      throw new NotImplementedException();
+    }
+
+    public Task<IContact?> RemovePictureFromContactAsync(IKeyId contactId, IKeyId pictureId) {
+      throw new NotImplementedException();
+    }
+
+    public IAsyncEnumerable<IContact> GetContactsByLocationAsync(string location) {
+      throw new NotImplementedException();
+    }
+
+    #region --- Locations -----------------------------------------------------
+    public Task<ILocation?> GetLocationAsync(IKeyId id) {
       ILocation? Result = LocationsTable.Get(id);
       if (Result is null) {
-        Logger.LogWarning($"Location with Id {id.WithQuotes()} not found.");
+        Logger.LogWarning($"Location with Id {id.Value.WithQuotes()} not found.");
       }
       return Task.FromResult(Result);
     }
@@ -88,11 +143,14 @@ namespace digiuserslib {
       }
     }
 
-    public IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(string idPerson) {
+    public IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(IKeyId idPerson) {
       throw new NotImplementedException();
     }
+    #endregion ----------------------------------------------------------------
 
-    public Task<IPhoneNumber?> GetPhoneNumberAsync(string id) {
+
+    #region --- Phone numbers -------------------------------------------------
+    public Task<IPhoneNumber?> GetPhoneNumberAsync(IKeyId id) {
       throw new NotImplementedException();
     }
 
@@ -103,11 +161,25 @@ namespace digiuserslib {
       }
     }
 
-    public IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(string idPerson) {
+    public IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(IKeyId idPerson) {
       throw new NotImplementedException();
     }
 
-    public Task<IMailAddress?> GetMailAddressAsync(string id) {
+    public Task<IPhoneNumber?> CreatePhoneNumberAsync(IPhoneNumber phoneNumber) {
+      if (phoneNumber.IsInvalid) {
+        phoneNumber.Id.Value = phoneNumber.FullPhoneNumber;
+      }
+      IPhoneNumber? AlreadyExistingPhoneNumber = PhoneNumbersTable.GetAll()
+        .FirstOrDefault(pn => pn.FullPhoneNumber == phoneNumber.FullPhoneNumber);
+      if (AlreadyExistingPhoneNumber is not null) {
+        return Task.FromResult<IPhoneNumber?>(null);
+      }
+      return Task.FromResult<IPhoneNumber?>(PhoneNumbersTable.Create(phoneNumber));
+    }
+    #endregion ----------------------------------------------------------------
+
+    #region --- Mail addresses ------------------------------------------------
+    public Task<IMailAddress?> GetMailAddressAsync(IKeyId id) {
       throw new NotImplementedException();
     }
 
@@ -118,19 +190,17 @@ namespace digiuserslib {
       }
     }
 
-    public IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(string idPerson) {
+    public IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(IKeyId idPerson) {
       throw new NotImplementedException();
     }
 
     public Task<IContact?> GetContactByEmailAsync(string mailAddress) {
       throw new NotImplementedException();
     }
+    #endregion ----------------------------------------------------------------
 
-    public IAsyncEnumerable<IContact> GetContactsByLocationAsync(string location) {
-      throw new NotImplementedException();
-    }
-
-    public Task<IDepartment?> GetDepartmentAsync(string departmentId) {
+    #region --- Departments ---------------------------------------------------
+    public Task<IDepartment?> GetDepartmentAsync(IKeyId departmentId) {
       throw new NotImplementedException();
     }
 
@@ -138,7 +208,7 @@ namespace digiuserslib {
       throw new NotImplementedException();
     }
 
-    public IAsyncEnumerable<IContact> GetDepartmentMembersAsync(string departmentId) {
+    public IAsyncEnumerable<IContact> GetDepartmentMembersAsync(IKeyId departmentId) {
       throw new NotImplementedException();
     }
 
@@ -148,5 +218,28 @@ namespace digiuserslib {
         yield return DepartmentItem;
       }
     }
+
+    public IAsyncEnumerable<IContact> GetDepartmentMembersAsync(string departmentId) {
+      throw new NotImplementedException();
+    }
+
+
+    #endregion ----------------------------------------------------------------
+
+    #region --- Pictures ------------------------------------------------------
+    public Task<IPicture?> GetPictureAsync(IKeyId id) {
+      throw new NotImplementedException();
+    }
+
+    public IAsyncEnumerable<IPicture> GetPicturesAsync() {
+      throw new NotImplementedException();
+    }
+
+    public IAsyncEnumerable<IPicture> GetPicturesByPersonAsync(IKeyId idPerson) {
+      throw new NotImplementedException();
+    }
+    #endregion ----------------------------------------------------------------
+
+
   }
 }

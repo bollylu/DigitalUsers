@@ -21,4 +21,7 @@ public class TTableContactsMemory : ATableMemory<IContact> {
     _IsInitialized = true;
   }
 
+  public IContact? Create(IContactBasic contact) {
+    return Add(new RContact(contact));
+  }
 }

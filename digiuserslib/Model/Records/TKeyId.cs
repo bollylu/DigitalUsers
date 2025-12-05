@@ -2,7 +2,7 @@
 
 namespace digiuserslib.Model;
 
-public class TKeyId : ILoggable, IId<string>, IEqualityComparer<TKeyId> {
+public class TKeyId : IKeyId  {
 
   public string Value { get; set; } = string.Empty;
 
@@ -28,7 +28,7 @@ public class TKeyId : ILoggable, IId<string>, IEqualityComparer<TKeyId> {
     return RetVal.ToString();
   }
 
-  public bool Equals(TKeyId? x, TKeyId? y) {
+  public bool Equals(IKeyId? x, IKeyId? y) {
     if (x is null && y is null) {
       return true;
     }
@@ -39,7 +39,7 @@ public class TKeyId : ILoggable, IId<string>, IEqualityComparer<TKeyId> {
     return string.Equals(x.Value, y.Value, StringComparison.OrdinalIgnoreCase);
   }
 
-  public int GetHashCode([DisallowNull] TKeyId obj) {
+  public int GetHashCode([DisallowNull] IKeyId obj) {
     return obj.Value?.GetHashCode() ?? 0;
   }
 

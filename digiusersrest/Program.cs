@@ -98,9 +98,32 @@ app.MapGet("/mailaddresses/getall", async () =>
 
 app.MapGet("/contacts/get/{id}", async (string id) =>
 {
-  app.Logger.LogInformation($"Request /contact/get {id.WithQuotes()}");
-  return await DataSource.GetContactAsync(id);
+  app.Logger.LogInformation($"Request /contacts/get {id.WithQuotes()}");
+  return await DataSource.GetContactAsync(new TKeyId(id));
 }).WithName("GetContactById");
+
+app.MapGet("/contacts/delete/{id}", async (string id) =>
+{
+  app.Logger.LogInformation($"Request /contacts/delete {id.WithQuotes()}");
+  return await DataSource.DeleteContactAsync(new TKeyId(id));
+}).WithName("DeleteContactById");
+
+app.MapPost("/contacts/create", async (RContactBasic contact) =>
+{
+  app.Logger.LogInformation($"Request /contacts/create {contact.Id.Value.WithQuotes()}");
+  return await DataSource.CreateContactAsync(contact);
+}).WithName("CreateContact");
+
+app.MapPost("/phonenumbers/create", async (RPhoneNumber phoneNumber) =>
+{
+  app.Logger.LogInformation($"Request /phonenumbers/create {phoneNumber.Id.Value.WithQuotes()}");
+  IPhoneNumber? Result = await DataSource.CreatePhoneNumberAsync(phoneNumber);
+  if (Result is null) {
+    app.Logger.LogError($"Unable to create phone number {phoneNumber.Id.Value.WithQuotes()}");
+    return Results.BadRequest();
+  }
+  return Results.Ok(Result);
+}).WithName("CreatePhoneNumber");
 
 app.Run();
 

@@ -1,4 +1,6 @@
 ﻿
+
+
 namespace digiuserslib;
 
 public class TDataSourceWeb : ADataSourceDMOAsync, IDataSourceAsync {
@@ -55,12 +57,15 @@ public class TDataSourceWeb : ADataSourceDMOAsync, IDataSourceAsync {
 
   }
 
+
+  #endregion --- I/O -----------------------------------------
+
+  #region --- Actions ---------------------------------------------------------
   public override ValueTask<bool> CloseAsync() {
     return ValueTask.FromResult(true);
   }
-  #endregion --- I/O -----------------------------------------
 
-  public Task<ILocation?> GetLocationAsync(string id) {
+  public Task<ILocation?> GetLocationAsync(IKeyId id) {
     throw new NotImplementedException();
   }
 
@@ -68,11 +73,11 @@ public class TDataSourceWeb : ADataSourceDMOAsync, IDataSourceAsync {
     throw new NotImplementedException();
   }
 
-  public IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(string idPerson) {
+  public IAsyncEnumerable<ILocation> GetLocationsByPersonAsync(IKeyId idPerson) {
     throw new NotImplementedException();
   }
 
-  public Task<IPhoneNumber?> GetPhoneNumberAsync(string id) {
+  public Task<IPhoneNumber?> GetPhoneNumberAsync(IKeyId id) {
     throw new NotImplementedException();
   }
 
@@ -80,11 +85,11 @@ public class TDataSourceWeb : ADataSourceDMOAsync, IDataSourceAsync {
     throw new NotImplementedException();
   }
 
-  public IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(string idPerson) {
+  public IAsyncEnumerable<IPhoneNumber> GetPhoneNumbersByPersonAsync(IKeyId idPerson) {
     throw new NotImplementedException();
   }
 
-  public Task<IMailAddress?> GetMailAddressAsync(string id) {
+  public Task<IMailAddress?> GetMailAddressAsync(IKeyId id) {
     throw new NotImplementedException();
   }
 
@@ -92,11 +97,11 @@ public class TDataSourceWeb : ADataSourceDMOAsync, IDataSourceAsync {
     throw new NotImplementedException();
   }
 
-  public IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(string idPerson) {
+  public IAsyncEnumerable<IMailAddress> GetMailAddressesByPersonAsync(IKeyId idPerson) {
     throw new NotImplementedException();
   }
 
-  public Task<IContact?> GetContactAsync(TKeyId id) {
+  public Task<IContact?> GetContactAsync(IKeyId id) {
     throw new NotImplementedException();
   }
 
@@ -116,7 +121,59 @@ public class TDataSourceWeb : ADataSourceDMOAsync, IDataSourceAsync {
     throw new NotImplementedException();
   }
 
-  public Task<IDepartment?> GetDepartmentAsync(string departmentId) {
+  public ValueTask<bool> DeleteContactAsync(IKeyId id) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> CreateContactAsync(IContactBasic contact) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> AddPhoneNumberToContactAsync(IKeyId contactId, IKeyId phoneNumberId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> RemovePhoneNumberFromContactAsync(IKeyId contactId, IKeyId phoneNumberId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> AddMailAddressToContactAsync(IKeyId contactId, IKeyId mailAddressId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> RemoveMailAddressFromContactAsync(IKeyId contactId, IKeyId mailAddressId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> AddLocationToContactAsync(IKeyId contactId, IKeyId locationId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> RemoveLocationFromContactAsync(IKeyId contactId, IKeyId locationId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> AddDepartmentToContactAsync(IKeyId contactId, IKeyId departmentId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> RemoveDepartmentFromContactAsync(IKeyId contactId, IKeyId departmentId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> AddPictureToContactAsync(IKeyId contactId, IKeyId pictureId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IContact?> RemovePictureFromContactAsync(IKeyId contactId, IKeyId pictureId) {
+    throw new NotImplementedException();
+  }
+
+  public Task<IDepartment?> GetDepartmentAsync(IKeyId departmentId) {
+    throw new NotImplementedException();
+  }
+
+  public IAsyncEnumerable<IDepartment> GetDepartmentsAsync() {
     throw new NotImplementedException();
   }
 
@@ -128,7 +185,20 @@ public class TDataSourceWeb : ADataSourceDMOAsync, IDataSourceAsync {
     throw new NotImplementedException();
   }
 
-    public IAsyncEnumerable<IDepartment> GetDepartmentsAsync() {
+    public Task<IPicture?> GetPictureAsync(IKeyId id) {
         throw new NotImplementedException();
     }
+
+    public IAsyncEnumerable<IPicture> GetPicturesAsync() {
+        throw new NotImplementedException();
+    }
+
+    public IAsyncEnumerable<IPicture> GetPicturesByPersonAsync(IKeyId idPerson) {
+        throw new NotImplementedException();
+    }
+
+    public Task<IPhoneNumber?> CreatePhoneNumberAsync(IPhoneNumber phoneNumber) {
+        throw new NotImplementedException();
+    }
+    #endregion ------------------------------------------------------------------
 }

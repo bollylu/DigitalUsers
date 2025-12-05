@@ -1,22 +1,13 @@
 ﻿namespace digiuserslib.Model;
 
-public record RContact : ARecord, IContact {
+public record RContact : RContactBasic, IContact {
 
-  public string FirstName { get; set; } = string.Empty;
-  public string LastName { get; set; } = string.Empty;
-
-  public string Company { get; set; } = string.Empty;
-  public string Title { get; set; } = string.Empty;
   public IPicture Picture { get; set; } = new RPicture();
-  public string Notes { get; set; } = string.Empty;
 
   public TMailAddresses EmailAdresses { get; } = [];
   public TPhoneNumbers PhoneNumbers { get; } = [];
   public TLocations Locations { get; } = [];
   public TDepartments Departments { get; } = [];
-
-  [JsonIgnore]
-  public string FullName => $"{FirstName} {LastName}";
 
   [JsonIgnore]
   public override bool IsInvalid => base.IsInvalid || string.IsNullOrWhiteSpace(FullName);
@@ -28,13 +19,18 @@ public record RContact : ARecord, IContact {
     Id = id;
   }
 
+  public RContact(IContactBasic contactBasic) {
+    Id = contactBasic.Id;
+    FirstName = contactBasic.FirstName;
+    LastName = contactBasic.LastName;
+    Company = contactBasic.Company;
+    Title = contactBasic.Title;
+    Notes = contactBasic.Notes;
+  }
+
   #endregion -------------------------------------------------------------------------------------------------
 
-  public static RContact BollyLuc => new("bollylu") {
-    FirstName = "Luc",
-    LastName = "Bolly",
-    Company = "Ville de Seraing",
-    Title = "Responsable IT",
+  public static new RContact BollyLuc => new(RContactBasic.BollyLuc) {
     Departments = {
       RDepartment.GestionInformatique
     },
@@ -53,7 +49,6 @@ public record RContact : ARecord, IContact {
     Locations = {
       RLocation.CiteAdministrative
     },
-    Notes = "Expert in customer support and troubleshooting.",
     EmailAdresses = {
       new RMailAddress() {
         Id = "email-001",
@@ -62,11 +57,7 @@ public record RContact : ARecord, IContact {
     }
   };
 
-  public static RContact MartinSophie => new("martiso") {
-    FirstName = "Sophie",
-    LastName = "Martin",
-    Company = "Ville de Seraing",
-    Title = "Technicienne IT",
+  public static new RContact MartinSophie => new(RContactBasic.MartinSophie) {
     Departments = {
       RDepartment.GestionInformatique,
       RDepartment.Travaux
@@ -81,7 +72,6 @@ public record RContact : ARecord, IContact {
     Locations = {
       RLocation.HotelDeVille
     },
-    Notes = "Specializes in network infrastructure and maintenance.",
     EmailAdresses = {
       new RMailAddress() {
         Id = "email-002",
@@ -90,11 +80,7 @@ public record RContact : ARecord, IContact {
     }
   };
 
-  public static RContact DupontJean => new("duponje") {
-    FirstName = "Jean",
-    LastName = "Dupont",
-    Company = "Ville de Seraing",
-    Title = "Analyste IT",
+  public static new RContact DupontJean => new(RContactBasic.DupontJean) {
     Departments = {
       RDepartment.Optimisation
     },
@@ -108,7 +94,6 @@ public record RContact : ARecord, IContact {
     Locations = {
       RLocation.CiteAdministrative
     },
-    Notes = "Focuses on system optimization and performance analysis.",
     EmailAdresses = {
       new RMailAddress() {
         Id = "email-003",
@@ -117,11 +102,7 @@ public record RContact : ARecord, IContact {
     }
   };
 
-  public static RContact LefevreClaire => new("lefevcl") {
-    FirstName = "Claire",
-    LastName = "Lefevre",
-    Company = "Ville de Seraing",
-    Title = "Consultante IT",
+  public static new RContact LefevreClaire => new(RContactBasic.LefevreClaire) {
     Departments = {
       RDepartment.Optimisation
     },
@@ -135,7 +116,6 @@ public record RContact : ARecord, IContact {
     Locations = {
       RLocation.HotelDeVille
     },
-    Notes = "Provides strategic IT consulting and project management.",
     EmailAdresses = {
       new RMailAddress() {
         Id = "email-004",
@@ -144,11 +124,7 @@ public record RContact : ARecord, IContact {
     }
   };
 
-  public static RContact AdamBruno => new("adambr") {
-    FirstName = "Bruno",
-    LastName = "Adam",
-    Company = "Ville de Seraing",
-    Title = "Directeur général",
+  public static new RContact AdamBruno => new(RContactBasic.AdamBruno) {
     Departments = {
       RDepartment.Direction
     },
@@ -162,7 +138,6 @@ public record RContact : ARecord, IContact {
     Locations = {
       RLocation.HotelDeVille
     },
-    Notes = "Dirige la boite",
     EmailAdresses = {
       new RMailAddress() {
         Id = "email-005",

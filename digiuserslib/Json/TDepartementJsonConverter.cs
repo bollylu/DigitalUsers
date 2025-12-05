@@ -47,7 +47,7 @@ public class TDepartementJsonConverter : JsonConverter<RDepartment>, ILoggable {
               RetVal.Description = reader.GetString() ?? string.Empty;
               break;
             case nameof(RDepartment.HeadOfDepartment):
-              RetVal.HeadOfDepartment = reader.GetString() ?? string.Empty;
+              RetVal.HeadOfDepartment = new TKeyId(reader.GetString() ?? string.Empty);
               break;
             default:
               Logger.LogWarningBox("Department unknown property ** : ", PropertyName);
@@ -76,7 +76,7 @@ public class TDepartementJsonConverter : JsonConverter<RDepartment>, ILoggable {
     }
 
     if (value.HeadOfDepartment is not null && !value.HeadOfDepartment.IsInvalid) {
-      writer.WriteString(nameof(RDepartment.HeadOfDepartment), value.HeadOfDepartment);
+      writer.WriteString(nameof(RDepartment.HeadOfDepartment), value.HeadOfDepartment.Value);
     }
 
     writer.WriteEndObject();
