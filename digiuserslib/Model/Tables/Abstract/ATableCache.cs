@@ -8,6 +8,7 @@ public abstract class ATableCache<T> : ATable, ITableHandlingAsync, ITableRecord
   protected bool LockTable = false;
 
   protected ATableCache() : base() {
+    Initialize();
   }
 
   protected override void Initialize() {

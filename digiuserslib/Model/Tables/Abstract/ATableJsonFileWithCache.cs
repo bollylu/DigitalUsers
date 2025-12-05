@@ -3,8 +3,11 @@
 namespace digiuserslib.Model;
 
 public abstract class ATableJsonFileWithCache<T> : ATableCache<T> where T : IRecord {
+  
+  [JsonIgnore]
   public string DataFile { get; set; } = string.Empty;
 
+  [JsonIgnore]
   protected JsonSerializerOptions _JsonOptions = new() {
     WriteIndented = true,
     //Converters = {
@@ -14,7 +17,9 @@ public abstract class ATableJsonFileWithCache<T> : ATableCache<T> where T : IRec
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     PropertyNameCaseInsensitive = true
   };
+
   protected ATableJsonFileWithCache() : base() {
+    Initialize();
   }
 
   #region --- I/O --------------------------------------------
