@@ -3,6 +3,10 @@
 public interface IPicture : IRecord, IInvalid {
   string Name { get; }
 
+  string Description { get; }
+
+
+
   string PictureBase64 { get; }
   string PictureUrl { get; }
 

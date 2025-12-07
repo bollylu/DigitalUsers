@@ -38,7 +38,7 @@ public class TDepartementJsonConverter : JsonConverter<RDepartment>, ILoggable {
 
           switch (PropertyName) {
             case nameof(RDepartment.Id):
-              RetVal.Id = reader.GetString() ?? string.Empty;
+              RetVal.Id = new TKeyId(reader.GetString() ?? string.Empty);
               break;
             case nameof(RDepartment.Name):
               RetVal.Name = reader.GetString() ?? string.Empty;
@@ -47,7 +47,7 @@ public class TDepartementJsonConverter : JsonConverter<RDepartment>, ILoggable {
               RetVal.Description = reader.GetString() ?? string.Empty;
               break;
             case nameof(RDepartment.HeadOfDepartment):
-              RetVal.HeadOfDepartment = new TKeyId(reader.GetString() ?? string.Empty);
+              //RetVal.HeadOfDepartment = [new TKeyId(reader.GetString() ?? string.Empty)];
               break;
             default:
               Logger.LogWarningBox("Department unknown property ** : ", PropertyName);
@@ -68,15 +68,19 @@ public class TDepartementJsonConverter : JsonConverter<RDepartment>, ILoggable {
   public override void Write(Utf8JsonWriter writer, RDepartment value, JsonSerializerOptions options) {
     writer.WriteStartObject();
 
-    writer.WriteString(nameof(RDepartment.Id), value.Id);
+    writer.WriteString(nameof(RDepartment.Id), value.Id.Value);
     writer.WriteString(nameof(RDepartment.Name), value.Name);
 
     if (!string.IsNullOrWhiteSpace(value.Description)) {
       writer.WriteString(nameof(RDepartment.Description), value.Description);
     }
 
-    if (value.HeadOfDepartment is not null && !value.HeadOfDepartment.IsInvalid) {
-      writer.WriteString(nameof(RDepartment.HeadOfDepartment), value.HeadOfDepartment.Value);
+    if (value.HeadOfDepartment.Any()) {
+      writer.WriteStartArray(nameof(RDepartment.HeadOfDepartment));
+      foreach (IContactBasic ContactItem in value.HeadOfDepartment) {
+        writer.WriteString(nameof(RDepartment.HeadOfDepartment), ContactItem.Id.Value);
+      }
+      writer.WriteEndArray();
     }
 
     writer.WriteEndObject();

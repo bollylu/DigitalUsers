@@ -29,7 +29,7 @@ namespace digiuserslib {
 
     #region --- I/O -------------------------------------
     public override async ValueTask<bool> OpenAsync() {
-      foreach (ITableHandlingAsync TableItem in _Tables) {
+      foreach (ITableIOAsync TableItem in _Tables) {
         if (!await TableItem.OpenAsync()) {
           Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
           return false;
@@ -39,7 +39,7 @@ namespace digiuserslib {
     }
 
     public override async ValueTask<bool> CloseAsync() {
-      foreach (ITableHandlingAsync TableItem in _Tables) {
+      foreach (ITableIOAsync TableItem in _Tables) {
         if (!await TableItem.CloseAsync()) {
           Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
           return false;

@@ -32,11 +32,11 @@ public class TableDepartmentTest {
   public void TableDepartmentMemory_Get_Ok() {
     Message("Create an table of departments");
     TTableDepartmentsMemory TableDepartments = new();
-    string DepartmentId = RDepartment.GestionInformatique.Id;
-    Message($"Get existing department {DepartmentId}");
+    IKeyId DepartmentId = RDepartment.GestionInformatique.Id;
+    Message($"Get existing department {DepartmentId.Value.WithQuotes()}");
     IDepartment? Department = TableDepartments.Get(DepartmentId);
     Assert.That(Department, Is.Not.Null);
-    Assert.That(Department.Id.Value, Is.EqualTo(DepartmentId));
+    Assert.That(Department.Id, Is.EqualTo(DepartmentId));
     Dump(Department, 3);
     Ok();
   }
@@ -45,7 +45,7 @@ public class TableDepartmentTest {
   public void TableDepartmentMemory_Get_Bad() {
     Message("Create an table of departments");
     TTableDepartmentsMemory TableDepartments = new();
-    string DepartmentId = "xxxxxxx";
+    IKeyId DepartmentId = new TKeyId("xxxxxxx");
     Message($"Get missing department {DepartmentId}");
     IDepartment? Department = TableDepartments.Get(DepartmentId);
     Assert.That(Department, Is.Null);

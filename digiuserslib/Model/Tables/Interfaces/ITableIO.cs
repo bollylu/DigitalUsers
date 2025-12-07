@@ -1,6 +1,6 @@
 ﻿namespace digiuserslib.Model;
 
-public interface ITableHandling : ITable {
+public interface ITableIO : ITable {
   bool Open();
   bool Close();
   bool Read();

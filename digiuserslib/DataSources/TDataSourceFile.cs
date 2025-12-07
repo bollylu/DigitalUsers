@@ -7,21 +7,27 @@ using digiuserslib.Json;
 
 namespace digiuserslib;
 
-public class TDataSourceFile : ILoggable, IDataSourceDMOAsync, IDataSourceAsync {
+public class TDataSourceFile : ADataSourceDMOAsync, IDataSourceAsync {
 
   public const string DEFAULT_LOCATION = ".";
 
-  public ILogger Logger { get; set; } = new TTraceLogger() { Name = nameof(TDataSourceFile) };
-
   public string DataFileLocation { get; set; } = DEFAULT_LOCATION;
 
-  protected readonly List<ITable> _Tables = [];
+  private TTableContactsFile? _contactsTable;
+  private TTableContactsFile ContactsTable => _contactsTable ??= (TTableContactsFile?)_Tables.FirstOrDefault(t => t is TTableContactsFile) ?? throw new ApplicationException("TableContactsFile is missing");
 
-  private TTableContactsFile ContactsTable => (TTableContactsFile?)_Tables.FirstOrDefault(t => t is TTableContactsFile) ?? throw new ApplicationException("TableContactsFile is missing");
-  private TTablePhoneNumbersMemory? PhoneNumbersTable => (TTablePhoneNumbersMemory?)_Tables.FirstOrDefault(t => t is TTablePhoneNumbersMemory);
-  private TTableLocationsFile? LocationsTable => (TTableLocationsFile?)_Tables.FirstOrDefault(t => t is TTableLocationsFile);
-  private TTableMailAddressesMemory? PhoneMailAddressesTable => (TTableMailAddressesMemory?)_Tables.FirstOrDefault(t => t is TTableMailAddressesMemory);
-  private TTableDepartmentsMemory? PhoneDepartmentTable => (TTableDepartmentsMemory?)_Tables.FirstOrDefault(t => t is TTableDepartmentsMemory);
+  private TTablePhoneNumbersMemory? _phoneNumbersTable;
+  private TTablePhoneNumbersMemory? PhoneNumbersTable => _phoneNumbersTable ??= (TTablePhoneNumbersMemory?)_Tables.FirstOrDefault(t => t is TTablePhoneNumbersMemory);
+
+  private TTableLocationsFile? _locationsTable;
+  private TTableLocationsFile? LocationsTable => _locationsTable ??= (TTableLocationsFile?)_Tables.FirstOrDefault(t => t is TTableLocationsFile);
+
+  private TTableMailAddressesMemory? _mailAddressesTable;
+  private TTableMailAddressesMemory? PhoneMailAddressesTable => _mailAddressesTable ??= (TTableMailAddressesMemory?)_Tables.FirstOrDefault(t => t is TTableMailAddressesMemory);
+
+  private TTableDepartmentsMemory? _departmentsTable;
+  private TTableDepartmentsMemory? PhoneDepartmentTable => _departmentsTable ??= (TTableDepartmentsMemory?)_Tables.FirstOrDefault(t => t is TTableDepartmentsMemory);
+
 
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TDataSourceFile(string dataFileLocation = DEFAULT_LOCATION) {
@@ -33,14 +39,29 @@ public class TDataSourceFile : ILoggable, IDataSourceDMOAsync, IDataSourceAsync 
     } catch (Exception ex) {
       throw new ApplicationException($"Unable to create directory {DataFileLocation.WithQuotes()}", ex);
     }
-    _Tables.Add(new TTableLocationsFile(Path.Combine(DataFileLocation, "locations.json")));
+    Initialize();
   }
+
+  private void Initialize() {
+    _Tables.Add(new TTableContactsFile(Path.Combine(DataFileLocation, "contacts.json")));
+    _Tables.Add(new TTableLocationsFile(Path.Combine(DataFileLocation, "locations.json")));
+    _Tables.Add(new TTablePhoneNumbersMemory());
+    _Tables.Add(new TTableMailAddressesMemory());
+    _Tables.Add(new TTableDepartmentsMemory());
+  }
+
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
   #region --- Basic I/O -------------------------------------------------------
-  public async ValueTask<bool> OpenAsync() {
-    foreach (ITableHandlingAsync TableItem in _Tables) {
+  public override async ValueTask<bool> OpenAsync() {
+    foreach (ITableIOAsync TableItem in _Tables.OfType<ITableIOAsync>()) {
       if (!await TableItem.OpenAsync().ConfigureAwait(false)) {
+        Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
+        return false;
+      }
+    }
+    foreach (ITableIO TableItem in _Tables.OfType<ITableIO>()) {
+      if (!TableItem.Open()) {
         Logger.LogError($"Unable to open table {TableItem.Name.WithQuotes()}");
         return false;
       }
@@ -48,9 +69,15 @@ public class TDataSourceFile : ILoggable, IDataSourceDMOAsync, IDataSourceAsync 
     return true;
   }
 
-  public async ValueTask<bool> CloseAsync() {
-    foreach (ITableHandlingAsync TableItem in _Tables) {
+  public override async ValueTask<bool> CloseAsync() {
+    foreach (ITableIOAsync TableItem in _Tables.OfType<ITableIOAsync>()) {
       if (!await TableItem.CloseAsync().ConfigureAwait(false)) {
+        Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
+        return false;
+      }
+    }
+    foreach (ITableIO TableItem in _Tables.OfType<ITableIO>()) {
+      if (!TableItem.Close()) {
         Logger.LogError($"Unable to close table {TableItem.Name.WithQuotes()}");
         return false;
       }
@@ -180,19 +207,19 @@ public class TDataSourceFile : ILoggable, IDataSourceDMOAsync, IDataSourceAsync 
     throw new NotImplementedException();
   }
 
-    public Task<IPicture?> GetPictureAsync(IKeyId id) {
-        throw new NotImplementedException();
-    }
+  public Task<IPicture?> GetPictureAsync(IKeyId id) {
+    throw new NotImplementedException();
+  }
 
-    public IAsyncEnumerable<IPicture> GetPicturesAsync() {
-        throw new NotImplementedException();
-    }
+  public IAsyncEnumerable<IPicture> GetPicturesAsync() {
+    throw new NotImplementedException();
+  }
 
-    public IAsyncEnumerable<IPicture> GetPicturesByPersonAsync(IKeyId idPerson) {
-        throw new NotImplementedException();
-    }
+  public IAsyncEnumerable<IPicture> GetPicturesByPersonAsync(IKeyId idPerson) {
+    throw new NotImplementedException();
+  }
 
-    public Task<IPhoneNumber?> CreatePhoneNumberAsync(IPhoneNumber phoneNumber) {
-        throw new NotImplementedException();
-    }
+  public Task<IPhoneNumber?> CreatePhoneNumberAsync(IPhoneNumber phoneNumber) {
+    throw new NotImplementedException();
+  }
 }

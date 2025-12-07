@@ -18,8 +18,16 @@ public record RContactBasic : ARecord, IContactBasic {
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   public RContactBasic() {
   }
-  public RContactBasic(string id) {
-    Id = id;
+  public RContactBasic(string id) : base(id) {
+  }
+  public RContactBasic(IKeyId id) : base(id) {
+  }
+  public RContactBasic(IContactBasic other) : base(other.Id) {
+    FirstName = other.FirstName;
+    LastName = other.LastName;
+    Company = other.Company;
+    Title = other.Title;
+    Notes = other.Notes;
   }
 
   #endregion -------------------------------------------------------------------------------------------------

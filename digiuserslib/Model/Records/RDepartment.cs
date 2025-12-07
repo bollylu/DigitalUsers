@@ -1,19 +1,25 @@
 ﻿namespace digiuserslib.Model;
-public record RDepartment : ARecord, IDepartment, IInvalid, IEqualityComparer<RDepartment> {
 
-  public string Name { get; set; } = string.Empty;
-  public string Description { get; set; } = string.Empty;
-  public IKeyId HeadOfDepartment { get; set; } = IKeyId.Empty;
+public record RDepartment : RDepartmentBasic, IDepartment, IInvalid, IEqualityComparer<RDepartment> {
+
+  public IList<IKeyId> HeadOfDepartment { get; set; } = [];
 
   [JsonIgnore]
   public override bool IsInvalid => base.IsInvalid || string.IsNullOrWhiteSpace(Name);
 
-  public RDepartment() { }
-  public RDepartment(string id, string name) {
-    Id = id;
-    Name = name;
+  public RDepartment() : base() { }
+  public RDepartment(string id) : base(id) {
   }
-  
+  public RDepartment(IKeyId id) : base(id) {
+  }
+  public RDepartment(IDepartmentBasic department) : base(department) {
+  }
+  public RDepartment(IDepartment department) : base(department.Id) {
+    Name = department.Name;
+    Description = department.Description;
+    HeadOfDepartment = department.HeadOfDepartment;
+  }
+
   public bool Equals(RDepartment? x, RDepartment? y) {
     if (x is null && y is null) {
       return true;
@@ -34,10 +40,10 @@ public record RDepartment : ARecord, IDepartment, IInvalid, IEqualityComparer<RD
     return obj.Id.GetHashCode();
   }
 
-  public static RDepartment Empty => new();
-  public static RDepartment Direction => new() { Id = "direction", Name = "Direction générale", HeadOfDepartment = new TKeyId("adambr") };
-  public static RDepartment GestionInformatique => new() { Id = "gestinfo", Name = "Gestion informatique", HeadOfDepartment = new TKeyId("bollylu") };
-  public static RDepartment Travaux => new() { Id = "travaux", Name = "Travaux", HeadOfDepartment = new TKeyId("reiser") };
-  public static RDepartment Optimisation => new() { Id = "optimisation", Name = "Optimisation", HeadOfDepartment = new TKeyId("bollyal") };
+  public static new RDepartment Empty => new();
+  public static new RDepartment Direction => new(RDepartmentBasic.Direction) { HeadOfDepartment = [RContactBasic.AdamBruno.Id] };
+  public static new RDepartment GestionInformatique => new(RDepartmentBasic.GestionInformatique) { HeadOfDepartment = [RContactBasic.BollyLuc.Id] };
+  public static new RDepartment Travaux => new(RDepartmentBasic.Travaux) { HeadOfDepartment = [new TKeyId("reiser")] };
+  public static new RDepartment Optimisation => new(RDepartmentBasic.Optimisation) { HeadOfDepartment = [new TKeyId("bollyal")] };
 
 }

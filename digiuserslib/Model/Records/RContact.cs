@@ -15,91 +15,34 @@ public record RContact : RContactBasic, IContact {
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   public RContact() {
   }
-  public RContact(string id) {
-    Id = id;
+  public RContact(string id) : base(id) {
   }
-
-  public RContact(IContactBasic contactBasic) {
-    Id = contactBasic.Id;
-    FirstName = contactBasic.FirstName;
-    LastName = contactBasic.LastName;
-    Company = contactBasic.Company;
-    Title = contactBasic.Title;
-    Notes = contactBasic.Notes;
+  public RContact(IKeyId id) : base(id) {
+  }
+  public RContact(IContactBasic contactBasic) : base(contactBasic) {
   }
 
   #endregion -------------------------------------------------------------------------------------------------
 
   public static new RContact BollyLuc => new(RContactBasic.BollyLuc) {
-    Departments = {
-      RDepartment.GestionInformatique
-    },
-    PhoneNumbers = {
-      new RPhoneNumber() {
-        Id = "phone-001",
-        Number = "+32471234567",
-        Type = EPhoneNumberType.Mobile
-      },
-      new RPhoneNumber() {
-        Id = "phone-002",
-        Number = "+32479876543",
-        Type = EPhoneNumberType.Work
-      }
-    },
-    Locations = {
-      RLocation.CiteAdministrative
-    },
-    EmailAdresses = {
-      new RMailAddress() {
-        Id = "email-001",
-        Address = "l.bolly@seraing.be"
-      }
-    }
+    Departments = { RDepartment.GestionInformatique },
+    PhoneNumbers = { RPhoneNumber.BollyLucOffice, RPhoneNumber.BollyLucMobile },
+    Locations = { RLocation.CiteAdministrative },
+    EmailAdresses = { RMailAddress.BollyLuc }
   };
 
   public static new RContact MartinSophie => new(RContactBasic.MartinSophie) {
-    Departments = {
-      RDepartment.GestionInformatique,
-      RDepartment.Travaux
-    },
-    PhoneNumbers = {
-      new RPhoneNumber() {
-        Id = "phone-003",
-        Number = "+32473456789",
-        Type = EPhoneNumberType.Mobile
-      }
-    },
-    Locations = {
-      RLocation.HotelDeVille
-    },
-    EmailAdresses = {
-      new RMailAddress() {
-        Id = "email-002",
-        Address = "s.martin@seraing.be"
-      }
-    }
+    Departments = { RDepartment.GestionInformatique, RDepartment.Travaux },
+    PhoneNumbers = { new RPhoneNumber("+32473456789") { Number = "+32473456789", Type = EPhoneNumberType.Mobile } },
+    Locations = { RLocation.HotelDeVille },
+    EmailAdresses = { new RMailAddress("s.martin@seraing.be") }
   };
 
   public static new RContact DupontJean => new(RContactBasic.DupontJean) {
-    Departments = {
-      RDepartment.Optimisation
-    },
-    PhoneNumbers = {
-      new RPhoneNumber() {
-        Id = "phone-004",
-        Number = "+32475678901",
-        Type = EPhoneNumberType.Work
-      }
-    },
-    Locations = {
-      RLocation.CiteAdministrative
-    },
-    EmailAdresses = {
-      new RMailAddress() {
-        Id = "email-003",
-        Address = "j.dupont@seraing.be"
-      }
-    }
+    Departments = { RDepartment.Optimisation },
+    PhoneNumbers = { new RPhoneNumber("+3243308715") { CountryCode=EPhoneCountry.Belgium, Prefix="4", Number="3308", Extension="715",  Type = EPhoneNumberType.Work } },
+    Locations = { RLocation.CiteAdministrative },
+    EmailAdresses = { new RMailAddress("j.dupont@seraing.be") }
   };
 
   public static new RContact LefevreClaire => new(RContactBasic.LefevreClaire) {
@@ -107,8 +50,7 @@ public record RContact : RContactBasic, IContact {
       RDepartment.Optimisation
     },
     PhoneNumbers = {
-      new RPhoneNumber() {
-        Id = "phone-005",
+      new RPhoneNumber("+32479812345") {
         Number = "+32479812345",
         Type = EPhoneNumberType.Mobile
       }
@@ -117,8 +59,7 @@ public record RContact : RContactBasic, IContact {
       RLocation.HotelDeVille
     },
     EmailAdresses = {
-      new RMailAddress() {
-        Id = "email-004",
+      new RMailAddress("c.lefevre@seraing.be") {
         Address = "c.lefevre@seraing.be"
       }
     }
@@ -129,8 +70,7 @@ public record RContact : RContactBasic, IContact {
       RDepartment.Direction
     },
     PhoneNumbers = {
-      new RPhoneNumber() {
-        Id = "phone-006",
+      new RPhoneNumber("+32472123456") {
         Number = "+32472123456",
         Type = EPhoneNumberType.Work
       }
@@ -138,12 +78,7 @@ public record RContact : RContactBasic, IContact {
     Locations = {
       RLocation.HotelDeVille
     },
-    EmailAdresses = {
-      new RMailAddress() {
-        Id = "email-005",
-        Address = "b.adam@seraing.be"
-      }
-    }
+    EmailAdresses = { RMailAddress.AdamBruno }
   };
 
 

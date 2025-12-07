@@ -1,6 +1,6 @@
 ﻿namespace digiuserslib.Model;
 
-public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T> where T : IRecord {
+public abstract class ATableMemory<T> : ATable, ITableIO, ITableRecords<T> where T : IRecord {
 
   protected readonly List<T> _Records = [];
   protected bool IsDirty = false;
@@ -50,6 +50,10 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
     return _Records.SingleOrDefault(x => x.Id.Value == keyId.Value);
   }
 
+  public T? Get(string keyId) {
+    return _Records.SingleOrDefault(x => x.Id.Value == keyId);
+  }
+
   public  IEnumerable<T> GetAll() {
     foreach (T RecordItem in _Records) {
       yield return RecordItem;
@@ -60,7 +64,7 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
     if (record.IsInvalid) {
       throw new ArgumentException("Invalid record.");
     }
-    if (_Records.Any(x => x.Id == record.Id)) {
+    if (_Records.Any(x => x.Id.Value == record.Id.Value)) {
       throw new InvalidOperationException($"Record with ID {record.Id.Value.WithQuotes()} already exists.");
     }
     _Records.Add(record);
@@ -72,7 +76,7 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
     if (record.IsInvalid) {
       throw new ArgumentException("Invalid record.");
     }
-    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id) ?? throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} is not found.");
+    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id.Value == record.Id.Value) ?? throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} is not found.");
     int Index = _Records.IndexOf(ExistingRecord);
     _Records[Index] = record;
     IsDirty = true; // Mark as dirty since we modified the records
@@ -83,7 +87,7 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
     if (keyId.IsInvalid) {
       throw new ArgumentException("Invalid key ID.");
     }
-    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == keyId.Value) ?? throw new KeyNotFoundException($"Record with ID {keyId.Value.WithQuotes()} is not found.");
+    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id.Value == keyId.Value) ?? throw new KeyNotFoundException($"Record with ID {keyId.Value.WithQuotes()} is not found.");
     _Records.Remove(ExistingRecord);
     IsDirty = true; // Mark as dirty since we modified the records
     return true;
@@ -93,7 +97,7 @@ public abstract class ATableMemory<T> : ATable, ITableHandling, ITableRecords<T>
     if (record.IsInvalid) {
       throw new ArgumentException("Invalid record.");
     }
-    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id == record.Id.Value) ?? throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} is not found.");
+    T? ExistingRecord = _Records.SingleOrDefault(x => x.Id.Value == record.Id.Value) ?? throw new KeyNotFoundException($"Record with ID {record.Id.Value.WithQuotes()} is not found.");
     _Records.Remove(ExistingRecord);
     IsDirty = true; // Mark as dirty since we modified the records
     return true;

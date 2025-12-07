@@ -1,6 +1,6 @@
 ﻿namespace digiuserslib.Model;
 
-public interface ITableHandlingAsync : ITable {
+public interface ITableIOAsync : ITable {
   ValueTask<bool> OpenAsync();
   ValueTask<bool> CloseAsync();
   ValueTask<bool> ReadAsync();

@@ -35,11 +35,11 @@ public class TableContactTest {
   public void TableContactMemory_Get_Ok() {
     Message("Create an table of contacts");
     TTableContactsMemory TableContact = new();
-    string ContactId = RContact.DupontJean.Id;
-    Message($"Get existing contact {ContactId.WithQuotes()}");
+    IKeyId ContactId = RContact.DupontJean.Id;
+    Message($"Get existing contact {ContactId.Value.WithQuotes()}");
     IContact? Agent = TableContact.Get(ContactId);
     Assert.That(Agent, Is.Not.Null);
-    Assert.That(Agent.Id.Value, Is.EqualTo(ContactId));
+    Assert.That(Agent.Id, Is.EqualTo(ContactId));
     Dump(Agent, 3);
     Ok();
   }

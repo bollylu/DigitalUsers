@@ -14,11 +14,7 @@ public class TKeyId : IKeyId  {
 
   public TKeyId() { }
   public TKeyId(string id) { Value = id; }
-
-  // convert from string to TKeyId
-  public static implicit operator TKeyId(string id) => new(id);
-  // convert from TKeyId to string
-  public static implicit operator string(TKeyId id) => id.Value;
+  public TKeyId(IKeyId other) { Value = other.Value; }
 
   public static TKeyId Empty => new();
 

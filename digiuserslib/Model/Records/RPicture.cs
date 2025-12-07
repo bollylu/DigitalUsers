@@ -8,6 +8,7 @@ public record RPicture : ARecord, IPicture, ILoggable {
   public ILogger Logger { get; set; } = new TTraceLogger() { Name = nameof(RPicture) };
 
   public string Name { get; init; } = string.Empty;
+  public string Description { get; init; } = string.Empty;
   public string PictureBase64 { get; init; } = string.Empty;
   public string PictureUrl { get; init; } = string.Empty;
 
@@ -21,6 +22,13 @@ public record RPicture : ARecord, IPicture, ILoggable {
   public RPicture(byte[] pictureBytes) {
     PictureBase64 = Convert.ToBase64String(pictureBytes);
   }
+  public RPicture(IPicture picture) {
+    Id = picture.Id;
+    Name = picture.Name;
+    PictureBase64 = picture.PictureBase64;
+    PictureUrl = picture.PictureUrl;
+  }
+
 
   public byte[]? GetPictureBytes() {
     if (string.IsNullOrEmpty(PictureBase64)) {

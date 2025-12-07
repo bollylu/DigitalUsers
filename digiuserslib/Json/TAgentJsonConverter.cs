@@ -44,7 +44,7 @@ public class TAgentJsonConverter : JsonConverter<RContact>, ILoggable {
 
           switch (PropertyName) {
             case nameof(RContact.Id):
-              RetVal.Id = reader.GetString() ?? "";
+              RetVal.Id = new TKeyId(reader.GetString() ?? "");
               break;
             case nameof(RContact.EmailAdresses):
               RetVal.EmailAdresses.AddRange(JsonSerializer.Deserialize<List<RMailAddress>>(ref reader, options) ?? []);
@@ -89,7 +89,7 @@ public class TAgentJsonConverter : JsonConverter<RContact>, ILoggable {
 
     writer.WriteStartObject();
 
-    writer.WriteString(nameof(RContact.Id), value.Id);
+    writer.WriteString(nameof(RContact.Id), value.Id.Value);
 
     if (value.EmailAdresses.Any()) {
       writer.WritePropertyName(nameof(RContact.EmailAdresses));

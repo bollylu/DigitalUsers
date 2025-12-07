@@ -1,14 +1,11 @@
-﻿using System.Diagnostics;
-using System.Text.Json.Serialization;
+﻿namespace digiuserslib.Model;
 
-namespace digiuserslib.Model {
-  public class TDepartments : List<IDepartment>, IDepartments {
+public class TDepartments : List<IDepartment>, IDepartments {
 
-    [JsonIgnore]
-    public IDepartment? this[string id] => this.SingleOrDefault(x => x.Id == id);
+  [JsonIgnore]
+  public IDepartment? this[string id] => this.SingleOrDefault(x => x.Id.Value == id);
 
-    [JsonIgnore]
-    public IDepartment Main => this.FirstOrDefault() ?? throw new InvalidOperationException("No main department found.");
- 
-  }
+  [JsonIgnore]
+  public IDepartment Main => this.FirstOrDefault() ?? throw new InvalidOperationException("No main department found.");
+
 }

@@ -14,9 +14,9 @@ public class TTableMailAddressesMemory : ATableMemory<IMailAddress> {
       return;
     }
     base.Initialize();
-    _Records.Add(new RMailAddress() { Id = "bollylu", Address = "l.bolly@seraing.be", DisplayName = "Luc Bolly" });
-    _Records.Add(new RMailAddress() { Id = "bollyal", Address = "a.bolly@seraing.be", DisplayName = "Alain Bolly" });
-    _Records.Add(new RMailAddress() { Id = "verdial", Address = "a.verdin@seraing.be", DisplayName = "Alain Verdin" });
+    _Records.Add(RMailAddress.BollyLuc);
+    _Records.Add(new RMailAddress("a.bolly@seraing.be") { DisplayName = "Alain Bolly" });
+    _Records.Add(new RMailAddress("a.verdin@seraing.be") { DisplayName = "Alain Verdin" });
     _IsInitialized = true;
   }
 

@@ -1,7 +1,6 @@
 ﻿namespace digiuserslib.Model;
 
-public interface ITable {
+public interface IDepartmentBasic : IRecord, IInvalid {
   string Name { get; }
   string Description { get; }
 }
-

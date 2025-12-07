@@ -1,7 +1,7 @@
 ﻿
 namespace digiuserslib.Model;
 
-public abstract class ATableCache<T> : ATable, ITableHandlingAsync, ITableRecords<T> where T : IRecord {
+public abstract class ATableCache<T> : ATable, ITableIOAsync, ITableRecords<T> where T : IRecord {
 
   protected readonly List<T> _Records = [];
   protected bool IsDirty = false;
