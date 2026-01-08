@@ -1,15 +1,20 @@
 ﻿using System.Net;
 
-using BLTools.Diagnostic.Logging;
-
-using ILogger = BLTools.Diagnostic.Logging.ILogger;
+using BLTools.Core;
 
 namespace digiusersweb;
 
-public class THttpClientEx : HttpClient, ILoggable {
-  public ILogger Logger { get; set; } = new TConsoleLogger();
+public class THttpClientEx : HttpClient {
+  ILogger Logger { get; }
 
   public HttpResponseMessage? LastResponse { get; private set; }
+
+  public THttpClientEx()  {
+    Logger = new Microsoft.Extensions.Logging.LoggerFactory().CreateLogger<THttpClientEx>();
+  }
+  public THttpClientEx(ILogger logger) {
+    Logger = logger;
+  }
 
   public async Task<string?> GetStringAsync(string request, int timeoutInMs) {
 
@@ -38,6 +43,6 @@ public class THttpClientEx : HttpClient, ILoggable {
       return null;
     }
   }
-
+    
 }
 

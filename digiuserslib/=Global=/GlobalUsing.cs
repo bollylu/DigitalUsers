@@ -7,7 +7,8 @@ global using System.Text.Json.Serialization;
 global using System.Threading.Tasks;
 
 global using BLTools;
-global using BLTools.Diagnostic.Logging;
+global using BLTools.Core;
+global using BLTools.Core.Logging;
 
 global using digiuserslib.Json;
 global using digiuserslib.Model;

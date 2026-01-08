@@ -16,11 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BLTools" Version="6.1.4" />
+    <Folder Include="==cleanup==\" />
+    <Folder Include="=Support=\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="==cleanup==\" />
+    <PackageReference Include="BLTools.core" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

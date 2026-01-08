@@ -6,29 +6,39 @@ using System.Threading.Tasks;
 
 using digiuserslib.Model;
 
+using ILogger = BLTools.Core.Logging.ILogger;
+
 namespace digiuserstest.ModelTest;
 public class LocationTest {
 
-  [SetUp]
+  private ILogger Logger;
+
+  [OneTimeSetUp]
   public void Setup() {
-    
+    Logger = new TConsoleLogger<LocationTest>();
+    Logger.Message("----- Location tests -----");
+  }
+
+  [OneTimeTearDown]
+  public void Cleanup() {
+    Logger.Dispose();
   }
 
   [Test]
   public void Location_IsInvalid() {
-    Message("Create an invalid location");
+    Logger.Message("Create an invalid location");
     ILocation Location = new RLocation();
     Assert.That(Location.IsInvalid, Is.True);
-    Dump(Location, 3);
-    Ok();
+    Logger.Dump(Location, new SObjectDumpOptions() { MaxDepth = 3 });
+    Logger.Ok();
   }
 
   [Test]
   public void Location_IsValid() {
-    Message("Create a valid location");
+    Logger.Message("Create a valid location");
     ILocation Location = RLocation.CiteAdministrative;
     Assert.That(Location.IsValid, Is.True);
-    Dump(Location, 3);
-    Ok();
+    Logger.Dump(Location, new SObjectDumpOptions() { MaxDepth = 3 });
+    Logger.Ok();
   }
 }

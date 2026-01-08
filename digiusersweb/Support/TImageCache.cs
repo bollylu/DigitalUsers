@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-using BLTools.Diagnostic.Logging;
+using BLTools.Core.Logging;
 
 namespace digiusersweb;
 
@@ -15,7 +15,7 @@ public class TImageCache : ALoggable, IDisposable {
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TImageCache() {
     IfDebugMessageEx("Creating cache", "");
-    Logger.SeverityLimit = ESeverity.Debug;
+    Logger.Options.SeverityLimit = ESeverity.Debug;
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 

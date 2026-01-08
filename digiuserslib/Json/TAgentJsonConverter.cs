@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿namespace digiuserslib.Json;
 
-using BLTools;
-using BLTools.Diagnostic.Logging;
-using BLTools.Json;
-using digiuserslib.Model;
-
-namespace digiuserslib.Json;
 public class TAgentJsonConverter : JsonConverter<RContact>, ILoggable {
 
   public ILogger Logger { get; set; } = new TConsoleLogger() { Name = nameof(TAgentJsonConverter) };

@@ -1,7 +1,7 @@
 using System.Linq; // Add this namespace for LINQ methods like ToListAsync
 using System.Runtime.CompilerServices;
 
-using BLTools;
+using BLTools.Core;
 
 using digiuserslib;
 using digiuserslib.Model;

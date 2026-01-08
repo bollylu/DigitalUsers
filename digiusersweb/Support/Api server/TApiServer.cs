@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Text;
 
-using BLTools;
-using BLTools.Diagnostic.Logging;
+using BLTools.Core;
+using BLTools.Core.Logging;
 
 namespace digiusersweb;
 
@@ -17,7 +17,7 @@ public class TApiServer : ALoggable, IApiServer {
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TApiServer() {
     Logger = new TConsoleLogger<TApiServer>();
-    Logger.SeverityLimit = ESeverity.DebugEx;
+    Logger.Options.SeverityLimit = ESeverity.DebugEx;
   }
 
   public TApiServer(Uri baseAddress) : this() {

@@ -2,10 +2,6 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using BLTools;
-using BLTools.Diagnostic.Logging;
-using BLTools.Json;
-
 namespace digiuserslib.Json;
 
 public class TDepartementJsonConverter : JsonConverter<RDepartment>, ILoggable {

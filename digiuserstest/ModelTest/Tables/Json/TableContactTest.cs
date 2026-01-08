@@ -1,22 +1,35 @@
 ﻿using digiuserslib;
 using digiuserslib.Model;
 
+using NUnit.Framework.Internal;
+
+using ILogger = BLTools.Core.Logging.ILogger;
+
+
 namespace digiuserstest.ModelTest;
 
 public class TableContactFileTest {
 
-  [SetUp]
-  public void Setup() {
+  private ILogger Logger;
 
+  [OneTimeSetUp]
+  public void Setup() {
+    Logger = new TConsoleLogger<TablePhoneNumberTest>();
+    Logger.Message($"----- {nameof(TablePhoneNumberTest)} tests -----");
+  }
+
+  [OneTimeTearDown]
+  public void Cleanup() {
+    Logger.Dispose();
   }
 
   [Test]
   public void TableContactFile_IsOk() {
-    Message("Create an table of contacts");
+    Logger.Message("Create an table of contacts");
     TTableContactsFile TableContact = new();
     Assert.That(TableContact, Is.Not.Null);
-    Dump(TableContact, 3);
-    Ok();
+    Logger.Dump(TableContact, new SObjectDumpOptions() { MaxDepth = 3 });
+    Logger.Ok();
   }
 
   [Test]
@@ -24,40 +37,40 @@ public class TableContactFileTest {
     string Filename = $"Contacts_{Random.Shared.Next()}.json";
 
     try {
-      Message("Create an table of contacts in memory");
+      Logger.Message("Create an table of contacts in memory");
       TTableContactsMemory TableContactsInMemory = new();
 
-      Message("Create an table of contacts in file");
+      Logger.Message("Create an table of contacts in file");
 
       TTableContactsFile TableContactsFile = new(Filename);
 
-      Message("Get all contacts from memory");
+      Logger.Message("Get all contacts from memory");
       IEnumerable<IContact> SourceContacts = TableContactsInMemory.GetAll();
-      Dump(SourceContacts, 2);
+      Logger.Dump(SourceContacts, new SObjectDumpOptions() { MaxDepth = 2 });
       Assert.That(SourceContacts.Any(), Is.True);
 
-      Message($"Add {SourceContacts.Count()} contacts to file table");
+      Logger.Message($"Add {SourceContacts.Count()} contacts to file table");
       foreach (IContact ContactItem in SourceContacts) {
-        Message($"Add contact {ContactItem.FullName.WithQuotes()} to file table");
+        Logger.Message($"Add contact {ContactItem.FullName.WithQuotes()} to file table");
         TableContactsFile.Add(ContactItem);
       }
-      Dump(TableContactsFile, 2);
+      Logger.Dump(TableContactsFile, new SObjectDumpOptions() { MaxDepth = 2 });
 
       Assert.That(await TableContactsFile.SaveAsync(), Is.True);
       Assert.That(await TableContactsFile.CloseAsync(), Is.True);
       Assert.That(File.Exists(Filename), Is.True);
 
-      Message("Reload contacts from file");
+      Logger.Message("Reload contacts from file");
       TTableContactsFile TableContactsFileReloaded = new(Filename);
       Assert.That(await TableContactsFileReloaded.OpenAsync(), Is.True);
       Assert.That(await TableContactsFileReloaded.ReadAsync(), Is.True);
       IEnumerable<IContact> ReloadedContacts = TableContactsFileReloaded.GetAll();
-      Dump(ReloadedContacts, 2);
+      Logger.Dump(ReloadedContacts, new SObjectDumpOptions() { MaxDepth = 2 });
       Assert.That(ReloadedContacts.Count(), Is.EqualTo(SourceContacts.Count()));
 
-      Ok();
+      Logger.Ok();
     } catch (Exception ex) {
-      Failed(ex.Message);
+      Logger.Failed(ex.Message);
     } finally {
       if (System.IO.File.Exists(Filename)) {
         System.IO.File.Delete(Filename);
