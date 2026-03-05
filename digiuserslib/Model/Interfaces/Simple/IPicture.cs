@@ -5,10 +5,11 @@ public interface IPicture : IRecord, IInvalid {
 
   string Description { get; }
 
-
-
   string PictureBase64 { get; }
   string PictureUrl { get; }
 
   byte[]? GetPictureBytes();
+
+  string? ContactId { get; }
+  string? LocationId { get; }
 }

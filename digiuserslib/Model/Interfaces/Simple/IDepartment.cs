@@ -1,5 +1,5 @@
 ﻿namespace digiuserslib.Model;
 
 public interface IDepartment : IDepartmentBasic {
-  IList<IKeyId> HeadOfDepartment { get; }
+  IList<IKeyId> HeadsOfDepartment { get; }
 }

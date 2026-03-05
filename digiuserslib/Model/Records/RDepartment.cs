@@ -2,7 +2,7 @@
 
 public record RDepartment : RDepartmentBasic, IDepartment, IInvalid, IEqualityComparer<RDepartment> {
 
-  public IList<IKeyId> HeadOfDepartment { get; set; } = [];
+  public IList<IKeyId> HeadsOfDepartment { get; set; } = [];
 
   [JsonIgnore]
   public override bool IsInvalid => base.IsInvalid || string.IsNullOrWhiteSpace(Name);
@@ -17,7 +17,7 @@ public record RDepartment : RDepartmentBasic, IDepartment, IInvalid, IEqualityCo
   public RDepartment(IDepartment department) : base(department.Id) {
     Name = department.Name;
     Description = department.Description;
-    HeadOfDepartment = department.HeadOfDepartment;
+    HeadsOfDepartment = department.HeadsOfDepartment;
   }
 
   public bool Equals(RDepartment? x, RDepartment? y) {
@@ -41,9 +41,9 @@ public record RDepartment : RDepartmentBasic, IDepartment, IInvalid, IEqualityCo
   }
 
   public static new RDepartment Empty => new();
-  public static new RDepartment Direction => new(RDepartmentBasic.Direction) { HeadOfDepartment = [RContactBasic.AdamBruno.Id] };
-  public static new RDepartment GestionInformatique => new(RDepartmentBasic.GestionInformatique) { HeadOfDepartment = [RContactBasic.BollyLuc.Id] };
-  public static new RDepartment Travaux => new(RDepartmentBasic.Travaux) { HeadOfDepartment = [new TKeyId("reiser")] };
-  public static new RDepartment Optimisation => new(RDepartmentBasic.Optimisation) { HeadOfDepartment = [new TKeyId("bollyal")] };
+  public static new RDepartment Direction => new(RDepartmentBasic.Direction) { HeadsOfDepartment = [RContactBasic.AdamBruno.Id] };
+  public static new RDepartment GestionInformatique => new(RDepartmentBasic.GestionInformatique) { HeadsOfDepartment = [RContactBasic.BollyLuc.Id] };
+  public static new RDepartment Travaux => new(RDepartmentBasic.Travaux) { HeadsOfDepartment = [new TKeyId("reiser")] };
+  public static new RDepartment Optimisation => new(RDepartmentBasic.Optimisation) { HeadsOfDepartment = [new TKeyId("bollyal")] };
 
 }

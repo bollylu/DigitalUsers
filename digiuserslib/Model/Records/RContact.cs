@@ -2,7 +2,7 @@
 
 public record RContact : RContactBasic, IContact {
 
-  public IPicture Picture { get; set; } = new RPicture();
+  public ICollection<IPicture> Pictures { get; set; } = [];
 
   public TMailAddresses EmailAdresses { get; } = [];
   public TPhoneNumbers PhoneNumbers { get; } = [];

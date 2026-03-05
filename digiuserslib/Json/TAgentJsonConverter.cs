@@ -55,8 +55,8 @@ public class TAgentJsonConverter : JsonConverter<RContact>, ILoggable {
             case nameof(RContact.Title):
               RetVal.Title = reader.GetString() ?? "";
               break;
-            case nameof(RContact.Picture):
-              RetVal.Picture = JsonSerializer.Deserialize<RPicture>(ref reader, options) ?? new RPicture();
+            case nameof(RContact.Pictures):
+              RetVal.Pictures = JsonSerializer.Deserialize<List<IPicture>>(ref reader, options) ?? [];
               break;
             default:
               Logger.LogWarningBox("Agent unknown property ** : ", PropertyName);
@@ -123,8 +123,14 @@ public class TAgentJsonConverter : JsonConverter<RContact>, ILoggable {
       writer.WriteEndArray();
     }
 
-    writer.WritePropertyName(nameof(RContact.Picture));
-    JsonSerializer.Serialize(writer, value.Picture, options);
+    writer.WritePropertyName(nameof(RContact.Pictures));
+    writer.WriteStartArray();
+    foreach (IPicture PictureItem in value.Pictures) {
+      if (PictureItem.IsValid) {
+        JsonSerializer.Serialize(writer, PictureItem, options);
+      }
+    }
+    writer.WriteEndArray();
 
     writer.WriteString(nameof(RContact.Company), value.Company);
 

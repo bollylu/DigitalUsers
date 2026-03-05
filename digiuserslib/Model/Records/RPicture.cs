@@ -12,9 +12,13 @@ public record RPicture : ARecord, IPicture, ILoggable {
   public string PictureBase64 { get; init; } = string.Empty;
   public string PictureUrl { get; init; } = string.Empty;
 
+  public string? ContactId { get; init; } = null;
+  public string? LocationId { get; init; } = null;
+
   [JsonIgnore]
   public override bool IsInvalid => base.IsInvalid || (string.IsNullOrWhiteSpace(PictureBase64) && string.IsNullOrWhiteSpace(PictureUrl));
 
+  #region --- Constructor(s) ---------------------------------------------------------------------------------
   public RPicture() { }
   public RPicture(string pictureBase64) {
     PictureBase64 = pictureBase64;
@@ -27,7 +31,10 @@ public record RPicture : ARecord, IPicture, ILoggable {
     Name = picture.Name;
     PictureBase64 = picture.PictureBase64;
     PictureUrl = picture.PictureUrl;
-  }
+    ContactId = picture.ContactId;
+    LocationId = picture.LocationId;
+  } 
+  #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
 
   public byte[]? GetPictureBytes() {

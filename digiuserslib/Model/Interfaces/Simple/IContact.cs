@@ -9,6 +9,6 @@ public interface IContact : IContactBasic, IRecord, IInvalid, IName {
   TLocations Locations { get; }
   TDepartments Departments { get; }
 
-  IPicture Picture { get; }
+  ICollection<IPicture> Pictures { get; }
 
 }

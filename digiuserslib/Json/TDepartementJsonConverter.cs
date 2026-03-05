@@ -42,7 +42,7 @@ public class TDepartementJsonConverter : JsonConverter<RDepartment>, ILoggable {
             case nameof(RDepartment.Description):
               RetVal.Description = reader.GetString() ?? string.Empty;
               break;
-            case nameof(RDepartment.HeadOfDepartment):
+            case nameof(RDepartment.HeadsOfDepartment):
               //RetVal.HeadOfDepartment = [new TKeyId(reader.GetString() ?? string.Empty)];
               break;
             default:
@@ -71,10 +71,10 @@ public class TDepartementJsonConverter : JsonConverter<RDepartment>, ILoggable {
       writer.WriteString(nameof(RDepartment.Description), value.Description);
     }
 
-    if (value.HeadOfDepartment.Any()) {
-      writer.WriteStartArray(nameof(RDepartment.HeadOfDepartment));
-      foreach (IContactBasic ContactItem in value.HeadOfDepartment) {
-        writer.WriteString(nameof(RDepartment.HeadOfDepartment), ContactItem.Id.Value);
+    if (value.HeadsOfDepartment.Any()) {
+      writer.WriteStartArray(nameof(RDepartment.HeadsOfDepartment));
+      foreach (IContactBasic ContactItem in value.HeadsOfDepartment) {
+        writer.WriteString(nameof(RDepartment.HeadsOfDepartment), ContactItem.Id.Value);
       }
       writer.WriteEndArray();
     }

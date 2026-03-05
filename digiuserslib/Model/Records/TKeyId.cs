@@ -12,9 +12,11 @@ public class TKeyId : IKeyId  {
   [JsonIgnore]
   public bool IsInvalid => Value.Trim().IsEmpty();
 
+  #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TKeyId() { }
   public TKeyId(string id) { Value = id; }
-  public TKeyId(IKeyId other) { Value = other.Value; }
+  public TKeyId(IKeyId other) { Value = other.Value; } 
+  #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
   public static TKeyId Empty => new();
 
