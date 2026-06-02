@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../digiuserslib/digiuserslib.csproj" />
+  <Project Path="../digiuserstest/digiuserstest.csproj" />
+</Solution>
