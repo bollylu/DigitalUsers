@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="../digiuserslib/digiuserslib.csproj" />
   <Project Path="../digiuserstest/digiuserstest.csproj" />
+  <Project Path="digiusersmodelslib/digiusersmodelslib.csproj" Id="66cf5b91-ac5d-4e30-8949-978fb2fa3956" />
 </Solution>

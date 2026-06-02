@@ -1,15 +1,12 @@
-﻿using digiuserslib.Model;
-
-namespace digiuserslib.Model;
+﻿namespace digiusersmodelslib;
 
 public interface IContact : IRecord, IInvalid, IName {
 
   IMailAddresses EmailAdresses { get; }
   IPhoneNumbers PhoneNumbers { get; }
   ILocations Locations { get; }
-  IDepartments Departments { get; }
-
-  string Company { get; }
+  
+  ICompany Company { get; }
   string Title { get; }
 
   IPicture Picture { get; }
