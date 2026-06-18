@@ -3,13 +3,15 @@
     
     public string Name { get; init; } = string.Empty;
 
+    #region --- Constructor(s) ---------------------------------------------------------------------------------
     public TCompany() { }
     public TCompany(string name) {
       Name = name;
-    }
+    } 
+    #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
-    public static TCompany AcSeraing => new TCompany("AC Seraing");
-    public static TCompany CpasSeraing => new TCompany("CPAS Seraing");
+    public static TCompany ACS => new TCompany("ACS");
+    public static TCompany Cpas => new TCompany("CPAS");
 
   }
 }

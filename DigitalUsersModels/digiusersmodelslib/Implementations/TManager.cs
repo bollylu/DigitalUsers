@@ -2,25 +2,24 @@
 
 public class TManager : TAgent, IManager {
 
+  public IDepartments DepartmentsManaged { get; init; } = new TDepartments();
+
+  #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TManager() : base() { }
-  public TManager(string id) : base(id) { }
+  public TManager(string id) : base(id) { } 
+  #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
-  //public IEnumerable<IAgent> DirectReports {
-  //  get {
-  //    if (Departments.IsEmpty()) {
-  //      return Enumerable.Empty<IAgent>();
-  //    }
-  //    return Departments.Where(d => d.Manager.Id == Id || d.Deputy.Id == Id);
-  //  };
-  //  init;
-  //} = [];
 
-  public static TManager BollyLuc => new("bollylu") {
-    FirstName = "Luc",
-    LastName = "Bolly",
-    Company = TCompany.AcSeraing,
+
+  public static TManager ITManager => new("itman") {
+    FirstName = "IT",
+    LastName = "Manager",
+    Company = TCompany.ACS,
     Title = "Responsable IT",
-    Departments = {
+    DepartmentsMemberOf = {
+      TDepartment.GestionInformatique
+    },
+    DepartmentsManaged = {
       TDepartment.GestionInformatique
     },
     PhoneNumbers = {
@@ -42,18 +41,21 @@ public class TManager : TAgent, IManager {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-001",
-        Address = "l.bolly@seraing.be"
+        Address = "it.man@ville.be"
       }
     },
-    Manager = AdamBruno
+    Manager = DG
   };
 
-  public static TManager AdamBruno => (new("adambr") {
-    FirstName = "Bruno",
-    LastName = "Adam",
-    Company = TCompany.AcSeraing,
+  public static TManager DG => new("dg") {
+    FirstName = "Directeur",
+    LastName = "Général",
+    Company = TCompany.ACS,
     Title = "Directeur général",
-    Departments = {
+    DepartmentsMemberOf = {
+      TDepartment.Direction
+    },
+    DepartmentsManaged = {
       TDepartment.Direction
     },
     PhoneNumbers = {
@@ -70,9 +72,9 @@ public class TManager : TAgent, IManager {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-005",
-        Address = "b.adam@seraing.be"
+        Address = "dg@ville.be"
       }
-    }).AddAgent(BollyLuc);
+    }
   };
 
   

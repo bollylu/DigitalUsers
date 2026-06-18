@@ -19,7 +19,7 @@
     }
 
     public IEnumerable<IAgent> GetByDepartment(string departmentId) {
-      return _agents.SelectMany(p => p.Departments.Where(d => d.Id.Value.Equals(departmentId, StringComparison.OrdinalIgnoreCase)).Select(_ => p));
+      return _agents.SelectMany(p => p.DepartmentsMemberOf.Where(d => d.Id.Value.Equals(departmentId, StringComparison.OrdinalIgnoreCase)).Select(_ => p));
     }
 
     public IEnumerable<IAgent> GetByManager(string managerId) {

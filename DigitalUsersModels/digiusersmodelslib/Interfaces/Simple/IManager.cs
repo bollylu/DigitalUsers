@@ -2,7 +2,7 @@
 
 public interface IManager : IAgent {
 
-  IEnumerable<IAgent> DirectReports { get; init; }
-  
+  IDepartments DepartmentsManaged { get; init; }
+
 
 }

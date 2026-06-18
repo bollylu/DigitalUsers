@@ -5,16 +5,16 @@ public class TAgent : TContact, IAgent {
   public TAgent() : base() { }
   public TAgent(string id) : base(id) { }
 
-  public IDepartments Departments { get; init; } = new TDepartments();
+  public IDepartments DepartmentsMemberOf { get; init; } = new TDepartments();
   
   public IManager Manager { get; init; } = new TManager();
 
   public static TAgent MartinSophie => new("martiso") {
     FirstName = "Sophie",
     LastName = "Martin",
-    Company = TCompany.AcSeraing,
+    Company = TCompany.ACS,
     Title = "Technicienne IT",
-    Departments = {
+    DepartmentsMemberOf = {
       TDepartment.GestionInformatique,
       TDepartment.Travaux
     },
@@ -32,7 +32,7 @@ public class TAgent : TContact, IAgent {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-002",
-        Address = "s.martin@seraing.be"
+        Address = "s.martin@ville.be"
       }
     }
   };
@@ -40,9 +40,9 @@ public class TAgent : TContact, IAgent {
   public static TAgent DupontJean => new("duponje") {
     FirstName = "Jean",
     LastName = "Dupont",
-    Company = TCompany.AcSeraing,
+    Company = TCompany.ACS,
     Title = "Analyste IT",
-    Departments = {
+    DepartmentsMemberOf = {
       TDepartment.Optimisation
     },
     PhoneNumbers = {
@@ -59,7 +59,7 @@ public class TAgent : TContact, IAgent {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-003",
-        Address = "j.dupont@seraing.be"
+        Address = "j.dupont@ville.be"
       }
     }
   };
@@ -67,9 +67,9 @@ public class TAgent : TContact, IAgent {
   public static TAgent LefevreClaire => new("lefevcl") {
     FirstName = "Claire",
     LastName = "Lefevre",
-    Company = TCompany.AcSeraing,
+    Company = TCompany.ACS,
     Title = "Consultante IT",
-    Departments = {
+    DepartmentsMemberOf = {
       TDepartment.Optimisation
     },
     PhoneNumbers = {
@@ -86,7 +86,7 @@ public class TAgent : TContact, IAgent {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-004",
-        Address = "c.lefevre@seraing.be"
+        Address = "c.lefevre@ville.be"
       }
     }
   };

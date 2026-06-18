@@ -1,6 +1,6 @@
 ﻿namespace digiusersmodelslib;
 
-public record TPhoneNumber : ARecord, IPhoneNumber {
+public class TPhoneNumber : ARecord, IPhoneNumber {
 
   public EPhoneCountry CountryCode { get; set; } = EPhoneCountry.Belgium;
   public string Prefix { get; set; } = string.Empty;
