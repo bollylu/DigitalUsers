@@ -1,6 +1,6 @@
 ﻿namespace digiusersmodelslib;
 
-public class TContact : ARecord, IContact {
+public class TContact : ARecord, IContact, IJson<TContact> {
 
   public string FirstName { get; set; } = string.Empty;
   public string LastName { get; set; } = string.Empty;
@@ -40,7 +40,22 @@ public class TContact : ARecord, IContact {
   }
   #endregion -------------------------------------------------------------------------------------------------
 
+  #region --- IJson --------------------------------------------
+  public TContact FromJson(string json) {
+    return JsonSerializer.Deserialize<TContact>(json) ?? new TContact();
+  }
 
+  public static TContact CreateFromJson(string json) {
+    return JsonSerializer.Deserialize<TContact>(json) ?? new TContact();
+  }
+
+  public string ToJson() {
+    return JsonSerializer.Serialize(this, new JsonSerializerOptions() {
+      WriteIndented = true,
+      DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    });
+  } 
+  #endregion --- IJson -----------------------------------------
 
 
 }

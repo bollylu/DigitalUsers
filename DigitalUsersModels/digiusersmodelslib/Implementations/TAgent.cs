@@ -22,14 +22,16 @@ public class TAgent : TContact, IAgent {
   }
   #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
-
+  public IDepartments DepartmentsMemberOf { get; init; } = new TDepartments();
+  
+  public IManager Manager { get; init; } = new TManager();
 
   public static TAgent MartinSophie => new("martiso") {
     FirstName = "Sophie",
     LastName = "Martin",
-    Company = TCompany.ACV,
+    Company = TCompany.ACS,
     Title = "Technicienne IT",
-    Departments = {
+    DepartmentsMemberOf = {
       TDepartment.GestionInformatique,
       TDepartment.Travaux
     },
@@ -57,9 +59,9 @@ public class TAgent : TContact, IAgent {
   public static TAgent DupontJean => new("duponje") {
     FirstName = "Jean",
     LastName = "Dupont",
-    Company = TCompany.ACV,
+    Company = TCompany.ACS,
     Title = "Analyste IT",
-    Departments = {
+    DepartmentsMemberOf = {
       TDepartment.Optimisation
     },
     PhoneNumbers = {
@@ -86,9 +88,9 @@ public class TAgent : TContact, IAgent {
   public static TAgent LefevreClaire => new("lefevcl") {
     FirstName = "Claire",
     LastName = "Lefevre",
-    Company = TCompany.ACV,
+    Company = TCompany.ACS,
     Title = "Consultante IT",
-    Departments = {
+    DepartmentsMemberOf = {
       TDepartment.Optimisation
     },
     PhoneNumbers = {

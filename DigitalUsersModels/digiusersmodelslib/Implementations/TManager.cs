@@ -14,12 +14,15 @@ public class TManager : TAgent, IManager {
 
 
 
-  public static TManager BollyLuc => new("bosspi") {
-    FirstName = "Pierre",
-    LastName = "Boss",
-    Company = TCompany.ACV,
+  public static TManager ITManager => new("itman") {
+    FirstName = "IT",
+    LastName = "Manager",
+    Company = TCompany.ACS,
     Title = "Responsable IT",
-    Departments = {
+    DepartmentsMemberOf = {
+      TDepartment.GestionInformatique
+    },
+    DepartmentsManaged = {
       TDepartment.GestionInformatique
     },
     PhoneNumbers = {
@@ -45,42 +48,41 @@ public class TManager : TAgent, IManager {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-001",
-        Address = "p.boss@ville.be"
+        Address = "it.man@ville.be"
       }
     },
-    Manager = GodHimself
+    Manager = DG
   };
 
-  public static TManager GodHimself {
-    get {
-      TManager RetVal = new("godhi") {
-        FirstName = "God",
-        LastName = "Himself",
-        Company = TCompany.ACV,
-        Title = "Directeur général",
-        Departments = {
-        TDepartment.Direction
-      },
-        PhoneNumbers = {
-        new TPhoneNumber() {
-          Id = "phone-006",
-          CountryCode = EPhoneCountry.Belgium,
-          Prefix = "472",
-          Number = "123456",
-          Type = EPhoneNumberType.Work
-        }
-      },
-        Locations = {
-        TLocation.HotelDeVille
-      },
-        Notes = "Dirige la boite",
-        EmailAdresses = {
-        new TMailAddress() {
-          Id = "email-005",
-          Address = "g.himself@ville.be"
-        }
+  public static TManager DG => new("dg") {
+    FirstName = "Directeur",
+    LastName = "Général",
+    Company = TCompany.ACS,
+    Title = "Directeur général",
+    DepartmentsMemberOf = {
+      TDepartment.Direction
+    },
+    DepartmentsManaged = {
+      TDepartment.Direction
+    },
+    PhoneNumbers = {
+      new TPhoneNumber() {
+        Id = "phone-006",
+        Number = "+32472123456",
+        Type = EPhoneNumberType.Work
       }
-      };
+    },
+    Locations = {
+      TLocation.HotelDeVille
+    },
+    Notes = "Dirige la boite",
+    EmailAdresses = {
+      new TMailAddress() {
+        Id = "email-005",
+        Address = "dg@ville.be"
+      }
+    }
+  };
 
       return RetVal;
     }

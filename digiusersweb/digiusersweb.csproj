@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Blazorade-Mermaid-11\Blazorade.Mermaid\Blazorade.Mermaid.csproj" />
     <ProjectReference Include="..\digiuserslib\digiuserslib.csproj" />
   </ItemGroup>
 

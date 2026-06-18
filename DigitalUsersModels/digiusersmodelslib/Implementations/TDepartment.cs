@@ -48,8 +48,8 @@ public class TDepartment : ARecord, IDepartment, IInvalid, IEqualityComparer<TDe
   }
 
   public static TDepartment Empty => new();
-  public static TDepartment Direction => new() { Id = "direction", Name = "Direction générale", Manager = TManager.AdamBruno };
-  public static TDepartment GestionInformatique => new() { Id = "gestinfo", Name = "Gestion informatique", Manager = TManager.BollyLuc };
+  public static TDepartment Direction => new() { Id = "direction", Name = "Direction générale", Manager = TManager.DG };
+  public static TDepartment GestionInformatique => new() { Id = "gestinfo", Name = "Gestion informatique", Manager = TManager.ITManager };
   public static TDepartment Travaux => new() { Id = "travaux", Name = "Travaux" };
   public static TDepartment Optimisation => new() { Id = "optimisation", Name = "Optimisation" };
 

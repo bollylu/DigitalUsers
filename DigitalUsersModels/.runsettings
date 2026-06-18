@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<RunConfiguration>
+		<MaxCpuCount>1</MaxCpuCount>
+		<ResultsDirectory>.\TestResults</ResultsDirectory>
+	</RunConfiguration>
+
+	<!-- NUnit3 Test Adapter -->
+	<NUnit>
+		<Where></Where>
+		<NumberOfTestWorkers>-1</NumberOfTestWorkers>
+		<Timeout>-1</Timeout>
+		<ShadowCopyFiles>False</ShadowCopyFiles>
+		<UseVsKeysForSnippets>False</UseVsKeysForSnippets>
+		<UseSafeSerializationForTestData>False</UseSafeSerializationForTestData>
+		<DefaultTimeout>0</DefaultTimeout>
+		<RandomSeed></RandomSeed>
+		<RandomizeTestOrder>False</RandomizeTestOrder>
+		<ShuffleTestCases>False</ShuffleTestCases>
+		<CollectSourceInformation>True</CollectSourceInformation>
+		<LogOutput>On</LogOutput>
+		<CaptureOutputForEachTest>True</CaptureOutputForEachTest>
+	</NUnit>
+</RunSettings>
