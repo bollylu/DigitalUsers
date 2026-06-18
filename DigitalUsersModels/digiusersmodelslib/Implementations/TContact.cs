@@ -23,12 +23,24 @@ public class TContact : ARecord, IContact {
   #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TContact() {
   }
-  public TContact(string id) {
+  public TContact(TKeyId id) {
     Id = id;
+  }
+  public TContact(IContact contact) {
+    Id = contact.Id;
+    FirstName = contact.FirstName;
+    LastName = contact.LastName;
+    Company = contact.Company;
+    Title = contact.Title;
+    Picture = contact.Picture;
+    Notes = contact.Notes;
+    EmailAdresses = contact.EmailAdresses;
+    PhoneNumbers = contact.PhoneNumbers;
+    Locations = contact.Locations;
   }
   #endregion -------------------------------------------------------------------------------------------------
 
-  
+
 
 
 }

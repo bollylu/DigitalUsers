@@ -2,23 +2,22 @@
 
 public class TManager : TAgent, IManager {
 
+  public IDepartments DepartmentsManaged { get; init; } = new TDepartments();
+
+  #region --- Constructor(s) ---------------------------------------------------------------------------------
   public TManager() : base() { }
   public TManager(string id) : base(id) { }
+  public TManager(IAgent agent, IDepartments departmentsManaged) : base(agent) {
+    DepartmentsManaged = new TDepartments(departmentsManaged);
+  }
+  #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
-  //public IEnumerable<IAgent> DirectReports {
-  //  get {
-  //    if (Departments.IsEmpty()) {
-  //      return Enumerable.Empty<IAgent>();
-  //    }
-  //    return Departments.Where(d => d.Manager.Id == Id || d.Deputy.Id == Id);
-  //  };
-  //  init;
-  //} = [];
 
-  public static TManager BollyLuc => new("bollylu") {
-    FirstName = "Luc",
-    LastName = "Bolly",
-    Company = TCompany.AcSeraing,
+
+  public static TManager BollyLuc => new("bosspi") {
+    FirstName = "Pierre",
+    LastName = "Boss",
+    Company = TCompany.ACV,
     Title = "Responsable IT",
     Departments = {
       TDepartment.GestionInformatique
@@ -26,12 +25,16 @@ public class TManager : TAgent, IManager {
     PhoneNumbers = {
       new TPhoneNumber() {
         Id = "phone-001",
-        Number = "+32471234567",
+        CountryCode = EPhoneCountry.Belgium,
+        Prefix = "475",
+        Number = "987654",
         Type = EPhoneNumberType.Mobile
       },
       new TPhoneNumber() {
         Id = "phone-002",
-        Number = "+32479876543",
+        CountryCode = EPhoneCountry.Belgium,
+        Prefix = "2",
+        Number = "8376543",
         Type = EPhoneNumberType.Work
       }
     },
@@ -42,38 +45,46 @@ public class TManager : TAgent, IManager {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-001",
-        Address = "l.bolly@seraing.be"
+        Address = "p.boss@ville.be"
       }
     },
-    Manager = AdamBruno
+    Manager = GodHimself
   };
 
-  public static TManager AdamBruno => (new("adambr") {
-    FirstName = "Bruno",
-    LastName = "Adam",
-    Company = TCompany.AcSeraing,
-    Title = "Directeur général",
-    Departments = {
-      TDepartment.Direction
-    },
-    PhoneNumbers = {
-      new TPhoneNumber() {
-        Id = "phone-006",
-        Number = "+32472123456",
-        Type = EPhoneNumberType.Work
+  public static TManager GodHimself {
+    get {
+      TManager RetVal = new("godhi") {
+        FirstName = "God",
+        LastName = "Himself",
+        Company = TCompany.ACV,
+        Title = "Directeur général",
+        Departments = {
+        TDepartment.Direction
+      },
+        PhoneNumbers = {
+        new TPhoneNumber() {
+          Id = "phone-006",
+          CountryCode = EPhoneCountry.Belgium,
+          Prefix = "472",
+          Number = "123456",
+          Type = EPhoneNumberType.Work
+        }
+      },
+        Locations = {
+        TLocation.HotelDeVille
+      },
+        Notes = "Dirige la boite",
+        EmailAdresses = {
+        new TMailAddress() {
+          Id = "email-005",
+          Address = "g.himself@ville.be"
+        }
       }
-    },
-    Locations = {
-      TLocation.HotelDeVille
-    },
-    Notes = "Dirige la boite",
-    EmailAdresses = {
-      new TMailAddress() {
-        Id = "email-005",
-        Address = "b.adam@seraing.be"
-      }
-    }).AddAgent(BollyLuc);
-  };
+      };
 
-  
+      return RetVal;
+    }
+  }
+
+
 }

@@ -1,9 +1,11 @@
 ﻿namespace digiusersmodelslib;
 
-public class TDepartments : List<IDepartment>, IDepartments {
+public class TDepartments : ACollection<IDepartment>, IDepartments {
 
-  [JsonIgnore]
-  public IDepartment? this[string id] => this.SingleOrDefault(x => x.Id == id);
+  #region --- Constructor(s) ---------------------------------------------------------------------------------
+  public TDepartments() : base() { }
+  public TDepartments(IEnumerable<IDepartment> collection) : base(collection) { } 
+  #endregion --- Constructor(s) ------------------------------------------------------------------------------
 
   [JsonIgnore]
   public IDepartment Main => this.FirstOrDefault() ?? throw new InvalidOperationException("No main department found.");

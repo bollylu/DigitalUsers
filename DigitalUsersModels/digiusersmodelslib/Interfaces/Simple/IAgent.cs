@@ -4,7 +4,7 @@ namespace digiusersmodelslib;
 
 public interface IAgent : IContact {
 
-  IDepartments Departments { get; }
+  IDepartments DepartmentsMemberOf { get; }
 
   IManager Manager { get; }
 

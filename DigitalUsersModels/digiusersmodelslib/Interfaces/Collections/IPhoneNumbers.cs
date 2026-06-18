@@ -1,8 +1,6 @@
 ﻿
 namespace digiusersmodelslib {
-  public interface IPhoneNumbers : IList<IPhoneNumber> {
-
-    IPhoneNumber? this[string keyId] { get; }
+  public interface IPhoneNumbers : ICollection<IPhoneNumber> {
 
     IPhoneNumber? MobilePhoneNumber { get; }
     IPhoneNumber? WorkPhoneNumber { get; }

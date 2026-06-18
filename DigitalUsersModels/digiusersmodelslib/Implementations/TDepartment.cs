@@ -12,12 +12,21 @@ public class TDepartment : ARecord, IDepartment, IInvalid, IEqualityComparer<TDe
   [JsonIgnore]
   public override bool IsInvalid => base.IsInvalid || string.IsNullOrWhiteSpace(Name);
 
-  public TDepartment() { }
-  public TDepartment(string id, string name) {
+  #region --- Constructor(s) ---------------------------------------------------------------------------------
+  public TDepartment() : base() { }
+  public TDepartment(TKeyId id) : base(id) { }
+  public TDepartment(TKeyId id, string name) {
     Id = id;
     Name = name;
   }
-  
+
+  public TDepartment(TKeyId id, string name, IAgents agents) {
+    Id = id;
+    Name = name;
+    Agents = new TAgents(agents);
+  }
+  #endregion --- Constructor(s) ------------------------------------------------------------------------------
+
   public bool Equals(TDepartment? x, TDepartment? y) {
     if (x is null && y is null) {
       return true;

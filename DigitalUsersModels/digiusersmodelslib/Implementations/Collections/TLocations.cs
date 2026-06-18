@@ -1,5 +1,6 @@
 ﻿namespace digiusersmodelslib;
 
-public class TLocations : List<ILocation>, ILocations {
-    public ILocation? this[string keyId] => this.FirstOrDefault(p => p.Id.Value.Equals(keyId, StringComparison.OrdinalIgnoreCase));
+public class TLocations : ACollection<ILocation>, ILocations {
+  public TLocations() : base() { }
+  public TLocations(IEnumerable<ILocation> collection) : base(collection) { }
 }

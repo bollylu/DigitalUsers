@@ -1,7 +1,5 @@
-﻿namespace digiusersmodelslib {
+﻿namespace digiusersmodelslib;
 
-  public class TContacts : List<IContact>, IContacts {
-    public IContact? this[string keyId] => this.FirstOrDefault(p => p.Id.Value.Equals(keyId, StringComparison.OrdinalIgnoreCase));
-  }
+public class TContacts : ACollection<IContact>, IContacts {
 
 }

@@ -2,17 +2,32 @@
 
 public class TAgent : TContact, IAgent {
 
-  public TAgent() : base() { }
-  public TAgent(string id) : base(id) { }
-
-  public IDepartments Departments { get; init; } = new TDepartments();
-  
+  public IDepartments DepartmentsMemberOf { get; init; } = new TDepartments();
   public IManager Manager { get; init; } = new TManager();
+
+  #region --- Constructor(s) ---------------------------------------------------------------------------------
+  public TAgent() : base() { }
+  public TAgent(TKeyId id) : base(id) { } 
+  public TAgent(IAgent agent) : base(agent.Id) {
+    FirstName = agent.FirstName;
+    LastName = agent.LastName;
+    Company = agent.Company;
+    Title = agent.Title;
+    DepartmentsMemberOf = new TDepartments(agent.DepartmentsMemberOf);
+    PhoneNumbers = agent.PhoneNumbers;
+    Locations = agent.Locations;
+    Notes = agent.Notes;
+    EmailAdresses = agent.EmailAdresses;
+    Manager = agent.Manager;
+  }
+  #endregion --- Constructor(s) ------------------------------------------------------------------------------
+
+
 
   public static TAgent MartinSophie => new("martiso") {
     FirstName = "Sophie",
     LastName = "Martin",
-    Company = TCompany.AcSeraing,
+    Company = TCompany.ACV,
     Title = "Technicienne IT",
     Departments = {
       TDepartment.GestionInformatique,
@@ -21,7 +36,9 @@ public class TAgent : TContact, IAgent {
     PhoneNumbers = {
       new TPhoneNumber() {
         Id = "phone-003",
-        Number = "+32473456789",
+        CountryCode = EPhoneCountry.Belgium,
+        Prefix = "475",
+        Number = "123456",
         Type = EPhoneNumberType.Mobile
       }
     },
@@ -32,7 +49,7 @@ public class TAgent : TContact, IAgent {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-002",
-        Address = "s.martin@seraing.be"
+        Address = "s.martin@ville.be"
       }
     }
   };
@@ -40,7 +57,7 @@ public class TAgent : TContact, IAgent {
   public static TAgent DupontJean => new("duponje") {
     FirstName = "Jean",
     LastName = "Dupont",
-    Company = TCompany.AcSeraing,
+    Company = TCompany.ACV,
     Title = "Analyste IT",
     Departments = {
       TDepartment.Optimisation
@@ -48,7 +65,9 @@ public class TAgent : TContact, IAgent {
     PhoneNumbers = {
       new TPhoneNumber() {
         Id = "phone-004",
-        Number = "+32475678901",
+        CountryCode = EPhoneCountry.Belgium,
+        Prefix = "475",
+        Number = "678901",
         Type = EPhoneNumberType.Work
       }
     },
@@ -59,7 +78,7 @@ public class TAgent : TContact, IAgent {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-003",
-        Address = "j.dupont@seraing.be"
+        Address = "j.dupont@ville.be"
       }
     }
   };
@@ -67,7 +86,7 @@ public class TAgent : TContact, IAgent {
   public static TAgent LefevreClaire => new("lefevcl") {
     FirstName = "Claire",
     LastName = "Lefevre",
-    Company = TCompany.AcSeraing,
+    Company = TCompany.ACV,
     Title = "Consultante IT",
     Departments = {
       TDepartment.Optimisation
@@ -75,7 +94,9 @@ public class TAgent : TContact, IAgent {
     PhoneNumbers = {
       new TPhoneNumber() {
         Id = "phone-005",
-        Number = "+32479812345",
+        CountryCode = EPhoneCountry.Belgium,
+        Prefix = "479",
+        Number = "812345",
         Type = EPhoneNumberType.Mobile
       }
     },
@@ -86,7 +107,7 @@ public class TAgent : TContact, IAgent {
     EmailAdresses = {
       new TMailAddress() {
         Id = "email-004",
-        Address = "c.lefevre@seraing.be"
+        Address = "c.lefevre@ville.be"
       }
     }
   };
